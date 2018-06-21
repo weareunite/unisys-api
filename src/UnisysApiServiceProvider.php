@@ -60,10 +60,6 @@ class UnisysApiServiceProvider extends ServiceProvider
             $this->app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
         }
 
-        // \Illuminate\Routing\Router
-//        $this->app['router']->middleware('role', \Spatie\Permission\Middlewares\RoleMiddleware::class);
-//        $this->app['router']->middleware('permission', \Spatie\Permission\Middlewares\PermissionMiddleware::class);
-//        $this->app['router']->middleware('client', \Laravel\Passport\Http\Middleware\CheckClientCredentials::class);
 
         app()->config["filesystems.disks.uploads"] = [
             'driver' => 'local',
