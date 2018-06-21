@@ -17,19 +17,19 @@ class MiddlewareServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @param Router $router
      * @param Kernel $kernel
+     * @param Router $router
      * @return void
      */
-    public function boot(Router $router, Kernel $kernel)
+    public function boot(Kernel $kernel, Router $router)
     {
+        $kernel->pushMiddleware(HttpsProtocol::class);
+        $kernel->pushMiddleware(HandleCors::class);
+
         $router->aliasMiddleware('role', RoleMiddleware::class);
         $router->aliasMiddleware('permission', PermissionMiddleware::class);
         $router->aliasMiddleware('client', CheckClientCredentials::class);
         $router->aliasMiddleware('authorize', Authorize::class);
-
-        $kernel->pushMiddleware(HttpsProtocol::class);
-        $kernel->pushMiddleware(HandleCors::class);
     }
 
     /**
@@ -39,6 +39,6 @@ class MiddlewareServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        //
     }
 }
