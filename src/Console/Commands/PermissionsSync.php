@@ -52,10 +52,8 @@ class PermissionsSync extends Command
         $this->routes = $router->getRoutes();
     }
 
-    /**
+    /*
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {

@@ -5,8 +5,6 @@ namespace Unite\UnisysApi\Console\Commands\Install;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
 class UnisysApiInitializeEnv extends Command
 {
@@ -25,10 +23,8 @@ class UnisysApiInitializeEnv extends Command
     protected $description = 'Initialize database environment variables';
 
 
-    /**
+    /*
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle(Filesystem $files)
     {
