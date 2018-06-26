@@ -129,12 +129,6 @@ class UnisysApiInstall extends Command
         $this->call('vendor:publish', [
             '--provider' => "Unite\\UnisysApi\\UnisysApiServiceProvider",
         ]);
-
-        //Unisys laravel-tags
-        $this->call('vendor:publish', [
-            '--provider' => 'Unite\\Tags\\TagsServiceProvider',
-            '--tag' => 'migrations'
-        ]);
     }
 
     private function prepareLaravelApp(Filesystem $files)
