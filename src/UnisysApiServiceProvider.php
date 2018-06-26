@@ -34,7 +34,20 @@ class UnisysApiServiceProvider extends ServiceProvider
         ]);
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $timestamp = date('Y_m_d_His', time());
+
+            if (! class_exists('CreateUsersTable')) {
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_users_table.php.stub' => database_path("/migrations/{$timestamp}_create_users_table.php"),
+                ], 'migrations');
+            }
+
+            if (! class_exists('CreatePasswordResetsTable')) {
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_password_resets_table.php.stub' => database_path("/migrations/{$timestamp}_create_password_resets_table.php"),
+                ], 'migrations');
+            }
+
         }
     }
 
