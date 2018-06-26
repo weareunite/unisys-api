@@ -48,6 +48,11 @@ class UnisysApiServiceProvider extends ServiceProvider
                 ], 'migrations');
             }
 
+            if (! class_exists('CreateInstalledModulesTable')) {
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_installed_modules_table.php.stub' => database_path("/migrations/{$timestamp}_create_installed_modules_table.php"),
+                ], 'migrations');
+            }
         }
     }
 
