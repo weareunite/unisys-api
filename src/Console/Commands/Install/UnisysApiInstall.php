@@ -44,11 +44,11 @@ class UnisysApiInstall extends Command
 
         $this->call('queue:table');
 
-        $this->call('passport:install');
-
         $this->call('notifications:table');
 
         $this->call('migrate');
+
+        $this->call('passport:install', ['--force']);
 
         $this->call('unisys:sync-permissions');
 
