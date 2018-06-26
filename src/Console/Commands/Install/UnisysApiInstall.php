@@ -186,5 +186,8 @@ class UnisysApiInstall extends Command
         $files->put(base_path('routes/channels.php'), "<?php \n");
         $files->put(base_path('routes/console.php'), "<?php \n");
         $files->put(base_path('routes/web.php'), "<?php \n");
+
+        $files->delete(base_path('webpack.mix.js'));
+        $files->delete(base_path('package.json'));
     }
 }
