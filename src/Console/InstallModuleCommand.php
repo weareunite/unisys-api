@@ -28,7 +28,7 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
 
         $this->checkIfNotInstalled();
 
-        if(!$this->isInstalled) {
+        if($this->isInstalled) {
             $this->info('This module was already installed');
             return;
         }
