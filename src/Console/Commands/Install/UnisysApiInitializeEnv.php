@@ -127,15 +127,14 @@ class UnisysApiInitializeEnv extends Command
         }
 
         $files->append(base_path('.env'), '
-            AWS_KEY=null
-            AWS_SECRET=null
-            AWS_REGION=null
-            AWS_BUCKET=null
-            AWS_DOMAIN=null
+AWS_KEY=null
+AWS_SECRET=null
+AWS_REGION=null
+AWS_BUCKET=null
+AWS_DOMAIN=null
+SENTRY_DSN=null
 
-            SENTRY_DSN=null
-
-            WKHTMLTOPDF_BIN_PATH=/usr/local/bin/wkhtmltopdf
-            WKHTMLTOIMAGE_BIN_PATH=/usr/local/bin/wkhtmltoimage');
+WKHTMLTOPDF_BIN_PATH=/usr/local/bin/wkhtmltopdf
+WKHTMLTOIMAGE_BIN_PATH=/usr/local/bin/wkhtmltoimage');
     }
 }
