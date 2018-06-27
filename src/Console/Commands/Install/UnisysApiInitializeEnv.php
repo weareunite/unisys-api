@@ -126,6 +126,12 @@ class UnisysApiInitializeEnv extends Command
                 'LOG_CHANNEL=daily');
         }
 
+        if(env('CACHE_DRIVER') !== 'redis') {
+            $this->strReplaceInFile(base_path('.env'),
+                'CACHE_DRIVER=file',
+                'CACHE_DRIVER=redis');
+        }
+
         $files->append(base_path('.env'), '
 AWS_KEY=null
 AWS_SECRET=null
