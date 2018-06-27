@@ -61,6 +61,10 @@
       "Unite\\UnisysApi\\Tests\\": "tests/"
     }
   },
+  "post-package-install": [
+    "@php artisan unisys-api:init-env",
+    "@php artisan unisys-api:install"
+  ],
   "config": {
     "sort-packages": true
   },
