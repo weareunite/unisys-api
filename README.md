@@ -38,6 +38,11 @@ composer require weareunite/unisys-api
 To install this package use:
 
 ```
+php artisan unisys-api:init-env
+```
+and after:
+
+```
 php artisan unisys-api:install
 ```
 
