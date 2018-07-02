@@ -7,7 +7,9 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Http\Request;
 use Unite\UnisysApi\Services\CacheService;
+use Unite\UnisysApi\Services\RequestQueryBuilderService;
 
 abstract class Repository implements RepositoryInterface
 {
@@ -216,5 +218,12 @@ abstract class Repository implements RepositoryInterface
         return $this->handleQueryCache(function () use ($perPage, $columns, $pageName, $page) {
             return $this->model->paginate($perPage, $columns, $pageName, $page);
         });
+    }
+
+    public function filterByRequest(Request $request)
+    {
+        return app(RequestQueryBuilderService::class, [$request])
+            ->setRepository($this)
+            ->get();
     }
 }

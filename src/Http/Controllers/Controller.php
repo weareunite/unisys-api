@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Unite\UnisysApi\Helpers\Prefix\HasPrefixTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -24,5 +25,16 @@ class Controller extends BaseController
         return response()->json([
             'data' => $data
         ], $status);
+    }
+
+    public function validateRequestQuery(Request $request)
+    {
+        $this->validate($request, [
+            'page'      => 'numeric',
+            'limit'     => 'numeric',
+            'order'     => 'string',
+            'search'    => 'string',
+            'filter'    => 'json',
+        ]);
     }
 }

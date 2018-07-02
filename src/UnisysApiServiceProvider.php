@@ -53,6 +53,10 @@ class UnisysApiServiceProvider extends ServiceProvider
                     __DIR__.'/../database/migrations/create_installed_modules_table.php.stub' => database_path("/migrations/{$timestamp}_create_installed_modules_table.php"),
                 ], 'migrations');
             }
+
+            $this->publishes([
+                __DIR__ . '/../config/query-filter.php' => config_path('query-filter.php'),
+            ], 'config');
         }
     }
 
