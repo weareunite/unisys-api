@@ -7,12 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Unite\Contacts\Traits\HasContacts;
 
 /**
  * Unite\UnisysApi\Models\User
  *
  * @property int $id
  * @property string $name
+ * @property string $surname
  * @property string $email
  * @property string $password
  * @property string|null $remember_token
@@ -43,6 +45,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use Notifiable;
     use CausesActivity;
+    use HasContacts;
 
     const ADMIN_ROLE_NAME   = 'admin';
 
@@ -54,7 +57,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password'
+        'name', 'surname', 'email', 'username', 'password'
     ];
 
     /**

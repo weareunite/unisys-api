@@ -2,13 +2,14 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Requests\User\StoreUserRequest;
 use Unite\UnisysApi\Http\Requests\User\UpdateUserRequest;
 use Unite\UnisysApi\Http\Resources\DatabaseNotificationResource;
 use Unite\UnisysApi\Http\Resources\UserResource;
 use Unite\UnisysApi\Repositories\UserRepository;
-use Unite\UnisysApi\Models\User;
 
 /**
  * @resource User
@@ -18,19 +19,22 @@ use Unite\UnisysApi\Models\User;
 class UserController extends Controller
 {
     protected $repository;
-    protected $model;
 
-    public function __construct(UserRepository $repository, User $model)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
-        $this->model = $model;
     }
 
-    public function list()
+    /**
+     * List
+     *
+     * @return AnonymousResourceCollection|UserResource[]
+     */
+    public function list(QueryRequest $request)
     {
-        $this->authorize('hasPermission', $this->prefix('read'));
+        $object = $this->repository->filterByRequest($request);
 
-        return UserResource::collection($this->model->all());
+        return UserResource::collection($object);
     }
 
     /**
@@ -56,7 +60,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if(!$object = $this->model->find($id)) {
+        if(!$object = $this->repository->find($id)) {
             abort(404);
         }
 
@@ -73,11 +77,10 @@ class UserController extends Controller
      */
     public function create(StoreUserRequest $request)
     {
-        $this->authorize('hasPermission', $this->prefix(__FUNCTION__));
-
         $data = $request->all();
 
-        $object = $this->model->create($data);
+        /** @var \Unite\UnisysApi\Models\User $object */
+        $object = $this->repository->create($data);
         $object->roles()->sync( $request->get('roles') ?: [] );
 
         return new UserResource($object);
@@ -93,7 +96,7 @@ class UserController extends Controller
     public function update($id, UpdateUserRequest $request)
     {
         /** @var \Unite\UnisysApi\Models\User $object */
-        if(!$object = $this->model->find($id)) {
+        if(!$object = $this->repository->find($id)) {
             abort(404);
         }
 
@@ -111,7 +114,7 @@ class UserController extends Controller
      * List Notifications for User
      *
      * @param $id
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function notifications($id)
     {
@@ -122,7 +125,7 @@ class UserController extends Controller
      * List unread notifications for User
      *
      * @param $id
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function unreadNotifications($id)
     {
@@ -132,7 +135,7 @@ class UserController extends Controller
     /**
      * List self Notifications
      *
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function selfNotifications()
     {
@@ -142,7 +145,7 @@ class UserController extends Controller
     /**
      * List self unread notifications
      *
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function selfUnreadNotifications()
     {
@@ -167,7 +170,7 @@ class UserController extends Controller
 
     protected function getNotifications($id, $type = 'notifications')
     {
-        if(!$object = $this->model->find($id)) {
+        if(!$object = $this->repository->find($id)) {
             abort(404);
         }
 

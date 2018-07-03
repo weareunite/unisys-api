@@ -2,11 +2,10 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\RoleResource;
 use Unite\UnisysApi\Repositories\UserRepository;
-use Auth;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 /**
  * @resource Role
@@ -16,23 +15,22 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     protected $repository;
-    protected $model;
 
-    public function __construct(UserRepository $repository, Role $model)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
-        $this->model = $model;
     }
 
     /**
-     * List Roles
-     * 
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * List
+     *
+     * @param QueryRequest $request
+     * @return AnonymousResourceCollection|RoleResource[]
      */
-    public function list()
+    public function list(QueryRequest $request)
     {
-        $this->authorize('hasPermission', $this->prefix('update'));
+        $object = $this->repository->filterByRequest($request);
 
-        return RoleResource::collection($this->model->all());
+        return RoleResource::collection($object);
     }
 }

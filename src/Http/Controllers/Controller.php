@@ -26,15 +26,4 @@ class Controller extends BaseController
             'data' => $data
         ], $status);
     }
-
-    public function validateRequestQuery(Request $request)
-    {
-        $this->validate($request, [
-            'page'      => 'numeric',
-            'limit'     => 'numeric',
-            'order'     => 'string',
-            'search'    => 'string',
-            'filter'    => 'json',
-        ]);
-    }
 }

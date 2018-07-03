@@ -48,6 +48,7 @@ Route::group([
 
     Route::group(['as' => 'media.', 'prefix' => 'media'], function ()
     {
+        Route::get('/',                             ['as' => 'list',                    'uses' => 'MediaController@list']);
         Route::get('{id}/stream',                   ['as' => 'stream',                  'uses' => 'MediaController@stream']);
         Route::get('{id}/download',                 ['as' => 'download',                'uses' => 'MediaController@download']);
     });

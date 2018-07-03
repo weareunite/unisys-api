@@ -2,6 +2,9 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Unite\UnisysApi\Http\Requests\QueryRequest;
+use Unite\UnisysApi\Http\Resources\MediaResource;
 use Unite\UnisysApi\Repositories\MediaRepository;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -19,6 +22,21 @@ class MediaController extends Controller
     {
         $this->repository = $repository;
         $this->model = $model;
+    }
+
+    /**
+     * List
+     *
+     * @param QueryRequest $request
+     * @return AnonymousResourceCollection|MediaResource[]
+     */
+    public function list(QueryRequest $request)
+    {
+        $this->authorize('hasPermission', $this->prefix('update'));
+
+        $object = $this->repository->filterByRequest($request);
+
+        return MediaResource::collection($object);
     }
 
     /**
