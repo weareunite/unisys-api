@@ -56,6 +56,7 @@ class UserController extends Controller
      * Show
      *
      * @param $id
+     *
      * @return UserResource
      */
     public function show($id)
@@ -73,6 +74,7 @@ class UserController extends Controller
      * Create
      *
      * @param StoreUserRequest $request
+     *
      * @return UserResource
      */
     public function create(StoreUserRequest $request)
@@ -91,6 +93,7 @@ class UserController extends Controller
      *
      * @param $id
      * @param UpdateUserRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update($id, UpdateUserRequest $request)
@@ -114,6 +117,7 @@ class UserController extends Controller
      * List Notifications for User
      *
      * @param $id
+     *
      * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function notifications($id)
@@ -125,6 +129,7 @@ class UserController extends Controller
      * List unread notifications for User
      *
      * @param $id
+     *
      * @return AnonymousResourceCollection|DatabaseNotificationResource[]
      */
     public function unreadNotifications($id)

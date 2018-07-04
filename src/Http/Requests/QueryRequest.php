@@ -24,8 +24,8 @@ class QueryRequest extends FormRequest
     public function rules()
     {
         return [
-            'page'      => 'numeric',
-            'limit'     => 'numeric',
+            'page'      => 'integer|min:1',
+            'limit'     => 'integer|min:1|max:'.config('query-filter.max_limit'),
             'order'     => 'string',
             'search'    => 'json',
             'filter'    => 'json',

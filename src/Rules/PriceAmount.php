@@ -7,16 +7,6 @@ use Illuminate\Contracts\Validation\Rule;
 class PriceAmount implements Rule
 {
     /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
@@ -36,5 +26,10 @@ class PriceAmount implements Rule
     public function message()
     {
         return 'The :attribute must be correct price';
+    }
+
+    public function __toString()
+    {
+        return 'PriceAmount';
     }
 }
