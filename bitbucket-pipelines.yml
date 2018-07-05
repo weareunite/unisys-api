@@ -1,0 +1,16 @@
+image: phpunit/phpunit:5.0.3
+
+pipelines:
+  branches:
+    production:
+      - step:
+          name: Deployment to production
+          deployment: production
+          script:
+            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh production"
+    staging:
+      - step:
+          name: Deployment to staging
+          deployment: staging
+          script:
+            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh staging"
