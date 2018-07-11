@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi;
 
-use Illuminate\Support\Facades\Route;
+use Route;
 use Unite\UnisysApi\Commands\PermissionsSync;
 use Unite\UnisysApi\Commands\SetCompanyProfile;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
