@@ -5,10 +5,8 @@ namespace Unite\UnisysApi\Http\Controllers;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\Contacts\Http\Resources\ContactResource;
 use Unite\UnisysApi\Http\Requests\QueryRequest;
-use Unite\UnisysApi\Http\Requests\Setting\StoreRequest;
 use Unite\UnisysApi\Http\Requests\Setting\UpdateRequest;
 use Unite\UnisysApi\Http\Resources\SettingResource;
-use Unite\UnisysApi\Models\Setting;
 use Unite\UnisysApi\Repositories\SettingRepository;
 use Unite\UnisysApi\Services\SettingService;
 
@@ -77,41 +75,18 @@ class SettingController extends Controller
     }
 
     /**
-     * Create
-     *
-     * @param StoreRequest $request
-     * @return SettingResource
-     */
-    public function create(StoreRequest $request)
-    {
-        $object = $this->repository->create( $request->all() );
-
-        return new SettingResource($object);
-    }
-
-    /**
      * Update
      *
-     * @param Setting $model
      * @param UpdateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Setting $model, UpdateRequest $request)
+    public function update(UpdateRequest $request)
     {
-        $model->update( $request->all() );
+        $data = $request->all();
 
-        return $this->successJsonResponse();
-    }
+        $model = $this->repository->getSettingByKey($data['key']);
 
-    /**
-     * Delete
-     *
-     * @param Setting $model
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function delete(Setting $model)
-    {
-        $model->delete();
+        $model->update( $data );
 
         return $this->successJsonResponse();
     }

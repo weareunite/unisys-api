@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'key'   => 'string|max:100|unique:settings',
+            'key'   => 'required|string|max:100|unique:settings',
             'value' => 'nullable',
             'type'  => 'nullable|in:'.implode(',', Setting::getTypes()),
         ];
