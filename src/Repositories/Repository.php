@@ -145,6 +145,15 @@ abstract class Repository implements RepositoryInterface
         return $result;
     }
 
+    public function forceCreate(array $attributes = [])
+    {
+        $result = $this->model->forceCreate($attributes);
+
+        $this->cacheService->flushByTags([$this->modelClass]);
+
+        return $result;
+    }
+
     public function update(array $values)
     {
         $result = $this->model->update($values);
