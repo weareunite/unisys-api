@@ -5,10 +5,10 @@ namespace Unite\UnisysApi\Http\Controllers;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\RoleResource;
-use Unite\UnisysApi\Repositories\UserRepository;
+use Unite\UnisysApi\Repositories\RoleRepository;
 
 /**
- * @resource Role
+ * @resource Roles
  *
  * Role handler
  */
@@ -16,7 +16,7 @@ class RoleController extends Controller
 {
     protected $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(RoleRepository $repository)
     {
         $this->repository = $repository;
     }
