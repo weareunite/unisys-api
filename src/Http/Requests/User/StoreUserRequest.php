@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'username'              => 'required|regex:/^\S*$/u|min:4|max:20|unique:users',
             'password'              => 'required|confirmed|string|min:6|max:30',
             'password_confirmation' => 'required|string|min:6|max:30',
-            'roles'                 => 'required|array',
+            'roles_id'              => 'required|array',
         ];
     }
 }

@@ -83,7 +83,7 @@ class UserController extends Controller
 
         /** @var \Unite\UnisysApi\Models\User $object */
         $object = $this->repository->create($data);
-        $object->roles()->sync( $request->get('roles') ?: [] );
+        $object->roles()->sync( $request->get('roles_id') ?: [] );
 
         return new UserResource($object);
     }
@@ -108,7 +108,7 @@ class UserController extends Controller
         $data = $request->all();
 
         $object->update($data);
-        $object->roles()->sync( $request->get('roles') ?: [] );
+        $object->roles()->sync( $request->get('roles_id') ?: [] );
 
         return $this->successJsonResponse();
     }

@@ -5,12 +5,8 @@ namespace Unite\UnisysApi\Exceptions;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Routing\Router;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
@@ -62,7 +58,7 @@ class Handler extends ExceptionHandler
      */
     protected function prepareException(Exception $e)
     {
-        parent::prepareException($e);
+        $e = parent::prepareException($e);
 
         if($e instanceof PermissionDoesNotExist || $e instanceof AuthorizationException) {
             $e = new AuthenticationException($e->getMessage());

@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'username'              => 'regex:/^\S*$/u|min:4|max:20|unique:users,username,'.$this->id,
             'password'              => 'string|confirmed|min:6|max:30',
             'password_confirmation' => 'required_with:password|string|min:6|max:30',
-            'roles'                 => 'required|array',
+            'roles_id'              => 'required|array',
         ];
     }
 }
