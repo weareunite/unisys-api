@@ -75,9 +75,25 @@ class SettingController extends Controller
     }
 
     /**
+     * Update Company profile
+     *
+     * @param \Unite\Contacts\Http\Requests\UpdateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCompany(\Unite\Contacts\Http\Requests\UpdateRequest $request)
+    {
+        $this->service->saveCompanyProfile( $request->all() );
+
+        return $this->successJsonResponse();
+
+    }
+
+    /**
      * Update
      *
      * @param UpdateRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRequest $request)

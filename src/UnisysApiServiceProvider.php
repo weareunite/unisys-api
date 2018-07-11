@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi;
 
+use Illuminate\Support\Facades\Route;
 use Unite\UnisysApi\Commands\PermissionsSync;
 use Unite\UnisysApi\Commands\SetCompanyProfile;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
@@ -22,6 +23,9 @@ class UnisysApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::pattern('id', '[0-9]+');
+        Route::pattern('model', '[0-9]+');
+
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(ScheduleServiceProvider::class);
