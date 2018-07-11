@@ -32,24 +32,35 @@ Route::group([
 
         Route::post('/',                            ['as' => 'create',                      'uses' => 'UserController@create']);
         Route::put('{id}',                          ['as' => 'update',                      'uses' => 'UserController@update']);
-
     });
 
     Route::group(['as' => 'userNotification.', 'prefix' => 'userNotification'], function ()
     {
-        Route::put('{uid}/markAsRead',              ['as' => 'markAsRead',              'uses' => 'UserNotificationController@markAsRead']);
-        Route::put('{uid}/markAsUnread',            ['as' => 'markAsUnread',            'uses' => 'UserNotificationController@markAsUnread']);
+        Route::put('{uid}/markAsRead',              ['as' => 'markAsRead',                  'uses' => 'UserNotificationController@markAsRead']);
+        Route::put('{uid}/markAsUnread',            ['as' => 'markAsUnread',                'uses' => 'UserNotificationController@markAsUnread']);
     });
 
     Route::group(['as' => 'role.', 'prefix' => 'role'], function ()
     {
-        Route::get('/',                             ['as' => 'list',                    'uses' => 'RoleController@list']);
+        Route::get('/',                             ['as' => 'list',                        'uses' => 'RoleController@list']);
     });
 
     Route::group(['as' => 'media.', 'prefix' => 'media'], function ()
     {
-        Route::get('/',                             ['as' => 'list',                    'uses' => 'MediaController@list']);
-        Route::get('{id}/stream',                   ['as' => 'stream',                  'uses' => 'MediaController@stream']);
-        Route::get('{id}/download',                 ['as' => 'download',                'uses' => 'MediaController@download']);
+        Route::get('/',                             ['as' => 'list',                       'uses' => 'MediaController@list']);
+        Route::get('{id}/stream',                   ['as' => 'stream',                     'uses' => 'MediaController@stream']);
+        Route::get('{id}/download',                 ['as' => 'download',                   'uses' => 'MediaController@download']);
+    });
+
+    Route::group(['as' => 'setting.', 'prefix' => 'setting'], function ()
+    {
+        Route::get('/',                             ['as' => 'list',                       'uses' => 'SettingController@list']);
+        Route::get('get/{key}',                     ['as' => 'get',                        'uses' => 'SettingController@get']);
+        Route::get('all',                           ['as' => 'all',                        'uses' => 'SettingController@all']);
+        Route::get('company',                       ['as' => 'company',                    'uses' => 'SettingController@company']);
+
+        Route::post('/',                            ['as' => 'create',                     'uses' => 'SettingController@create']);
+        Route::put('{id}',                          ['as' => 'update',                     'uses' => 'SettingController@update']);
+        Route::delete('{id}',                       ['as' => 'delete',                     'uses' => 'SettingController@delete']);
     });
 });

@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi;
 
 use Unite\UnisysApi\Commands\PermissionsSync;
+use Unite\UnisysApi\Commands\SetCompanyProfile;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInstall;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +32,7 @@ class UnisysApiServiceProvider extends ServiceProvider
             UnisysApiInstall::class,
             ImportUsers::class,
             PermissionsSync::class,
+            SetCompanyProfile::class,
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -51,6 +53,12 @@ class UnisysApiServiceProvider extends ServiceProvider
             if (! class_exists('CreateInstalledModulesTable')) {
                 $this->publishes([
                     __DIR__.'/../database/migrations/create_installed_modules_table.php.stub' => database_path("/migrations/{$timestamp}_create_installed_modules_table.php"),
+                ], 'migrations');
+            }
+
+            if (! class_exists('CreateSettingsTable')) {
+                $this->publishes([
+                    __DIR__.'/../database/migrations/create_settings_table.php.stub' => database_path("/migrations/{$timestamp}_create_settings_table.php"),
                 ], 'migrations');
             }
 

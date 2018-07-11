@@ -54,6 +54,8 @@ class UnisysApiInstall extends Command
 
         $this->call('unisys:import-users');
 
+        $this->call('unisys:set-company-profile');
+
 //        $this->comment('Admin password is: ' . $this->password);
 
         $this->info('UniSys API skeleton was installed.');

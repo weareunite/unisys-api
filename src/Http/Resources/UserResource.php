@@ -21,7 +21,7 @@ class UserResource extends Resource
             'surname'           => $this->surname,
             'email'             => $this->email,
             'username'          => $this->username,
-            'roles'             => $this->getRoleNames()
+            'roles'             => RoleResource::collection($this->roles()->get(['id', 'name']))
         ];
     }
 }
