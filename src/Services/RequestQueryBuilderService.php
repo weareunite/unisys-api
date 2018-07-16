@@ -194,7 +194,7 @@ class RequestQueryBuilderService extends AbstractService
         $operator = '=';
 
         if(substr($value, 0, 1) === '<') {
-            $operator = '=<';
+            $operator = '<=';
             $value = substr($value, 1);
         } elseif(substr($value, 0, 1) === '>') {
             $operator = '>=';
