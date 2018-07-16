@@ -172,7 +172,7 @@ class RequestQueryBuilderService extends AbstractService
         if (strpos($column, ".")) {
             $column_parts = explode('.', $column);
 
-            return $column_parts[0];
+            return camel_case($column_parts[0]);
         }
 
         return null;
