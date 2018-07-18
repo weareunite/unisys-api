@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Services;
+namespace Unite\UnisysApi\Services\RequestQueryBuilder;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Unite\UnisysApi\Repositories\Repository;
+use Unite\UnisysApi\Services\AbstractService;
 
 class RequestQueryBuilderService extends AbstractService
 {
@@ -76,6 +77,10 @@ class RequestQueryBuilderService extends AbstractService
 
         $this->loadRelations();
 
+        if($columns === ['*']) {
+            $columns = [$this->repository->getTable() . '.*'];
+        }
+
         return $this->query->paginate($this->limit, $columns, config('query-filter.page_name'), $this->page);
     }
 
@@ -99,6 +104,22 @@ class RequestQueryBuilderService extends AbstractService
         } else {
             $direction = 'asc';
             $column = $this->request->get('order');
+        }
+
+        if($this->hasRelation($column)) {
+            $relation = $this->getRelationFromColumn($column);
+
+            $relation_plural = str_plural($relation);
+
+            $column_base = $this->getBaseColumn($column);
+
+            $first = $relation_plural . '.id';
+
+            $second = $this->query->getTable() . '.' . $relation . '_id';
+
+            $column = $relation_plural . '.' . $column_base;
+
+            $this->query = $this->query->join($relation_plural, $first, $second);
         }
 
         $this->query = $this->query->orderBy($column, $direction);

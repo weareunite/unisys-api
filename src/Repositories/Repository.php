@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Unite\UnisysApi\Services\CacheService;
-use Unite\UnisysApi\Services\RequestQueryBuilderService;
+use Unite\UnisysApi\Services\RequestQueryBuilder\RequestQueryBuilderService;
 
 abstract class Repository implements RepositoryInterface
 {
@@ -124,6 +124,11 @@ abstract class Repository implements RepositoryInterface
     public function getQueryBuilder()
     {
         return $this->model;
+    }
+
+    public function getTable()
+    {
+        return $this->model->getTable();
     }
 
     public function find($id, $columns = ['*'])
