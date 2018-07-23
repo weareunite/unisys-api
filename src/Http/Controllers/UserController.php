@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function list(QueryRequest $request)
     {
-        $object = $this->repository->filterByRequest($request);
+        $object = $this->repository->with(UserResource::getRelations())->filterByRequest( $request->all() );
 
         return UserResource::collection($object);
     }

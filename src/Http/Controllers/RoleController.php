@@ -29,7 +29,7 @@ class RoleController extends Controller
      */
     public function list(QueryRequest $request)
     {
-        $object = $this->repository->filterByRequest($request);
+        $object = $this->repository->with(RoleResource::getRelations())->filterByRequest( $request->all() );
 
         return RoleResource::collection($object);
     }

@@ -34,7 +34,9 @@ class MediaController extends Controller
     {
         $this->authorize('hasPermission', $this->prefix('update'));
 
-        $object = $this->repository->filterByRequest($request);
+        $object = $this->repository
+            ->with(DrawResource::getRelations())
+            ->filterByRequest( $request->all() );
 
         return MediaResource::collection($object);
     }
