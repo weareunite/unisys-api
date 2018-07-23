@@ -56,7 +56,10 @@
     "classmap": [],
     "psr-4": {
       "Unite\\UnisysApi\\": "src/"
-    }
+    },
+    "files": [
+      "src/Helpers/helpers.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
