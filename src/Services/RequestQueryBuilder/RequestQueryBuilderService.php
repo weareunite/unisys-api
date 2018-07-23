@@ -241,7 +241,7 @@ class RequestQueryBuilderService extends AbstractService
     private function setSearchFieldByColumn(string $column, &$query)
     {
         if(RelationResolver::hasRelation($column)) {
-            $this->addJoins(RelationResolver::onlyRelations($column));
+            $this->addJoins($column);
 
             $column = RelationResolver::columnWithTable($column);
         }
@@ -253,7 +253,7 @@ class RequestQueryBuilderService extends AbstractService
     private function setFilterFieldByColumn(string $column, $value)
     {
         if(RelationResolver::hasRelation($column)) {
-            $this->addJoins(RelationResolver::onlyRelations($column));
+            $this->addJoins($column);
 
             $column = RelationResolver::columnWithTable($column);
         }
