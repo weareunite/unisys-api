@@ -66,7 +66,9 @@ class RelationResolver
     {
         $parts = explode('.', $dotRelation);
 
-        return implode('.', array_pop($parts));
+        array_pop($parts);
+
+        return implode('.', $parts);
     }
 
     /**
@@ -88,9 +90,9 @@ class RelationResolver
     {
         $parts = explode('.', $dotRelation);
 
-        $lastRelation = last(array_pop($parts));
+        $column = array_pop($parts);
 
-        $column = last($parts);
+        $lastRelation = last($parts);
 
         return self::relationToTable($lastRelation) . '.' . $column;
     }

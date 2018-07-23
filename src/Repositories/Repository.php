@@ -5,16 +5,14 @@ namespace Unite\UnisysApi\Repositories;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Http\Request;
 use Unite\UnisysApi\Services\CacheService;
 use Unite\UnisysApi\Services\RequestQueryBuilder\RequestQueryBuilderService;
 
 abstract class Repository implements RepositoryInterface
 {
     /**
-     * @var Model|EloquentBuilder|QueryBuilder;
+     * @var EloquentBuilder|QueryBuilder;
      */
     protected $model;
 
@@ -119,7 +117,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * Provides QueryBuilder
      *
-     * @return Model|EloquentBuilder|QueryBuilder
+     * @return EloquentBuilder|QueryBuilder
      */
     public function getQueryBuilder()
     {
@@ -128,7 +126,7 @@ abstract class Repository implements RepositoryInterface
 
     public function getTable()
     {
-        return $this->model->getTable();
+        return $this->model->getModel()->getTable();
     }
 
     public function find($id, $columns = ['*'])
@@ -243,7 +241,8 @@ abstract class Repository implements RepositoryInterface
 
     public function filterByRequest( array $requestData )
     {
-        return app(RequestQueryBuilderService::class, [$requestData])
+        return app(RequestQueryBuilderService::class)
+            ->init($requestData)
             ->setRepository($this)
             ->get();
     }

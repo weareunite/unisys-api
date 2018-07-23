@@ -39,11 +39,9 @@ class RequestQueryBuilderService extends AbstractService
      */
     protected $model;
 
-    protected $self_relation;
-
     protected $data;
 
-    protected $joins;
+    protected $joins = [];
 
     public function __construct(array $data = null)
     {
@@ -59,6 +57,8 @@ class RequestQueryBuilderService extends AbstractService
         $this->setLimit();
 
         $this->setPage();
+
+        return $this;
     }
 
     public function setData(array $data)
@@ -102,8 +102,6 @@ class RequestQueryBuilderService extends AbstractService
     private function initQuery()
     {
         $this->query = $this->repository->getQueryBuilder();
-
-        $this->self_relation = str_singular($this->query->getTable());
 
         return $this;
     }
@@ -150,7 +148,7 @@ class RequestQueryBuilderService extends AbstractService
 
             $second = RelationResolver::relationId($relations[$i]);
 
-            $join = $table . '.' . $first . '.' . $second;
+            $join = $table . '|' . $first . '|' . $second;
 
             if(!in_array($join, $this->joins)) {
                 $this->joins[] = $join;
@@ -161,7 +159,7 @@ class RequestQueryBuilderService extends AbstractService
     private function resolveJoins()
     {
         foreach ($this->joins as $join) {
-            $joins = explode('.', $join);
+            $joins = explode('|', $join);
 
             $this->query = $this->query->join($joins[0], $joins[1], '=', $joins[2]);
         }
@@ -169,7 +167,7 @@ class RequestQueryBuilderService extends AbstractService
 
     private function setLimit()
     {
-        $this->limit = $this->data['limit'] ?: config('query-filter.default_limit');
+        $this->limit = $this->data['limit'] ?? config('query-filter.default_limit');
 
         if($this->limit > config('query-filter.max_limit')) {
             $this->limit = config('query-filter.max_limit');
@@ -180,14 +178,14 @@ class RequestQueryBuilderService extends AbstractService
 
     private function setPage()
     {
-        $this->page = $this->data['page'] ?: 1;
+        $this->page = $this->data['page'] ?? 1;
 
         return $this;
     }
 
     private function handleFilter()
     {
-        $filter = $this->data['filter']
+        $filter = isset($this->data['filter'])
             ? json_decode($this->data['filter'], true)
             : [];
 
@@ -221,7 +219,7 @@ class RequestQueryBuilderService extends AbstractService
 
     private function handleSearch()
     {
-        $search = $this->data['search']
+        $search = isset($this->data['search'])
             ? json_decode($this->data['search'], true)
             : '';
 
