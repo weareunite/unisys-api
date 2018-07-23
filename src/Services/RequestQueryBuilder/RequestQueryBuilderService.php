@@ -108,7 +108,7 @@ class RequestQueryBuilderService extends AbstractService
 
     private function setOrderBy()
     {
-        if(!$this->data['order']) {
+        if(!isset($this->data['order'])) {
             $column = config('query-filter.default_order_column');
             $direction = config('query-filter.default_order_direction');
         } elseif(substr($this->data['order'], 0, 1) === '-') {
@@ -228,15 +228,17 @@ class RequestQueryBuilderService extends AbstractService
         }
 
         if(isset($search['fields']) && is_array($search['fields'])) {
-            foreach ($search['fields'] as $column) {
-                $this->setSearchFieldByColumn($column);
-            }
+            $this->query = $this->query->where(function ($query) use($search) {
+                foreach ($search['fields'] as $column) {
+                    $this->setSearchFieldByColumn($column, $query);
+                }
+            });
         }
 
         return $this;
     }
 
-    private function setSearchFieldByColumn(string $column)
+    private function setSearchFieldByColumn(string $column, &$query)
     {
         if(RelationResolver::hasRelation($column)) {
             $this->addJoins(RelationResolver::onlyRelations($column));
@@ -244,10 +246,8 @@ class RequestQueryBuilderService extends AbstractService
             $column = RelationResolver::columnWithTable($column);
         }
 
-        $this->query = $this->query->where(function ($query) use($column) {
-            /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
-            $query->orWhere($column, 'like', '%' . $this->search . '%');
-        });
+        /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
+        $query->orWhere($column, 'like', '%' . $this->search . '%');
     }
 
     private function setFilterFieldByColumn(string $column, $value)
