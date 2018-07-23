@@ -2,8 +2,6 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
-
 class MediaResource extends Resource
 {
     /**

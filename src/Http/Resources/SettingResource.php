@@ -2,7 +2,6 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Unite\UnisysApi\Models\Setting;
 
 class SettingResource extends Resource
