@@ -2,16 +2,22 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Unite\UnisysApi\Helpers\Prefix\HasPrefixTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Unite\UnisysApi\Repositories\Repository;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HasPrefixTrait;
+
+    /** @var \Unite\UnisysApi\Http\Resources\Resource */
+    protected $resource;
+
+    /** @var \Unite\UnisysApi\Repositories\Repository */
+    protected $repository;
 
     protected function successJsonResponse()
     {
@@ -25,5 +31,19 @@ class Controller extends BaseController
         return response()->json([
             'data' => $data
         ], $status);
+    }
+
+    protected function setResourceClass(string $resource)
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    protected function setRepository(Repository $repo)
+    {
+        $this->repository = $repo;
+
+        return $this;
     }
 }
