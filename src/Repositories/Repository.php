@@ -234,9 +234,16 @@ abstract class Repository implements RepositoryInterface
         });
     }
 
-    public function filterByRequest(Request $request)
+    public function with($relations)
     {
-        return app(RequestQueryBuilderService::class, [$request])
+        $this->model = $this->model->with($relations);
+
+        return $this;
+    }
+
+    public function filterByRequest( array $requestData )
+    {
+        return app(RequestQueryBuilderService::class, [$requestData])
             ->setRepository($this)
             ->get();
     }

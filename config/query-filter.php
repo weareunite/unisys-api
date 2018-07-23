@@ -11,4 +11,10 @@ return [
     'default_order_direction' => 'desc',
 
     'page_name' => 'page',
+
+    'relation_map' => [
+        'supplier' => 'contacts',
+        'purchaser' => 'contacts',
+        'partner' => 'contacts',
+    ]
 ];

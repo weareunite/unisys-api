@@ -6,14 +6,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Unite\UnisysApi\Repositories\Repository;
 use Unite\UnisysApi\Services\AbstractService;
 
 class RequestQueryBuilderService extends AbstractService
 {
-    protected $request;
-
     /**
      * @var Repository
      */
@@ -26,8 +24,6 @@ class RequestQueryBuilderService extends AbstractService
     protected $filter = [];
 
     protected $search;
-
-    protected $relations = [];
 
     protected $searchFields = [];
 
@@ -45,17 +41,31 @@ class RequestQueryBuilderService extends AbstractService
 
     protected $self_relation;
 
-    public function __construct(Request $request)
+    protected $data;
+
+    protected $joins;
+
+    public function __construct(array $data = null)
     {
-        $this->request = $request;
+        if($data) {
+            $this->init($data);
+        }
+    }
+
+    public function init(array $data)
+    {
+        $this->setData($data);
 
         $this->setLimit();
 
         $this->setPage();
+    }
 
-        $this->handleFilter();
+    public function setData(array $data)
+    {
+        $this->data = $data;
 
-        $this->handleSearch();
+        return $this;
     }
 
     public function setRepository(Repository $repository)
@@ -69,19 +79,24 @@ class RequestQueryBuilderService extends AbstractService
     {
         $this->initQuery();
 
-        $this->setOrderBy();
+        $this->handleSearch();
 
-        $this->setQueryFromFilter();
-
-        $this->resolveSearchQuery();
-
-        $this->loadRelations();
+        $this->handleFilter();
 
         if($columns === ['*']) {
-            $columns = [$this->repository->getTable() . '.*'];
+            $columns = $this->baseSelect();
         }
 
+        $this->setOrderBy();
+
+        $this->resolveJoins();
+
         return $this->query->paginate($this->limit, $columns, config('query-filter.page_name'), $this->page);
+    }
+
+    private function baseSelect(): array
+    {
+        return [ $this->repository->getTable() . '.*' ];
     }
 
     private function initQuery()
@@ -95,31 +110,20 @@ class RequestQueryBuilderService extends AbstractService
 
     private function setOrderBy()
     {
-        if(!$this->request->get('order')) {
+        if(!$this->data['order']) {
             $column = config('query-filter.default_order_column');
             $direction = config('query-filter.default_order_direction');
-        } elseif(substr($this->request->get('order'), 0, 1) === '-') {
+        } elseif(substr($this->data['order'], 0, 1) === '-') {
             $direction = 'desc';
-            $column = substr($this->request->get('order'), 1);
+            $column = substr($this->data['order'], 1);
         } else {
             $direction = 'asc';
-            $column = $this->request->get('order');
+            $column = $this->data['order'];
         }
 
-        if($this->hasRelation($column)) {
-            $relation = $this->getRelationFromColumn($column);
-
-            $relation_plural = str_plural($relation);
-
-            $column_base = $this->getBaseColumn($column);
-
-            $first = $relation_plural . '.id';
-
-            $second = $this->query->getTable() . '.' . $relation . '_id';
-
-            $column = $relation_plural . '.' . $column_base;
-
-            $this->query = $this->query->join($relation_plural, $first, $second);
+        if(RelationResolver::hasRelation($column)) {
+            $this->addJoins($column);
+            $column = RelationResolver::columnWithTable($column);
         }
 
         $this->query = $this->query->orderBy($column, $direction);
@@ -127,9 +131,45 @@ class RequestQueryBuilderService extends AbstractService
         return $this;
     }
 
+    private function addJoins(string $column)
+    {
+        $base_table = $this->repository->getTable();
+
+        $relations = explode('.', RelationResolver::onlyRelations($column));
+
+        for ($i=0; $i<count($relations); $i++) {
+            $relations[$i];
+
+            $table = RelationResolver::relationToTable($relations[$i]);
+
+            if($i === 0) {
+                $first = $base_table . '.' . RelationResolver::foreignId($relations[$i]);
+            } else {
+                $first = RelationResolver::relationToTable($relations[$i - 1]) . '.' . RelationResolver::foreignId($relations[$i]);
+            }
+
+            $second = RelationResolver::relationId($relations[$i]);
+
+            $join = $table . '.' . $first . '.' . $second;
+
+            if(!in_array($join, $this->joins)) {
+                $this->joins[] = $join;
+            }
+        }
+    }
+
+    private function resolveJoins()
+    {
+        foreach ($this->joins as $join) {
+            $joins = explode('.', $join);
+
+            $this->query = $this->query->join($joins[0], $joins[1], '=', $joins[2]);
+        }
+    }
+
     private function setLimit()
     {
-        $this->limit = $this->request->get('limit') ?: config('query-filter.default_limit');
+        $this->limit = $this->data['limit'] ?: config('query-filter.default_limit');
 
         if($this->limit > config('query-filter.max_limit')) {
             $this->limit = config('query-filter.max_limit');
@@ -140,77 +180,25 @@ class RequestQueryBuilderService extends AbstractService
 
     private function setPage()
     {
-        $this->page = $this->request->get('page') ?: 1;
+        $this->page = $this->data['page'] ?: 1;
 
         return $this;
     }
 
     private function handleFilter()
     {
-        $filter = $this->request->get('filter')
-            ? json_decode($this->request->get('filter'), true)
+        $filter = $this->data['filter']
+            ? json_decode($this->data['filter'], true)
             : [];
 
         foreach($filter as $column => $value) {
             $this->setFilterFieldByColumn($column, $value);
-
-            if ($this->hasRelation($column)) {
-                $this->addRelationByColumn($column);
-            }
         }
 
         return $this;
     }
 
-    private function setQueryFromFilter()
-    {
-        foreach($this->filterFields as $relation => $filter) {
-
-            if(is_numeric($relation)) {
-                if(!isset($filter['column'])) {
-                    $this->query = $this->query->where(function ($q) use ($filter) {
-                        foreach ($filter as $item) {
-                            /** @var $q Model|QueryBuilder|Builder; */
-                            $q->orWhere($item['column'], $item['operator'], $item['value']);
-                        }
-                    });
-                } else {
-                    $this->query = $this->query->where($filter['column'], $filter['operator'], $filter['value']);
-                }
-            } else {
-                $this->query = $this->query->whereHas($relation, function ($query) use ($filter) {
-                        /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
-                        $query->where($filter['column'], $filter['operator'], $filter['value']);
-                });
-            }
-        }
-
-        return $this;
-    }
-
-    private function getRelationFromColumn(string $column)
-    {
-        if (strpos($column, ".")) {
-            $column_parts = explode('.', $column);
-
-            return camel_case($column_parts[0]);
-        }
-
-        return null;
-    }
-
-    private function getBaseColumn(string $column): string
-    {
-        if (strpos($column, ".")) {
-            $column_parts = explode('.', $column);
-
-            return $column_parts[1];
-        }
-
-        return $column;
-    }
-
-    private function makeFilter($column, $value)
+    private function makeFilter($value)
     {
         $operator = '=';
 
@@ -226,7 +214,6 @@ class RequestQueryBuilderService extends AbstractService
         }
 
         return [
-            'column'    => $column,
             'operator'  => $operator,
             'value'     => $value,
         ];
@@ -234,8 +221,8 @@ class RequestQueryBuilderService extends AbstractService
 
     private function handleSearch()
     {
-        $search = $this->request->get('search')
-            ? json_decode($this->request->get('search'), true)
+        $search = $this->data['search']
+            ? json_decode($this->data['search'], true)
             : '';
 
         if(isset($search['query']) && $search['query'] !== '') {
@@ -244,111 +231,56 @@ class RequestQueryBuilderService extends AbstractService
 
         if(isset($search['fields']) && is_array($search['fields'])) {
             foreach ($search['fields'] as $column) {
-
                 $this->setSearchFieldByColumn($column);
-
-                if ($this->hasRelation($column)) {
-                    $this->addRelationByColumn($column);
-                }
             }
         }
 
         return $this;
-    }
-
-    private function resolveSearchQuery()
-    {
-        if(empty($this->searchFields)) {
-            return $this->query;
-        }
-
-        $this->query = $this->query->where(function ($query) {
-            foreach ($this->searchFields as $relation => $columns) {
-                if (is_array($columns)) {
-                    /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
-                    $query->orWhereHas($relation, function ($query) use ($columns) {
-                        /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
-                        $query->where(function ($query) use ($columns) {
-                            /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
-                            foreach ($columns as $column) {
-                                $query->orWhere($column, 'like', '%' . $this->search . '%');
-                            }
-                        });
-                    });
-                } else {
-                    $query->orWhere($columns, 'like', '%' . $this->search . '%');
-                }
-            }
-        });
-
-        return $this;
-    }
-
-    private function hasRelation(string $column): bool
-    {
-        return (strpos($column, "."));
-    }
-
-    private function loadRelations()
-    {
-        $this->query->with($this->relations);
-    }
-
-    private function addRelationByColumn(string $column)
-    {
-        $relation = $this->getRelationFromColumn($column);
-
-        if($relation !== null && $relation !== $this->self_relation && !in_array($relation, $this->relations)) {
-            $this->relations[] = $relation;
-        }
     }
 
     private function setSearchFieldByColumn(string $column)
     {
-        $relation = $this->getRelationFromColumn($column);
+        if(RelationResolver::hasRelation($column)) {
+            $this->addJoins(RelationResolver::onlyRelations($column));
 
-        $column_base = $this->getBaseColumn($column);
-
-        if($relation !== null) {
-            if($relation !== $this->self_relation) {
-                if (!isset($this->searchFields[ $relation ])) {
-                    $this->searchFields[ $relation ] = [];
-                }
-
-                if (!in_array($column_base, $this->searchFields[ $relation ])) {
-                    $field[ $relation ][] = $column_base;
-                }
-            }
-        } else {
-            $this->searchFields[] = $column;
+            $column = RelationResolver::columnWithTable($column);
         }
+
+        $this->query = $this->query->where(function ($query) use($column) {
+            /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
+            $query->orWhere($column, 'like', '%' . $this->search . '%');
+        });
     }
 
     private function setFilterFieldByColumn(string $column, $value)
     {
-        $relation = $this->getRelationFromColumn($column);
+        if(RelationResolver::hasRelation($column)) {
+            $this->addJoins(RelationResolver::onlyRelations($column));
 
-        $column_base = $this->getBaseColumn($column);
+            $column = RelationResolver::columnWithTable($column);
+        }
 
-        if(is_array($value)) {
-            $p = [];
-            foreach ($value as $item) {
-                $p[] = $this->makeFilter($column_base, $item);
-            }
+        if(Arr::accessible($value)) {
+            $this->query = $this->query->where(function ($query) use($value, $column) {
+                /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
 
-            $this->filterFields[] = $p;
-        } else {
-            if ($relation !== null) {
-                if ($relation !== $this->self_relation) {
-                    if (!isset($this->filterFields[ $relation ])) {
-                        $this->filterFields[ $relation ] = $this->makeFilter($column_base, $value);
-                    } else {
-                        $this->filterFields[ $relation ][] = $this->makeFilter($column_base, $value);
+                if(str_contains($column, ['_date', 'date_'])) {
+                    $query->whereBetween($column, $value);
+                } else {
+                    foreach ($value as $item) {
+                        $filter = $this->makeFilter($item);
+
+                        $query->orWhere($column, $filter['operator'], $filter['value']);
                     }
                 }
-            } else {
-                $this->filterFields[] = $this->makeFilter($column_base, $value);
-            }
+            });
+        } else {
+            $this->query = $this->query->where(function ($query) use($column, $value) {
+                /** @var $query Model|QueryBuilder|Builder|QueriesRelationships; */
+                $filter = $this->makeFilter($value);
+
+                $query->orWhere($column, $filter['operator'], $filter['value']);
+            });
         }
     }
 }
