@@ -4,10 +4,6 @@ namespace Unite\UnisysApi\Http\Resources;
 
 class UserResource extends Resource
 {
-    protected static $relations = [
-        'roles'
-    ];
-
     /**
      * Transform the resource into an array.
      *

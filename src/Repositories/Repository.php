@@ -26,6 +26,10 @@ abstract class Repository implements RepositoryInterface
 
     protected $cacheTags = [];
 
+    protected $resourceRelations = [];
+
+    protected $resourceLocalMap = [];
+
     public function __construct(Container $app, CacheService $cacheService)
     {
         if (!class_exists($this->modelClass)) {
@@ -245,5 +249,77 @@ abstract class Repository implements RepositoryInterface
             ->init($requestData)
             ->setRepository($this)
             ->get();
+    }
+
+    /**
+     * @return array
+     */
+    public function getResourceRelations(): array
+    {
+        return $this->resourceRelations;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function addResourceRelation(string $value)
+    {
+        if(!in_array($value, $this->resourceRelations)) {
+            $this->resourceRelations[] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $relations
+     * @return $this
+     */
+    public function addResourceRelations(array $relations)
+    {
+        foreach ($relations as $relation) {
+            $this->addResourceRelation($relation);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResourceLocalMap(): array
+    {
+        return $this->resourceLocalMap;
+    }
+
+    /**
+     * @param string $base
+     * @param string $target
+     * @param bool $rewrite
+     * @return $this
+     */
+    public function addResourceMap(string $base, string $target, bool $rewrite = true)
+    {
+        if(isset($this->resourceLocalMap[$base]) && $rewrite === false) {
+            return $this;
+        }
+
+        $this->resourceLocalMap[$base] = $target;
+
+        return $this;
+    }
+
+    /**
+     * @param array $map
+     * @return $this
+     */
+    public function addResourceMaps(array $map)
+    {
+        foreach ($map as $base => $target) {
+            $this->addResourceMap($base, $target);
+        }
+
+        return $this;
     }
 }

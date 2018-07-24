@@ -8,6 +8,10 @@ class UserRepository extends Repository
 {
     protected $modelClass = User::class;
 
+    protected $resourceRelations = [
+        'roles'
+    ];
+
     public function hasExactlyRole(User $user, $role)
     {
         if(!$user->hasRole($role)) {

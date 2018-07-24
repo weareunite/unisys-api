@@ -4,16 +4,38 @@ namespace Unite\UnisysApi\Services\RequestQueryBuilder;
 
 class RelationResolver
 {
-    public static function getRelationsMap(): array
+    public static function getGlobalRelationsMap(): array
     {
-        return config('query-filter.relation_map');
+        return config('query-filter.global_relation_map');
     }
 
-    public static function toArray(string $relations): array
+    /**
+     * @param string $relation
+     * @return string
+     */
+    public static function getRealRelation(string $relation): string
     {
-        array_set($array, self::onlyRelations($relations), '');
+        $relationsMap = self::getGlobalRelationsMap();
 
-        return $array;
+        if(isset($relationsMap[$relation])) {
+            return $relationsMap[$relation];
+        }
+
+        return $relation;
+    }
+
+    /**
+     * @param string $dotRelation
+     * @param array $map
+     * @return string
+     */
+    public static function mapRelation(string $dotRelation, array $map): string
+    {
+        foreach ($map as $key => $value) {
+            $dotRelation = str_replace_array($key, [$value], $dotRelation);
+        }
+
+        return $dotRelation;
     }
 
     /**
@@ -22,13 +44,18 @@ class RelationResolver
      */
     public static function relationToTable(string $relation): string
     {
-        $relationsMap = self::getRelationsMap();
+        return str_plural( self::getRealRelation($relation) );
+    }
 
-        if(isset($relationsMap[$relation])) {
-            return $relationsMap[$relation];
-        }
+    /**
+     * @param string $relation
+     * @return bool
+     */
+    public static function hasMany(string $relation): bool
+    {
+        $relation = self::getRealRelation($relation);
 
-        return str_plural($relation);
+        return (str_plural($relation) === $relation);
     }
 
     /**
@@ -46,7 +73,7 @@ class RelationResolver
      */
     public static function foreignId(string $relation): string
     {
-        return $relation . '_id';
+        return str_singular($relation) . '_id';
     }
 
     /**
@@ -62,8 +89,10 @@ class RelationResolver
      * @param string $dotRelation
      * @return string
      */
-    public static function onlyRelations(string $dotRelation): string
+    public static function onlyRelations(string $dotRelation, array $localMap = []): string
     {
+        $dotRelation = self::mapRelation($dotRelation, $localMap);
+
         $parts = explode('.', $dotRelation);
 
         array_pop($parts);

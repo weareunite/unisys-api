@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\MediaResource;
 use Unite\UnisysApi\Repositories\MediaRepository;
-use Spatie\MediaLibrary\Models\Media;
 
 /**
  * @resource Media
@@ -16,12 +15,12 @@ use Spatie\MediaLibrary\Models\Media;
 class MediaController extends Controller
 {
     protected $repository;
-    protected $model;
 
-    public function __construct(MediaRepository $repository, Media $model)
+    public function __construct(MediaRepository $repository)
     {
         $this->repository = $repository;
-        $this->model = $model;
+
+        $this->setResourceClass(MediaResource::class);
     }
 
     /**
@@ -35,10 +34,10 @@ class MediaController extends Controller
         $this->authorize('hasPermission', $this->prefix('update'));
 
         $object = $this->repository
-            ->with(DrawResource::getRelations())
+            ->with($this->repository->getResourceRelations())
             ->filterByRequest( $request->all() );
 
-        return MediaResource::collection($object);
+        return $this->resource::collection($object);
     }
 
     /**
@@ -69,7 +68,7 @@ class MediaController extends Controller
 
     protected function getPathForObject($id)
     {
-        if(!$object = $this->model->find($id)) {
+        if(!$object = $this->repository->find($id)) {
             abort(404);
         }
 

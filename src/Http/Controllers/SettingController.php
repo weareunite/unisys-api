@@ -35,7 +35,7 @@ class SettingController extends Controller
      */
     public function list(QueryRequest $request)
     {
-        $object = $this->repository->with(SettingResource::getRelations())->filterByRequest( $request->all() );
+        $object = $this->repository->with($this->repository->getResourceRelations())->filterByRequest( $request->all() );
 
         return SettingResource::collection($object);
     }

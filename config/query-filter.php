@@ -12,7 +12,7 @@ return [
 
     'page_name' => 'page',
 
-    'relation_map' => [
+    'global_relation_map' => [
         'supplier' => 'contacts',
         'purchaser' => 'contacts',
         'partner' => 'contacts',

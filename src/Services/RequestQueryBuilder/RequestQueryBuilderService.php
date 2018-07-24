@@ -26,7 +26,7 @@ class RequestQueryBuilderService extends AbstractService
     /** @var QueryBuilder|Builder|QueriesRelationships */
     protected $query;
 
-    /** @var array */
+    /** @var string[] */
     protected $data;
 
     /** @var string[] */
@@ -34,7 +34,7 @@ class RequestQueryBuilderService extends AbstractService
 
     /**
      * RequestQueryBuilderService constructor.
-     * @param array|null $data
+     * @param string[]|null $data
      */
     public function __construct(array $data = null)
     {
@@ -44,7 +44,7 @@ class RequestQueryBuilderService extends AbstractService
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @return $this
      */
     public function init(array $data)
@@ -59,7 +59,7 @@ class RequestQueryBuilderService extends AbstractService
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @return $this
      */
     public function setData(array $data)
@@ -140,6 +140,8 @@ class RequestQueryBuilderService extends AbstractService
         if(RelationResolver::hasRelation($column)) {
             $this->addJoins($column);
             $column = RelationResolver::columnWithTable($column);
+        } else {
+            $column = $this->repository->getTable() . '.' . $column;
         }
 
         $this->query = $this->query->orderBy($column, $direction);
@@ -155,20 +157,30 @@ class RequestQueryBuilderService extends AbstractService
     {
         $base_table = $this->repository->getTable();
 
-        $relations = explode('.', RelationResolver::onlyRelations($column));
+        $relations = explode('.', RelationResolver::onlyRelations($column, $this->repository->getResourceLocalMap()));
 
         for ($i=0; $i<count($relations); $i++) {
-            $relations[$i];
 
             $table = RelationResolver::relationToTable($relations[$i]);
 
-            if($i === 0) {
-                $first = $base_table . '.' . RelationResolver::foreignId($relations[$i]);
-            } else {
-                $first = RelationResolver::relationToTable($relations[$i - 1]) . '.' . RelationResolver::foreignId($relations[$i]);
-            }
+            if(RelationResolver::hasMany($relations[$i])) {
+                if($i === 0) {
+                    $first = RelationResolver::relationId($base_table);
+                    $second = $table . '.' . RelationResolver::foreignId($base_table);
 
-            $second = RelationResolver::relationId($relations[$i]);
+                } else {
+                    $first = RelationResolver::relationId($relations[$i - 1]);
+                    $second = $table . '.' . RelationResolver::foreignId($relations[$i - 1]);
+                }
+            } else {
+                if ($i === 0) {
+                    $first = $base_table . '.' . RelationResolver::foreignId($relations[ $i ]);
+                } else {
+                    $first = RelationResolver::relationToTable($relations[ $i - 1 ]) . '.' . RelationResolver::foreignId($relations[ $i ]);
+                }
+
+                $second = RelationResolver::relationId($relations[ $i ]);
+            }
 
             $join = $table . '|' . $first . '|' . $second;
 
