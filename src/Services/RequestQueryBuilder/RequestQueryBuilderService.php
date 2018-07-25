@@ -100,6 +100,8 @@ class RequestQueryBuilderService extends AbstractService
 
         $this->resolveJoins();
 
+        $this->query->distinct();
+
         return $this->query->paginate($this->limit, $columns, config('query-filter.page_name'), $this->page);
     }
 
