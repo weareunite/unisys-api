@@ -23,8 +23,8 @@ class UnisysApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern('id', '[0-9]+');
-        Route::pattern('model', '[0-9]+');
+        Route::pattern('id', '^\d+$');
+        Route::pattern('model', '^\d+$');
 
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
