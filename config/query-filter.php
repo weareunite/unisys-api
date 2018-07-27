@@ -16,5 +16,6 @@ return [
         'supplier' => 'contacts',
         'purchaser' => 'contacts',
         'partner' => 'contacts',
+        'tags' => 'taggables',
     ]
 ];

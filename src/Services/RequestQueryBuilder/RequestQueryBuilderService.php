@@ -32,13 +32,15 @@ class RequestQueryBuilderService extends AbstractService
     /** @var string[] */
     protected $joins = [];
 
+    const JOIN_DELIMITER = '|';
+
     /**
      * RequestQueryBuilderService constructor.
      * @param string[]|null $data
      */
     public function __construct(array $data = null)
     {
-        if($data) {
+        if ($data) {
             $this->init($data);
         }
     }
@@ -84,7 +86,7 @@ class RequestQueryBuilderService extends AbstractService
      * @param array $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get(array $columns = ['*'])
+    public function get(array $columns = [ '*' ])
     {
         $this->initQuery();
 
@@ -92,7 +94,7 @@ class RequestQueryBuilderService extends AbstractService
 
         $this->handleFilter();
 
-        if($columns === ['*']) {
+        if ($columns === [ '*' ]) {
             $columns = $this->baseSelect();
         }
 
@@ -108,7 +110,8 @@ class RequestQueryBuilderService extends AbstractService
     /**
      * @return array
      */
-    private function baseSelect(): array
+    private function baseSelect()
+    : array
     {
         return [ $this->repository->getTable() . '.*' ];
     }
@@ -128,10 +131,10 @@ class RequestQueryBuilderService extends AbstractService
      */
     private function setOrderBy()
     {
-        if(!isset($this->data['order'])) {
+        if (!isset($this->data['order'])) {
             $column = config('query-filter.default_order_column');
             $direction = config('query-filter.default_order_direction');
-        } elseif(substr($this->data['order'], 0, 1) === '-') {
+        } elseif (substr($this->data['order'], 0, 1) === '-') {
             $direction = 'desc';
             $column = substr($this->data['order'], 1);
         } else {
@@ -139,7 +142,7 @@ class RequestQueryBuilderService extends AbstractService
             $column = $this->data['order'];
         }
 
-        if(RelationResolver::hasRelation($column)) {
+        if (RelationResolver::hasRelation($column)) {
             $this->addJoins($column);
             $column = RelationResolver::columnWithTable($column);
         } else {
@@ -161,19 +164,42 @@ class RequestQueryBuilderService extends AbstractService
 
         $relations = explode('.', RelationResolver::onlyRelations($column, $this->repository->getResourceLocalMap()));
 
-        for ($i=0; $i<count($relations); $i++) {
+        for ($i = 0; $i < count($relations); $i++) {
 
-            $table = RelationResolver::relationToTable($relations[$i]);
+            $table = RelationResolver::relationToTable($relations[ $i ]);
 
-            if(RelationResolver::hasMany($relations[$i])) {
-                if($i === 0) {
+            if (RelationResolver::hasManyMorphed($relations[ $i ])) {
+                $first = $table . '.' . RelationResolver::foreignId($table);
+
+                if ($i === 0) {
+                    $second = RelationResolver::relationId($base_table);
+                } else {
+                    $second = RelationResolver::relationId($relations[ $i - 1 ]);
+                }
+
+                $this
+                    ->addJoin(
+                        $table,
+                        $first,
+                        $second,
+                        $table . '.' . RelationResolver::manyMorphedType($table),
+                        $this->repository->getModelClass())
+                    ->addJoin(
+                        $relations[ $i ],
+                    $table . '.' . RelationResolver::foreignId($relations[ $i ]),
+                    RelationResolver::clearRelationId($relations[ $i ])
+                );
+
+            } elseif (RelationResolver::hasMany($relations[ $i ])) {
+                if ($i === 0) {
                     $first = RelationResolver::relationId($base_table);
                     $second = $table . '.' . RelationResolver::foreignId($base_table);
-
                 } else {
-                    $first = RelationResolver::relationId($relations[$i - 1]);
-                    $second = $table . '.' . RelationResolver::foreignId($relations[$i - 1]);
+                    $first = RelationResolver::relationId($relations[ $i - 1 ]);
+                    $second = $table . '.' . RelationResolver::foreignId($relations[ $i - 1 ]);
                 }
+
+                $this->addJoin($table, $first, $second);
             } else {
                 if ($i === 0) {
                     $first = $base_table . '.' . RelationResolver::foreignId($relations[ $i ]);
@@ -182,13 +208,32 @@ class RequestQueryBuilderService extends AbstractService
                 }
 
                 $second = RelationResolver::relationId($relations[ $i ]);
-            }
 
-            $join = $table . '|' . $first . '|' . $second;
-
-            if(!in_array($join, $this->joins)) {
-                $this->joins[] = $join;
+                $this->addJoin($table, $first, $second);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $table
+     * @param string $first
+     * @param string $second
+     * @return $this
+     */
+    private function addJoin(string $table, string $first, string $second, ... $conditions)
+    {
+        $join = $table . self::JOIN_DELIMITER . $first . self::JOIN_DELIMITER . $second;
+
+        if($conditions) {
+            foreach($conditions as $condition) {
+                $join .= self::JOIN_DELIMITER . $condition;
+            }
+        }
+
+        if (!in_array($join, $this->joins)) {
+            $this->joins[] = $join;
         }
 
         return $this;
@@ -200,9 +245,16 @@ class RequestQueryBuilderService extends AbstractService
     private function resolveJoins()
     {
         foreach ($this->joins as $join) {
-            $joins = explode('|', $join);
+            $joins = explode(self::JOIN_DELIMITER, $join);
 
-            $this->query = $this->query->join($joins[0], $joins[1], '=', $joins[2]);
+            if(count($joins) === 3) {
+                $this->query = $this->query->join($joins[0], $joins[1], '=', $joins[2]);
+            } else {
+                $this->query->join($joins[0], function ($join) use ($joins) {
+                    $join->on($joins[1], '=', $joins[2]);
+                    $join->where($joins[3], '=', $joins[4]);
+                });
+            }
         }
 
         return $this;
@@ -215,7 +267,7 @@ class RequestQueryBuilderService extends AbstractService
     {
         $this->limit = $this->data['limit'] ?? config('query-filter.default_limit');
 
-        if($this->limit > config('query-filter.max_limit')) {
+        if ($this->limit > config('query-filter.max_limit')) {
             $this->limit = config('query-filter.max_limit');
         }
 
@@ -241,7 +293,7 @@ class RequestQueryBuilderService extends AbstractService
             ? json_decode($this->data['filter'], true)
             : [];
 
-        foreach($filter as $column => $value) {
+        foreach ($filter as $column => $value) {
             $this->setFilterFieldByColumn($column, $value);
         }
 
@@ -256,20 +308,20 @@ class RequestQueryBuilderService extends AbstractService
     {
         $operator = '=';
 
-        if(substr($value, 0, 1) === '<') {
+        if (substr($value, 0, 1) === '<') {
             $operator = '<=';
             $value = substr($value, 1);
-        } elseif(substr($value, 0, 1) === '>') {
+        } elseif (substr($value, 0, 1) === '>') {
             $operator = '>=';
             $value = substr($value, 1);
-        } elseif(substr($value, 0, 1) === '%') {
+        } elseif (substr($value, 0, 1) === '%') {
             $operator = 'like';
             $value = substr($value, 1) . '%';
         }
 
         return [
-            'operator'  => $operator,
-            'value'     => $value,
+            'operator' => $operator,
+            'value'    => $value,
         ];
     }
 
@@ -282,12 +334,12 @@ class RequestQueryBuilderService extends AbstractService
             ? json_decode($this->data['search'], true)
             : '';
 
-        if(isset($search['query']) && $search['query'] !== '') {
+        if (isset($search['query']) && $search['query'] !== '') {
             $this->search = $search['query'];
         }
 
-        if(isset($search['fields']) && is_array($search['fields'])) {
-            $this->query = $this->query->where(function ($query) use($search) {
+        if (isset($search['fields']) && is_array($search['fields'])) {
+            $this->query = $this->query->where(function ($query) use ($search) {
                 foreach ($search['fields'] as $column) {
                     $this->setSearchFieldByColumn($column, $query);
                 }
@@ -303,7 +355,7 @@ class RequestQueryBuilderService extends AbstractService
      */
     private function setSearchFieldByColumn(string $column, &$query)
     {
-        if(RelationResolver::hasRelation($column)) {
+        if (RelationResolver::hasRelation($column)) {
             $this->addJoins($column);
 
             $column = RelationResolver::columnWithTable($column);
@@ -318,17 +370,17 @@ class RequestQueryBuilderService extends AbstractService
      */
     private function setFilterFieldByColumn(string $column, $value)
     {
-        if(RelationResolver::hasRelation($column)) {
+        if (RelationResolver::hasRelation($column)) {
             $this->addJoins($column);
 
             $column = RelationResolver::columnWithTable($column);
         }
 
-        if(Arr::accessible($value)) {
-            $this->query = $this->query->where(function ($query) use($value, $column) {
+        if (Arr::accessible($value)) {
+            $this->query = $this->query->where(function ($query) use ($value, $column) {
                 /** @var $query QueryBuilder|Builder|QueriesRelationships; */
 
-                if(str_contains($column, ['_date', 'date_'])) {
+                if (str_contains($column, [ '_date', 'date_' ])) {
                     $query->whereBetween($column, $value);
                 } else {
                     foreach ($value as $item) {
@@ -339,7 +391,7 @@ class RequestQueryBuilderService extends AbstractService
                 }
             });
         } else {
-            $this->query = $this->query->where(function ($query) use($column, $value) {
+            $this->query = $this->query->where(function ($query) use ($column, $value) {
                 /** @var $query QueryBuilder|Builder|QueriesRelationships; */
                 $filter = $this->makeFilter($value);
 

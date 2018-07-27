@@ -59,6 +59,11 @@ abstract class Repository implements RepositoryInterface
         return $this;
     }
 
+    public function getModelClass(): string
+    {
+        return $this->modelClass;
+    }
+
     protected function handleQueryCache(Closure $callback)
     {
         if($this->cache !== true) {

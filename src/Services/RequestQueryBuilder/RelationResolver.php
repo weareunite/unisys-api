@@ -60,6 +60,17 @@ class RelationResolver
 
     /**
      * @param string $relation
+     * @return bool
+     */
+    public static function hasManyMorphed(string $relation): bool
+    {
+        $relation = self::getRealRelation($relation);
+
+        return ends_with($relation, 'ables');
+    }
+
+    /**
+     * @param string $relation
      * @return string
      */
     public static function relationId(string $relation): string
@@ -71,9 +82,27 @@ class RelationResolver
      * @param string $relation
      * @return string
      */
+    public static function clearRelationId(string $relation): string
+    {
+        return $relation . '.id';
+    }
+
+    /**
+     * @param string $relation
+     * @return string
+     */
     public static function foreignId(string $relation): string
     {
         return str_singular($relation) . '_id';
+    }
+
+    /**
+     * @param string $relation
+     * @return string
+     */
+    public static function manyMorphedType(string $relation): string
+    {
+        return str_singular($relation) . '_type';
     }
 
     /**
@@ -121,8 +150,12 @@ class RelationResolver
 
         $column = array_pop($parts);
 
-        $lastRelation = last($parts);
+        $table = last($parts);
 
-        return self::relationToTable($lastRelation) . '.' . $column;
+        if(!RelationResolver::hasManyMorphed($table)) {
+            $table = self::relationToTable($table);
+        }
+
+        return $table . '.' . $column;
     }
 }
