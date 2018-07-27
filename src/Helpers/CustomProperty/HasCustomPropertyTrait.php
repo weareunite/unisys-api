@@ -61,4 +61,12 @@ trait HasCustomPropertyTrait {
         return $this;
     }
 
+    public function setCustomPropertiesAttribute($value = null)
+    {
+        if($value === null) {
+            return;
+        }
+
+        $this->attributes['custom_properties'] = json_encode($value);
+    }
 }
