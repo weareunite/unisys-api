@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\MediaLibrary\Models\Media;
 use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\MediaResource;
 use Unite\UnisysApi\Repositories\MediaRepository;
@@ -43,35 +44,22 @@ class MediaController extends Controller
     /**
      * Stream
      *
-     * @param $id
+     * @param Media $mediaItem
      * @return mixed
      */
-    public function stream($id)
+    public function stream(Media $mediaItem)
     {
-        $path = $this->getPathForObject($id);
-
-        return response()->file($path);
+        return response()->stream($mediaItem->getPath());
     }
 
     /**
      * Download
      *
-     * @param $id
+     * @param Media $mediaItem
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download($id)
+    public function download(Media $mediaItem)
     {
-        $path = $this->getPathForObject($id);
-
-        return response()->download($path);
-    }
-
-    protected function getPathForObject($id)
-    {
-        if(!$object = $this->repository->find($id)) {
-            abort(404);
-        }
-
-        return $object->getPath();
+        return response()->download($mediaItem->getPath(), $mediaItem->name);
     }
 }
