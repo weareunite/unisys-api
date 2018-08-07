@@ -46,7 +46,7 @@ class UploadService extends AbstractService
 
     protected function storeTmpFile()
     {
-        $this->tmpFilePath = $this->uploadedFile->store('tmp');
+        $this->tmpFilePath = $this->uploadedFile->store(storage_path('tmp'));
     }
 
     protected function attachFileToModel(string $collectionName = 'file', array $custom_properties = [])
@@ -61,7 +61,7 @@ class UploadService extends AbstractService
 
     protected function removeTmpFile()
     {
-        Storage::delete(storage_path('app/'.$this->tmpFilePath));
+        Storage::delete(storage_path('tmp/'.$this->tmpFilePath));
 
         return $this;
     }
