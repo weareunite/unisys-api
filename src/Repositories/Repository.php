@@ -253,7 +253,7 @@ abstract class Repository implements RepositoryInterface
         return app(RequestQueryBuilderService::class)
             ->init($requestData)
             ->setRepository($this)
-            ->get();
+            ->paginate();
     }
 
     /**

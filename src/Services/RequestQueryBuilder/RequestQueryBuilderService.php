@@ -88,23 +88,46 @@ class RequestQueryBuilderService extends AbstractService
      */
     public function get(array $columns = [ '*' ])
     {
+        $this->buildQuery();
+
+        if ($columns === [ '*' ]) {
+            $columns = $this->baseSelect();
+        }
+
+        return $this->query->get($columns);
+    }
+
+    /**
+     * @param array $columns
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate(array $columns = [ '*' ])
+    {
+        $this->buildQuery();
+
+        if ($columns === [ '*' ]) {
+            $columns = $this->baseSelect();
+        }
+
+        return $this->query->paginate($this->limit, $columns, config('query-filter.page_name'), $this->page);
+    }
+
+    /**
+     * @return void
+     */
+    private function buildQuery()
+    {
         $this->initQuery();
 
         $this->handleSearch();
 
         $this->handleFilter();
 
-        if ($columns === [ '*' ]) {
-            $columns = $this->baseSelect();
-        }
-
         $this->setOrderBy();
 
         $this->resolveJoins();
 
         $this->query->distinct();
-
-        return $this->query->paginate($this->limit, $columns, config('query-filter.page_name'), $this->page);
     }
 
     /**
@@ -220,6 +243,7 @@ class RequestQueryBuilderService extends AbstractService
      * @param string $table
      * @param string $first
      * @param string $second
+     * @param array $conditions
      * @return $this
      */
     private function addJoin(string $table, string $first, string $second, ... $conditions)
@@ -251,6 +275,7 @@ class RequestQueryBuilderService extends AbstractService
                 $this->query = $this->query->join($joins[0], $joins[1], '=', $joins[2]);
             } else {
                 $this->query->join($joins[0], function ($join) use ($joins) {
+                    /** @var \Illuminate\Database\Query\JoinClause $join */
                     $join->on($joins[1], '=', $joins[2]);
                     $join->where($joins[3], '=', $joins[4]);
                 });
