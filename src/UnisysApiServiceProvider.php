@@ -23,8 +23,10 @@ class UnisysApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::pattern('id', '^\d+$');
-        Route::pattern('model', '^\d+$');
+        Route::patterns([
+            'id'    => '^\d+$',
+            'model' => '^\d+$',
+        ]);
 
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
@@ -42,27 +44,27 @@ class UnisysApiServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $timestamp = date('Y_m_d_His', time());
 
-            if (! class_exists('CreateUsersTable')) {
+            if (!class_exists('CreateUsersTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_users_table.php.stub' => database_path("/migrations/{$timestamp}_create_users_table.php"),
+                    __DIR__ . '/../database/migrations/create_users_table.php.stub' => database_path("/migrations/{$timestamp}_create_users_table.php"),
                 ], 'migrations');
             }
 
-            if (! class_exists('CreatePasswordResetsTable')) {
+            if (!class_exists('CreatePasswordResetsTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_password_resets_table.php.stub' => database_path("/migrations/{$timestamp}_create_password_resets_table.php"),
+                    __DIR__ . '/../database/migrations/create_password_resets_table.php.stub' => database_path("/migrations/{$timestamp}_create_password_resets_table.php"),
                 ], 'migrations');
             }
 
-            if (! class_exists('CreateInstalledModulesTable')) {
+            if (!class_exists('CreateInstalledModulesTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_installed_modules_table.php.stub' => database_path("/migrations/{$timestamp}_create_installed_modules_table.php"),
+                    __DIR__ . '/../database/migrations/create_installed_modules_table.php.stub' => database_path("/migrations/{$timestamp}_create_installed_modules_table.php"),
                 ], 'migrations');
             }
 
-            if (! class_exists('CreateSettingsTable')) {
+            if (!class_exists('CreateSettingsTable')) {
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_settings_table.php.stub' => database_path("/migrations/{$timestamp}_create_settings_table.php"),
+                    __DIR__ . '/../database/migrations/create_settings_table.php.stub' => database_path("/migrations/{$timestamp}_create_settings_table.php"),
                 ], 'migrations');
             }
 

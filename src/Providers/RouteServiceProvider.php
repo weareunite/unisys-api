@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -13,6 +14,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::patterns([
+            'id'    => '^\d+$',
+            'model' => '^\d+$',
+        ]);
+
         $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
 
         parent::boot();
