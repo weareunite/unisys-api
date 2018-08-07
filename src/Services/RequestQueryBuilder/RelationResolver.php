@@ -116,6 +116,7 @@ class RelationResolver
 
     /**
      * @param string $dotRelation
+     * @param array $localMap
      * @return string
      */
     public static function onlyRelations(string $dotRelation, array $localMap = []): string
