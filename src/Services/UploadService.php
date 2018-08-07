@@ -49,7 +49,7 @@ class UploadService extends AbstractService
         $this->tmpFilePath = $this->uploadedFile->store(storage_path('tmp'));
     }
 
-    protected function attachFileToModel(string $collectionName = 'file', array $custom_properties = [])
+    protected function attachFileToModel(string $collectionName = 'default', array $custom_properties = [])
     {
         $this->media = $this->model
             ->addMedia(storage_path('app/'.$this->tmpFilePath))
