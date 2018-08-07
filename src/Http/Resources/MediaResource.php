@@ -23,7 +23,6 @@ class MediaResource extends Resource
             'created_at'        => (string)$this->created_at,
             'link'              => route('api.media.stream', ['id' => $this->id]),
             'downloadLink'      => route('api.media.download', ['id' => $this->id]),
-            'unprotectedLink'   => route('web.unprotectedMedia.stream', ['id' => $this->id]),
         ];
     }
 }

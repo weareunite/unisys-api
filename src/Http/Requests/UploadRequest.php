@@ -24,7 +24,7 @@ class UploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|mimes:pdf',
+            'file' => 'required|mimes:pdf,jpeg,jpg,png,xsl,xslx,doc,docx',
         ];
     }
 }
