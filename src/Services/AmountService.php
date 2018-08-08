@@ -20,7 +20,7 @@ class AmountService extends AbstractService
         ];
     }
 
-    public function updateAttributeByAmount(Model $model, string $attribute, ModelWithAmount $source, string $type)
+    public function updateAttributeByAmount(Model $model, string $attribute, ModelWithAmount $source, string $type, bool $unsigned = true)
     {
         if ($type === self::DIRECTION_INCREASE) {
             $model->{$attribute} += $source->amount;
@@ -33,6 +33,10 @@ class AmountService extends AbstractService
                 $model->{$attribute} -= $original['amount'];
                 $model->{$attribute} += $source->amount;
             }
+        }
+
+        if($unsigned && $model->{$attribute} < 0) {
+            $model->{$attribute} = 0;
         }
 
         $model->save();
