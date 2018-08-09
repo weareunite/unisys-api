@@ -58,7 +58,7 @@ Route::group([
         Route::get('get/{key}',                     ['as' => 'get',                        'uses' => 'SettingController@get']);
         Route::get('all',                           ['as' => 'all',                        'uses' => 'SettingController@all']);
         Route::get('company',                       ['as' => 'company',                    'uses' => 'SettingController@company']);
-        Route::put('updateCompany',                 ['as' => 'updateCompany',              'uses' => 'SettingController@updateCompany']);
+        Route::put('company',                       ['as' => 'company',                    'uses' => 'SettingController@updateCompany']);
         Route::put('{id}',                          ['as' => 'update',                     'uses' => 'SettingController@update']);
     });
 });
