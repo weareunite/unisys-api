@@ -47,18 +47,20 @@ Route::group([
 
     Route::group(['as' => 'media.', 'prefix' => 'media'], function ()
     {
-        Route::get('/',                             ['as' => 'list',                       'uses' => 'MediaController@list']);
-        Route::get('{id}/stream',                   ['as' => 'stream',                     'uses' => 'MediaController@stream']);
-        Route::get('{id}/download',                 ['as' => 'download',                   'uses' => 'MediaController@download']);
+        Route::get('/',                             ['as' => 'list',                        'uses' => 'MediaController@list']);
+        Route::get('{model}',                       ['as' => 'show',                        'uses' => 'MediaController@show']);
+        Route::delete('{model}',                    ['as' => 'delete',                      'uses' => 'MediaController@delete']);
+        Route::get('{model}/stream',                ['as' => 'stream',                      'uses' => 'MediaController@stream']);
+        Route::get('{model}/download',              ['as' => 'download',                    'uses' => 'MediaController@download']);
     });
 
     Route::group(['as' => 'setting.', 'prefix' => 'setting'], function ()
     {
-        Route::get('/',                             ['as' => 'list',                       'uses' => 'SettingController@list']);
-        Route::get('get/{key}',                     ['as' => 'get',                        'uses' => 'SettingController@get']);
-        Route::get('all',                           ['as' => 'all',                        'uses' => 'SettingController@all']);
-        Route::get('company',                       ['as' => 'company',                    'uses' => 'SettingController@company']);
-        Route::put('company',                       ['as' => 'company',                    'uses' => 'SettingController@updateCompany']);
-        Route::put('{id}',                          ['as' => 'update',                     'uses' => 'SettingController@update']);
+        Route::get('/',                             ['as' => 'list',                        'uses' => 'SettingController@list']);
+        Route::get('get/{key}',                     ['as' => 'get',                         'uses' => 'SettingController@get']);
+        Route::get('all',                           ['as' => 'all',                         'uses' => 'SettingController@all']);
+        Route::get('company',                       ['as' => 'company',                     'uses' => 'SettingController@company']);
+        Route::put('company',                       ['as' => 'company',                     'uses' => 'SettingController@updateCompany']);
+        Route::put('{id}',                          ['as' => 'update',                      'uses' => 'SettingController@update']);
     });
 });

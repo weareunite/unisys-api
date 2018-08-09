@@ -36,7 +36,7 @@ class MediaController extends Controller
 
         $object = $this->repository
             ->with($this->repository->getResourceRelations())
-            ->filterByRequest( $request->all() );
+            ->filterByRequest($request->all());
 
         return $this->resource::collection($object);
     }
@@ -44,22 +44,52 @@ class MediaController extends Controller
     /**
      * Stream
      *
-     * @param Media $mediaItem
+     * @param Media $model
      * @return mixed
      */
-    public function stream(Media $mediaItem)
+    public function stream(Media $model)
     {
-        return response()->stream($mediaItem->getPath());
+        return response()->stream($model->getPath());
     }
 
     /**
      * Download
      *
-     * @param Media $mediaItem
+     * @param Media $model
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(Media $mediaItem)
+    public function download(Media $model)
     {
-        return response()->download($mediaItem->getPath(), $mediaItem->name);
+        return response()->download($model->getPath(), $model->name);
+    }
+
+    /**
+     * Show
+     *
+     * @param Media $model
+     *
+     * @return MediaResource
+     */
+    public function show(Media $model)
+    {
+        return new MediaResource($model);
+    }
+
+    /**
+     * Delete
+     *
+     * @param Media $model
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Media $model)
+    {
+        try {
+            $model->delete();
+        } catch (\Exception $e) {
+            abort(409, 'Cannot delete record');
+        }
+
+        return $this->successJsonResponse();
     }
 }
