@@ -124,11 +124,6 @@ class UnisysApiInstall extends Command
             '--provider' => 'Barryvdh\\Snappy\\ServiceProvider'
         ]);
 
-        //Maatwebsite excel
-        $this->call('vendor:publish', [
-            '--provider' => 'Maatwebsite\\Excel\\ExcelServiceProvider'
-        ]);
-
         //Unite unisys-api
         $this->call('vendor:publish', [
             '--provider' => "Unite\\UnisysApi\\UnisysApiServiceProvider",
