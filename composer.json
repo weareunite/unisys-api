@@ -43,7 +43,7 @@
     "sentry/sentry-laravel": "^0.8.0",
     "barryvdh/laravel-ide-helper": "^2.3",
     "mpociot/laravel-apidoc-generator": "^2.0",
-    "weareunite/unisys-contacts": "^0.1.0",
+    "weareunite/unisys-contacts": "~0.1",
     "phpoffice/phpspreadsheet": "^0.1"
   },
   "require-dev": {
