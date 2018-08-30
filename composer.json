@@ -44,7 +44,7 @@
     "barryvdh/laravel-ide-helper": "^2.3",
     "mpociot/laravel-apidoc-generator": "^2.0",
     "weareunite/unisys-contacts": "~0.1",
-    "phpoffice/phpspreadsheet": "^0.1"
+    "phpoffice/phpspreadsheet": "^1.4"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
