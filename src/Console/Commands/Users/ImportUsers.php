@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Console\Commands\Users;
 
 use Illuminate\Console\Command;
-use Maatwebsite\Excel\Facades\Excel;
 use Unite\UnisysApi\Models\User;
 
 class ImportUsers extends Command
