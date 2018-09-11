@@ -1,9 +1,16 @@
 <?php
 
-namespace Unite\UnisysApi\Services\RequestQueryBuilder;
+namespace Unite\UnisysApi\QueryBuilder;
 
+/**
+ * Class RelationResolver
+ * @package Unite\UnisysApi\QueryBuilder
+ */
 class RelationResolver
 {
+    /**
+     * @return array
+     */
     public static function getGlobalRelationsMap(): array
     {
         return config('query-filter.global_relation_map');
@@ -11,10 +18,15 @@ class RelationResolver
 
     /**
      * @param string $relation
+     * @param bool $convertToReal
      * @return string
      */
-    public static function getRealRelation(string $relation): string
+    public static function getRealRelation(string $relation, bool $convertToReal = true): string
     {
+        if(!$convertToReal) {
+            return $relation;
+        }
+
         $relationsMap = self::getGlobalRelationsMap();
 
         if(isset($relationsMap[$relation])) {
@@ -40,11 +52,12 @@ class RelationResolver
 
     /**
      * @param string $relation
+     * @param bool $convertToReal
      * @return string
      */
-    public static function relationToTable(string $relation): string
+    public static function relationToTable(string $relation, bool $convertToReal = true): string
     {
-        return str_plural( self::getRealRelation($relation) );
+        return str_plural( self::getRealRelation($relation, $convertToReal) );
     }
 
     /**
@@ -60,11 +73,12 @@ class RelationResolver
 
     /**
      * @param string $relation
+     * @param bool $convertToReal
      * @return bool
      */
-    public static function hasManyMorphed(string $relation): bool
+    public static function hasManyMorphed(string $relation, bool $convertToReal = true): bool
     {
-        $relation = self::getRealRelation($relation);
+        $relation = self::getRealRelation($relation, $convertToReal);
 
         return ends_with($relation, 'ables');
     }
@@ -139,6 +153,26 @@ class RelationResolver
         $parts = explode('.', $dotRelation);
 
         return last($parts);
+    }
+
+    /**
+     * @param string $dotRelation
+     * @param bool $convertToReal
+     * @return string
+     */
+    public static function onlyTable(string $dotRelation, bool $convertToReal = true): string
+    {
+        $parts = explode('.', $dotRelation);
+
+        array_pop($parts);
+
+        $table = last($parts);
+
+        if(!RelationResolver::hasManyMorphed($table, $convertToReal)) {
+            $table = self::relationToTable($table, $convertToReal);
+        }
+
+        return $table;
     }
 
     /**

@@ -3,8 +3,9 @@
 namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\RoleResource;
+use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 use Unite\UnisysApi\Repositories\RoleRepository;
 
 /**
@@ -24,12 +25,12 @@ class RoleController extends Controller
     /**
      * List
      *
-     * @param QueryRequest $request
+     * @param QueryBuilderRequest $request
      * @return AnonymousResourceCollection|RoleResource[]
      */
-    public function list(QueryRequest $request)
+    public function list(QueryBuilderRequest $request)
     {
-        $object = $this->repository->with($this->repository->getResourceRelations())->filterByRequest( $request->all() );
+        $object = QueryBuilder::for($this->repository, $request)->paginate();
 
         return RoleResource::collection($object);
     }

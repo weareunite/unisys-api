@@ -4,8 +4,9 @@ namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\MediaLibrary\Models\Media;
-use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Resources\MediaResource;
+use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 use Unite\UnisysApi\Repositories\MediaRepository;
 
 /**
@@ -27,16 +28,14 @@ class MediaController extends Controller
     /**
      * List
      *
-     * @param QueryRequest $request
+     * @param QueryBuilderRequest $request
      * @return AnonymousResourceCollection|MediaResource[]
      */
-    public function list(QueryRequest $request)
+    public function list(QueryBuilderRequest $request)
     {
         $this->authorize('hasPermission', $this->prefix('update'));
 
-        $object = $this->repository
-            ->with($this->repository->getResourceRelations())
-            ->filterByRequest($request->all());
+        $object = QueryBuilder::for($this->repository, $request)->paginate();
 
         return $this->resource::collection($object);
     }
@@ -49,7 +48,15 @@ class MediaController extends Controller
      */
     public function stream(Media $model)
     {
-        return response()->stream($model->getPath());
+        return response()->stream(function() use ($model) {
+            $stream = $model->stream();
+
+            fpassthru($stream);
+
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        });
     }
 
     /**

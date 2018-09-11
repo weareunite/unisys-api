@@ -1,10 +1,10 @@
 <?php
 
-namespace Unite\UnisysApi\Http\Requests;
+namespace Unite\UnisysApi\QueryBuilder;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QueryRequest extends FormRequest
+class QueryBuilderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,8 @@ class QueryRequest extends FormRequest
             'page'      => 'integer|min:1',
             'limit'     => 'integer|min:1|max:'.config('query-filter.max_limit'),
             'order'     => 'string',
-            'search'    => 'json',
-            'filter'    => 'json',
+            'search'    => 'string',
+            'filter'    => 'string',
         ];
     }
 }

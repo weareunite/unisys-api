@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
@@ -39,7 +38,7 @@ use Unite\Contacts\Traits\HasContacts;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Illuminate\Notifications\DatabaseNotification $unreadNotifications
  * @method static \Illuminate\Database\Eloquent\Builder|\Unite\UnisysApi\Models\User whereUsername($value)
  */
-class User extends Authenticatable
+class User extends AuthModel
 {
     use HasRoles;
     use HasApiTokens;
@@ -67,6 +66,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $resourceEagerLoads = [
+        'roles'
     ];
 
 

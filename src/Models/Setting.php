@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\Models;
 
 use Spatie\Activitylog\Traits\CausesActivity;
 use Unite\Contacts\Traits\HasContacts;
-use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {

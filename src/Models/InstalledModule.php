@@ -2,8 +2,6 @@
 
 namespace Unite\UnisysApi\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class InstalledModule extends Model
 {
     /**

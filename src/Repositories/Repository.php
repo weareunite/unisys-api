@@ -6,13 +6,13 @@ use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Services\CacheService;
-use Unite\UnisysApi\Services\RequestQueryBuilder\RequestQueryBuilderService;
 
 abstract class Repository implements RepositoryInterface
 {
     /**
-     * @var EloquentBuilder|QueryBuilder;
+     * @var Model;
      */
     protected $model;
 
@@ -25,10 +25,6 @@ abstract class Repository implements RepositoryInterface
     protected $cacheKey;
 
     protected $cacheTags = [];
-
-    protected $resourceRelations = [];
-
-    protected $resourceLocalMap = [];
 
     public function __construct(Container $app, CacheService $cacheService)
     {
@@ -248,83 +244,16 @@ abstract class Repository implements RepositoryInterface
         return $this;
     }
 
-    public function filterByRequest( array $requestData )
-    {
-        return app(RequestQueryBuilderService::class)
-            ->init($requestData)
-            ->setRepository($this)
-            ->paginate();
-    }
-
     /**
      * @return array
      */
-    public function getResourceRelations(): array
+    public function getResourceTableMap(): array
     {
-        return $this->resourceRelations;
+        return $this->model->getResourceTableMap();
     }
 
-    /**
-     * @param string $value
-     * @return $this
-     */
-    public function addResourceRelation(string $value)
+    public function getResourceEagerLoads(): array
     {
-        if(!in_array($value, $this->resourceRelations)) {
-            $this->resourceRelations[] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param array $relations
-     * @return $this
-     */
-    public function addResourceRelations(array $relations)
-    {
-        foreach ($relations as $relation) {
-            $this->addResourceRelation($relation);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getResourceLocalMap(): array
-    {
-        return $this->resourceLocalMap;
-    }
-
-    /**
-     * @param string $base
-     * @param string $target
-     * @param bool $rewrite
-     * @return $this
-     */
-    public function addResourceMap(string $base, string $target, bool $rewrite = true)
-    {
-        if(isset($this->resourceLocalMap[$base]) && $rewrite === false) {
-            return $this;
-        }
-
-        $this->resourceLocalMap[$base] = $target;
-
-        return $this;
-    }
-
-    /**
-     * @param array $map
-     * @return $this
-     */
-    public function addResourceMaps(array $map)
-    {
-        foreach ($map as $base => $target) {
-            $this->addResourceMap($base, $target);
-        }
-
-        return $this;
+        return $this->model->getResourceEagerLoads();
     }
 }

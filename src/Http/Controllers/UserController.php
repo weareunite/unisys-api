@@ -3,12 +3,13 @@
 namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
-use Unite\UnisysApi\Http\Requests\QueryRequest;
+use Auth;
 use Unite\UnisysApi\Http\Requests\User\StoreUserRequest;
 use Unite\UnisysApi\Http\Requests\User\UpdateUserRequest;
 use Unite\UnisysApi\Http\Resources\DatabaseNotificationResource;
 use Unite\UnisysApi\Http\Resources\UserResource;
+use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 use Unite\UnisysApi\Repositories\UserRepository;
 
 /**
@@ -28,11 +29,12 @@ class UserController extends Controller
     /**
      * List
      *
+     * @param QueryBuilderRequest $request
      * @return AnonymousResourceCollection|UserResource[]
      */
-    public function list(QueryRequest $request)
+    public function list(QueryBuilderRequest $request)
     {
-        $object = $this->repository->with($this->repository->getResourceRelations())->filterByRequest( $request->all() );
+        $object = QueryBuilder::for($this->repository, $request)->paginate();
 
         return UserResource::collection($object);
     }

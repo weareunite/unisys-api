@@ -4,9 +4,10 @@ namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\Contacts\Http\Resources\ContactResource;
-use Unite\UnisysApi\Http\Requests\QueryRequest;
 use Unite\UnisysApi\Http\Requests\Setting\UpdateRequest;
 use Unite\UnisysApi\Http\Resources\SettingResource;
+use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 use Unite\UnisysApi\Repositories\SettingRepository;
 use Unite\UnisysApi\Services\SettingService;
 
@@ -29,13 +30,14 @@ class SettingController extends Controller
     /**
      * List
      *
-     * @param QueryRequest $request
+     * @param QueryBuilderRequest $request
      *
      * @return AnonymousResourceCollection|SettingResource[]
      */
-    public function list(QueryRequest $request)
+    public function list(QueryBuilderRequest $request)
     {
-        $object = $this->repository->with($this->repository->getResourceRelations())->filterByRequest( $request->all() );
+        $object = QueryBuilder::for($this->repository, $request)
+            ->paginate();
 
         return SettingResource::collection($object);
     }

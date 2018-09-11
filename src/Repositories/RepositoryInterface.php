@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Repositories;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Eloquent\Model;
+use Unite\UnisysApi\Models\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 interface RepositoryInterface
