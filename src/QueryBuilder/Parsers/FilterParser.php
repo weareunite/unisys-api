@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\QueryBuilder\Parsers;
 
 use Illuminate\Support\Arr;
-use Unite\UnisysApi\QueryBuilder\Types\Column;
+use stdClass;
 use Unite\UnisysApi\QueryBuilder\Types\DataItem;
 use Unite\UnisysApi\QueryBuilder\Types\Filter;
 
@@ -117,7 +117,7 @@ class FilterParser extends Parser
         return new Filter($this->column, $this->operator, $this->data);
     }
 
-    protected function parseObject(object $value)
+    protected function parseObject(stdClass $value)
     {
         if (in_array($value->operator, [ 'and', 'or', 'between' ])) {
             $this->operator = $value->operator;
