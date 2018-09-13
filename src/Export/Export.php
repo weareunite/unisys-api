@@ -64,19 +64,19 @@ class Export
                 $value = '';
 
                 if ($field->key === 'tags') {
-                    foreach($row->tags as $i => $tag) {
-                        if($i === 0) {
+                    foreach ($row->tags as $i => $tag) {
+                        if ($i === 0) {
                             $value .= $tag->name;
                         } else {
-                            $value .= ', ' . $tag->name ;
+                            $value .= ', ' . $tag->name;
                         }
                     }
                 } else {
-                    if(str_contains('/', $field->key)) {
+                    if (str_contains($field->key, '/')) {
                         $value = '';
                         $a = explode('/', $field->key);
-                        foreach($a[0] as $i => $b) {
-                            if($i === 0) {
+                        foreach ($row->{camel_case($a[0])} as $i => $b) {
+                            if ($i === 0) {
                                 $value .= $this->makeValue($b, $a[1]);
                             } else {
                                 $value .= ', ' . $this->makeValue($b, $a[1]);
@@ -86,9 +86,9 @@ class Export
                         $value = $this->makeValue($row, $key);
                     }
                 }
-                    $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValueByColumnAndRow($colIndex + 1, $rowIndex + 2, $value);
-                }
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValueByColumnAndRow($colIndex + 1, $rowIndex + 2, $value);
+            }
         }
 
         // Rename worksheet
