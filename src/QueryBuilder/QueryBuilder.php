@@ -56,6 +56,9 @@ class QueryBuilder
     /** @var JoinResolver */
     public $joinResolver;
 
+    /** @var array */
+    public $virtualFields;
+
     public function __construct(Builder $builder, ? Request $request = null)
     {
         $this->builder = new Builder($builder->getQuery());
@@ -189,13 +192,33 @@ class QueryBuilder
     protected function addSearchToBuilder()
     {
         if($this->search->query) {
-            $this->builder->where(function ($query) {
+            $this->builder->where(function (Builder $query) {
                 $this->search->columns->each(function(Column $column) use ($query) {
-                    /** @var $query Builder */
-                    $query->orWhere($column->fullColumn, 'like', '%' . $this->search->query . '%');
+                    if($this->isVirtualField($column->fullColumn)) {
+                          $this->executeVirtualField($query, $column->fullColumn, $this->search->query, 'or');
+                    } else {
+                        $query->orWhere($column->fullColumn, 'like', '%' . $this->search->query . '%');
+                    }
                 });
             });
         }
+    }
+
+    protected function executeVirtualField(Builder $query, $field, $value, string $operator = 'and')
+    {
+        return $this->virtualFields[$field]($query, $value, $operator);
+    }
+
+    protected function isVirtualField(string $field)
+    {
+        return isset($this->virtualFields[$field]);
+    }
+
+    public function setVirtualFields(array $virtualFields)
+    {
+        $this->virtualFields = $virtualFields;
+
+        return $this;
     }
 
     protected function addFilterToBuilder()
@@ -212,9 +235,17 @@ class QueryBuilder
     {
         foreach ($filter->data as $dataItem) {
             if($filter->operator === 'and') {
-                $query->where($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
+                if($this->isVirtualField($filter->column->fullColumn)) {
+                    $this->executeVirtualField($query, $filter->column->fullColumn, $this->search->query);
+                } else {
+                    $query->where($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
+                }
             } elseif ($filter->operator === 'or') {
-                $query->orWhere($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
+                if($this->isVirtualField($filter->column->fullColumn)) {
+                    $this->executeVirtualField($query, $filter->column->fullColumn, $this->search->query, 'or');
+                } else {
+                    $query->orWhere($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
+                }
             } elseif ($filter->operator === 'between') {
                 $query->whereBetween($filter->column->fullColumn, $filter->getDataValues());
             }
