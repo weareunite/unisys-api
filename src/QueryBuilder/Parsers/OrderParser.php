@@ -19,7 +19,7 @@ class OrderParser extends Parser
             $column = $value;
         }
 
-        $column = $this->resolveColumn($column);
+        $column = $this->queryBuilder->resolveColumn($column);
 
         return new OrderBy($column, $direction);
     }

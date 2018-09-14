@@ -102,8 +102,24 @@ class QueryBuilder
         $this->page = (new PageParser($this))->parse($requestData['page']);
         $this->search = (new SearchParser($this))->parse($requestData['search']);
         $this->filters = (new FilterParser($this))->parse($requestData['filter']);
+    }
 
-        $this->joins = $this->resolveJoins();
+    public function computeColumn(string $column)
+    {
+        $this->resolveColumn($column);
+
+        return $this;
+    }
+
+    public function resolveColumn(string $column)
+    {
+        $column = new Column($column, $this->baseTable, $this->baseModel->getResourceTableMap());
+
+        if($column->needJoin) {
+            $this->joinResolver->addColumn($column);
+        }
+
+        return $column;
     }
 
     public function resolveJoins()
@@ -176,8 +192,10 @@ class QueryBuilder
         return [ $this->baseTable . '.*' ];
     }
 
-    protected function buildQuery()
+    public function buildQuery()
     {
+        $this->joins = $this->resolveJoins();
+
         $this->addSearchToBuilder();
 
         $this->addFilterToBuilder();
@@ -186,7 +204,11 @@ class QueryBuilder
 
         $this->addJoinsToBuilder();
 
+        $this->builder->select($this->baseSelect());
+
         $this->builder->distinct();
+
+        return $this->builder;
     }
 
     protected function addSearchToBuilder()
@@ -263,9 +285,9 @@ class QueryBuilder
     {
         $this->joins->each(function (Join $join) {
             if($join->conditions->isEmpty()) {
-                $this->builder->join($join->table, $join->first, '=', $join->second);
+                $this->builder = $this->builder->join($join->table, $join->first, '=', $join->second);
             } else {
-                $this->builder->join($join->table, function ($q) use ($join) {
+                $this->builder = $this->builder->join($join->table, function ($q) use ($join) {
                     /** @var \Illuminate\Database\Query\JoinClause $q */
                     $q->on($join->first, '=', $join->second);
 

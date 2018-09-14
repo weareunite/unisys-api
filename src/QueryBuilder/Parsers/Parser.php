@@ -26,17 +26,6 @@ abstract class Parser
 
     abstract protected function handle($value = null);
 
-    protected function resolveColumn(string $column)
-    {
-        $column = new Column($column, $this->queryBuilder->baseTable, $this->queryBuilder->baseModel->getResourceTableMap());
-
-        if($column->needJoin) {
-            $this->queryBuilder->joinResolver->addColumn($column);
-        }
-
-        return $column;
-    }
-
     protected function setBuilder(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;

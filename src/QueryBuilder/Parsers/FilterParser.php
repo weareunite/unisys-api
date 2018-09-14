@@ -24,8 +24,9 @@ class FilterParser extends Parser
         $rawFilters = $value ? json_decode(base64_decode($value)) : [];
         $rawFilters = $rawFilters ?: [];
         $filters = [];
+
         foreach ($rawFilters as $column => $filter) {
-            $this->column = $this->resolveColumn($column);
+            $this->column = $this->queryBuilder->resolveColumn($column);
 
             $this->reset();
 

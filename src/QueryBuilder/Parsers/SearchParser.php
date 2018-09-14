@@ -21,7 +21,7 @@ class SearchParser extends Parser
 
         if (isset($value->fields) && Arr::accessible($value->fields)) {
             $columns = collect($value->fields)->map(function ($field) {
-                return $this->resolveColumn($field);
+                return $this->queryBuilder->resolveColumn($field);
             });
         }
 

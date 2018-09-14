@@ -24,11 +24,20 @@ class Relation extends Type
     /** @var string */
     public $requested;
 
+    /** @var string */
+    public $type;
+
+    const TYPE_HAS_MANY = 'hasMany';
+    const TYPE_BELONGS_TO = 'belongsTo';
+    const TYPE_HAS_MANY_MORPHED = 'hasManyMorphed';
+
     public function __construct(string $relation)
     {
         $this->requested = $relation;
 
         $this->parse();
+
+        $this->setType();
     }
 
     protected function parse()
@@ -41,6 +50,23 @@ class Relation extends Type
             $this->manyMorphedType = str_singular($this->real) . '_type';
             $this->manyMorphedId = str_singular($this->real) . '_id';
         }
+    }
 
+    protected function setType()
+    {
+        if(str_singular($this->requested) === $this->requested) {
+            $this->type = self::TYPE_BELONGS_TO;
+            return $this;
+        }
+
+        if(ends_with($this->real, 'ables')) {
+            $this->type = self::TYPE_HAS_MANY_MORPHED;
+            return $this;
+        }
+
+        if($this->requested === $this->real) {
+            $this->type = self::TYPE_HAS_MANY;
+            return $this;
+        }
     }
 }
