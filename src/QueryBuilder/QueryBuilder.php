@@ -59,6 +59,9 @@ class QueryBuilder
     /** @var array */
     public $virtualFields;
 
+    /** @var array */
+    public $tableClasses = [];
+
     public function __construct(Builder $builder, ? Request $request = null)
     {
         $this->builder = new Builder($builder->getQuery());
@@ -239,6 +242,15 @@ class QueryBuilder
     public function setVirtualFields(array $virtualFields)
     {
         $this->virtualFields = $virtualFields;
+
+        return $this;
+    }
+
+    public function addTableClasses(array $tableClasses)
+    {
+        foreach ($tableClasses as $table => $class) {
+            $this->tableClasses[$table] = $class;
+        }
 
         return $this;
     }

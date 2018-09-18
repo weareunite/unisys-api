@@ -77,15 +77,21 @@ class JoinResolver
 
     protected function manyMorphed(Relation $relation, Relation $parentRelation = null)
     {
+        $modelClass = $this->queryBuilder->modelClass;
+
         if ($parentRelation) {
             $second = $parentRelation->relationId;
+
+            if(isset($this->queryBuilder->tableClasses[$relation->real])) {
+                $modelClass = $this->queryBuilder->tableClasses[$relation->real];
+            }
         } else {
             $second = $this->queryBuilder->baseTable . '.id';
         }
 
         $filters = [
             'column' => $relation->real . '.' . $relation->manyMorphedType,
-            'value' => $this->queryBuilder->modelClass,
+            'value' => addslashes($modelClass),
         ];
 
         $this->createJoin($relation->real, $relation->real . '.' . $relation->manyMorphedId, $second, $filters);
