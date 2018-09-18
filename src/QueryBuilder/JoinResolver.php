@@ -82,8 +82,8 @@ class JoinResolver
         if ($parentRelation) {
             $second = $parentRelation->relationId;
 
-            if(isset($this->queryBuilder->tableClasses[$relation->real])) {
-                $modelClass = $this->queryBuilder->tableClasses[$relation->real];
+            if(isset($this->queryBuilder->tableClasses[$parentRelation->real])) {
+                $modelClass = $this->queryBuilder->tableClasses[$parentRelation->real];
             }
         } else {
             $second = $this->queryBuilder->baseTable . '.id';
@@ -91,7 +91,7 @@ class JoinResolver
 
         $filters = [
             'column' => $relation->real . '.' . $relation->manyMorphedType,
-            'value' => addslashes($modelClass),
+            'value' => $modelClass,
         ];
 
         $this->createJoin($relation->real, $relation->real . '.' . $relation->manyMorphedId, $second, $filters);
