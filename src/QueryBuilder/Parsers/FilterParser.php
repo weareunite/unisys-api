@@ -90,7 +90,7 @@ class FilterParser extends Parser
     : DataItem
     {
         $operator = '=';
-        $firstChar = substr($value, 0, 1);
+        $firstChar = substr(urlencode($value), 0, 1);
 
         if (in_array($firstChar, ['<', '>', '=', '%'])) {
             $value = substr($value, 1);
@@ -101,7 +101,6 @@ class FilterParser extends Parser
                     break;
                 case '>':
                     $operator = '>';
-
                     break;
                 case '%':
                     $operator = 'like';

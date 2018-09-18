@@ -217,18 +217,18 @@ class QueryBuilder
             $this->builder->where(function (Builder $query) {
                 $this->search->columns->each(function(Column $column) use ($query) {
                     if($this->isVirtualField($column->fullColumn)) {
-                          $this->executeVirtualField($query, $column->fullColumn, $this->search->query, 'or');
+                          $this->executeVirtualField($query, $column->fullColumn, $this->search->query);
                     } else {
-                        $query->orWhere($column->fullColumn, 'like', '%' . $this->search->query . '%');
+                        $query->orWhere($column->fullColumn, 'like', ($this->search->fulltext ? '%' : '') . $this->search->query . '%');
                     }
                 });
             });
         }
     }
 
-    protected function executeVirtualField(Builder $query, $field, $value, string $operator = 'and')
+    protected function executeVirtualField(Builder $query, $field, $value)
     {
-        return $this->virtualFields[$field]($query, $value, $operator);
+        return $this->virtualFields[$field]($query, $value);
     }
 
     protected function isVirtualField(string $field)
@@ -255,16 +255,15 @@ class QueryBuilder
 
     protected function addFilterDataToBuilder(Builder $query, Filter $filter)
     {
+        if($filter->operator === 'and') {
+            $this->builder->groupBy($this->baseTable . '.id');
+            $this->builder->havingRaw('COUNT(*) = ?', [$filter->data->count()]);
+        }
+
         foreach ($filter->data as $dataItem) {
-            if($filter->operator === 'and') {
+            if ($filter->operator === 'or' || $filter->operator === 'and') {
                 if($this->isVirtualField($filter->column->fullColumn)) {
-                    $this->executeVirtualField($query, $filter->column->fullColumn, $this->search->query);
-                } else {
-                    $query->where($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
-                }
-            } elseif ($filter->operator === 'or') {
-                if($this->isVirtualField($filter->column->fullColumn)) {
-                    $this->executeVirtualField($query, $filter->column->fullColumn, $this->search->query, 'or');
+                    $this->executeVirtualField($query, $filter->column->fullColumn, $dataItem->value);
                 } else {
                     $query->orWhere($filter->column->fullColumn, $dataItem->operator, $dataItem->value);
                 }
@@ -278,7 +277,11 @@ class QueryBuilder
 
     protected function addOrderByToBuilder()
     {
-        $this->builder->orderBy($this->orderBy->column->fullColumn, $this->orderBy->direction);
+        if($this->isVirtualField($this->orderBy->column->fullColumn)) {
+            $this->executeVirtualField($this->builder, $this->orderBy->column->fullColumn, $this->orderBy->direction);
+        } else {
+            $this->builder->orderBy($this->orderBy->column->fullColumn, $this->orderBy->direction);
+        }
     }
 
     protected function addJoinsToBuilder()

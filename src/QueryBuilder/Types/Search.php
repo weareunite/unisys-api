@@ -10,9 +10,13 @@ class Search extends Type
     /** @var \Illuminate\Support\Collection|Column[] */
     public $columns;
 
-    public function __construct(string $query = null, $columns)
+    /** @var bool */
+    public $fulltext;
+
+    public function __construct(string $query = null, $columns, bool $fulltext = false)
     {
         $this->query = $query;
         $this->columns = $columns;
+        $this->fulltext = $fulltext;
     }
 }

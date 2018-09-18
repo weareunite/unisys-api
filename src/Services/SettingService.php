@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Services;
 
+use Cache;
 use Unite\UnisysApi\Models\Setting;
 use Unite\UnisysApi\Repositories\SettingRepository;
 
@@ -32,13 +33,16 @@ class SettingService extends AbstractService
         return $this->repository->getAllSettings()->pluck('value', 'key');
     }
 
-    public function companyProfile()
+    public function companyProfile($columns = ['*'])
     {
-        if(!$setting = $this->repository->getSettingByKey(Setting::COMPANY_PROFILE_KEY, ['id'])) {
-            return null;
-        }
+        return Cache::remember('companyProfile', 60, function() use ($columns)
+        {
+            if(!$setting = $this->repository->getSettingByKey(Setting::COMPANY_PROFILE_KEY, ['id'])) {
+                return null;
+            }
 
-        return $setting->contacts()->first();
+            return $setting->contacts()->first($columns);
+        });
     }
 
     public function saveCompanyProfile(array $data)

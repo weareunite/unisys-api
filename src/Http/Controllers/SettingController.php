@@ -88,7 +88,6 @@ class SettingController extends Controller
         $this->service->saveCompanyProfile( $request->all() );
 
         return $this->successJsonResponse();
-
     }
 
     /**

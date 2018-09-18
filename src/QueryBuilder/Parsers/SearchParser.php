@@ -11,12 +11,18 @@ class SearchParser extends Parser
     {
         $query = null;
         $columns = [];
+        $fulltext = false;
 
         $value = $value ? json_decode(base64_decode($value)) : [];
         $value = $value ?: [];
 
         if (isset($value->query) && $value->query !== '') {
-            $query = $value->query;
+            if($firstChar = substr($value->query, 0, 1) === '%') {
+                $query = substr($value->query, 1);
+                $fulltext = true;
+            } else {
+                $query = $value->query;
+            }
         }
 
         if (isset($value->fields) && Arr::accessible($value->fields)) {
@@ -25,6 +31,6 @@ class SearchParser extends Parser
             });
         }
 
-        return new Search($query, $columns);
+        return new Search($query, $columns, $fulltext);
     }
 }

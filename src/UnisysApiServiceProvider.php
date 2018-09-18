@@ -100,11 +100,13 @@ class UnisysApiServiceProvider extends ServiceProvider
         app()->config["filesystems.disks.uploads"] = [
             'driver' => 'local',
             'root'   => public_path('uploads'),
+            'visibility' => 'public',
         ];
 
         app()->config["filesystems.disks.protectedUploads"] = [
             'driver' => 'local',
             'root'   => storage_path('app/uploads'),
+            'visibility' => 'private',
         ];
     }
 }
