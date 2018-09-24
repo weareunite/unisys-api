@@ -25,6 +25,12 @@ class SettingController extends Controller
     {
         $this->repository = $repository;
         $this->service = $service;
+
+        $this->setResourceClass(SettingResource::class);
+
+        $this->setResponse();
+
+        $this->middleware('cache')->only(['list', 'get', 'all', 'company']);
     }
 
     /**
@@ -39,7 +45,7 @@ class SettingController extends Controller
         $object = QueryBuilder::for($this->repository, $request)
             ->paginate();
 
-        return SettingResource::collection($object);
+        return $this->response->collection($object);
     }
 
     /**

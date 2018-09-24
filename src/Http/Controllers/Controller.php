@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Unite\UnisysApi\Repositories\Repository;
+use Unite\UnisysApi\Response\Response;
 
 class Controller extends BaseController
 {
@@ -18,6 +19,9 @@ class Controller extends BaseController
 
     /** @var \Unite\UnisysApi\Repositories\Repository */
     protected $repository;
+
+    /** @var Response */
+    protected $response;
 
     protected function successJsonResponse()
     {
@@ -43,6 +47,13 @@ class Controller extends BaseController
     protected function setRepository(Repository $repo)
     {
         $this->repository = $repo;
+
+        return $this;
+    }
+
+    protected function setResponse()
+    {
+        $this->response = new Response($this->repository, $this->resource);
 
         return $this;
     }

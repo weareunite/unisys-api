@@ -20,6 +20,12 @@ class RoleController extends Controller
     public function __construct(RoleRepository $repository)
     {
         $this->repository = $repository;
+
+        $this->setResourceClass(RoleResource::class);
+
+        $this->setResponse();
+
+        $this->middleware('cache')->only(['list']);
     }
 
     /**
@@ -32,6 +38,6 @@ class RoleController extends Controller
     {
         $object = QueryBuilder::for($this->repository, $request)->paginate();
 
-        return RoleResource::collection($object);
+        return $this->response->collection($object);
     }
 }

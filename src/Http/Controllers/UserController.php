@@ -24,6 +24,15 @@ class UserController extends Controller
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
+
+        $this->setResourceClass(UserResource::class);
+
+        $this->setResponse();
+
+        $this->middleware('cache')->only([
+            'list', 'profile', 'show',
+            'notifications', 'unreadNotifications', 'selfNotifications', 'selfUnreadNotifications'
+        ]);
     }
 
     /**
@@ -36,13 +45,13 @@ class UserController extends Controller
     {
         $object = QueryBuilder::for($this->repository, $request)->paginate();
 
-        return UserResource::collection($object);
+        return $this->response->collection($object);
     }
 
     /**
      * Profile
      *
-     * @return UserResource
+     * @return Resource|UserResource
      */
     public function profile()
     {
@@ -51,7 +60,7 @@ class UserController extends Controller
             abort(404);
         }
 
-        return new UserResource($object);
+        return $this->response->resource($object);
     }
 
     /**
@@ -59,7 +68,7 @@ class UserController extends Controller
      *
      * @param $id
      *
-     * @return UserResource
+     * @return Resource|UserResource
      */
     public function show($id)
     {
@@ -69,7 +78,7 @@ class UserController extends Controller
 
         $this->authorize('view', $object);
 
-        return new UserResource($object);
+        return $this->response->resource($object);
     }
 
     /**
@@ -77,7 +86,7 @@ class UserController extends Controller
      *
      * @param StoreUserRequest $request
      *
-     * @return UserResource
+     * @return Resource|UserResource
      */
     public function create(StoreUserRequest $request)
     {
@@ -87,7 +96,7 @@ class UserController extends Controller
         $object = $this->repository->create($data);
         $object->roles()->sync( $request->get('roles_id') ?: [] );
 
-        return new UserResource($object);
+        return $this->response->resource($object);
     }
 
     /**

@@ -23,6 +23,10 @@ class MediaController extends Controller
         $this->repository = $repository;
 
         $this->setResourceClass(MediaResource::class);
+
+        $this->setResponse();
+
+        $this->middleware('cache')->only(['list', 'show']);
     }
 
     /**
@@ -37,7 +41,7 @@ class MediaController extends Controller
 
         $object = QueryBuilder::for($this->repository, $request)->paginate();
 
-        return $this->resource::collection($object);
+        return $this->response->collection($object);
     }
 
     /**
@@ -75,11 +79,11 @@ class MediaController extends Controller
      *
      * @param Media $model
      *
-     * @return MediaResource
+     * @return Resource|MediaResource
      */
     public function show(Media $model)
     {
-        return new MediaResource($model);
+        return $this->response->resource($model);
     }
 
     /**

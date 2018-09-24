@@ -35,14 +35,11 @@ class SettingService extends AbstractService
 
     public function companyProfile($columns = ['*'])
     {
-        return Cache::remember('companyProfile', 60, function() use ($columns)
-        {
-            if(!$setting = $this->repository->getSettingByKey(Setting::COMPANY_PROFILE_KEY, ['id'])) {
-                return null;
-            }
+        if(!$setting = $this->repository->getSettingByKey(Setting::COMPANY_PROFILE_KEY, ['id'])) {
+            return null;
+        }
 
-            return $setting->contacts()->first($columns);
-        });
+        return $setting->contacts()->first($columns);
     }
 
     public function saveCompanyProfile(array $data)

@@ -10,6 +10,7 @@ use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Unite\UnisysApi\Http\Middleware\Authorize;
+use Unite\UnisysApi\Http\Middleware\CacheResponse;
 use Unite\UnisysApi\Http\Middleware\HttpsProtocol;
 
 class MiddlewareServiceProvider extends ServiceProvider
@@ -32,6 +33,7 @@ class MiddlewareServiceProvider extends ServiceProvider
         $router->aliasMiddleware('permission', PermissionMiddleware::class);
         $router->aliasMiddleware('client', CheckClientCredentials::class);
         $router->aliasMiddleware('authorize', Authorize::class);
+        $router->aliasMiddleware('cache', CacheResponse::class);
     }
 
     /**

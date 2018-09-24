@@ -239,7 +239,7 @@ class QueryBuilder
         return isset($this->virtualFields[$field]);
     }
 
-    public function setVirtualFields(array $virtualFields)
+    public function setVirtualFields(Collection $virtualFields)
     {
         $this->virtualFields = $virtualFields;
 
@@ -314,11 +314,3 @@ class QueryBuilder
         });
     }
 }
-
-// $column
-// $operator
-// $value
-
-// if $column = 'expenses.draw_state'
-
-// if $value = 'overdrawn' then $sql = where CASE WHEN expenses.amount < expenses.drawn THEN TRUE ELSE FALSE END
