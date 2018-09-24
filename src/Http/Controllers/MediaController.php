@@ -101,6 +101,8 @@ class MediaController extends Controller
             abort(409, 'Cannot delete record');
         }
 
+        \Cache::tags('response')->flush();
+
         return $this->successJsonResponse();
     }
 }

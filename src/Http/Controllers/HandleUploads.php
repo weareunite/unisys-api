@@ -30,6 +30,8 @@ trait HandleUploads
 
         $media = $uploadService->upload($object, $file);
 
+        \Cache::tags('response')->flush();
+
         return new MediaResource($media);
     }
 

@@ -111,6 +111,8 @@ class SettingController extends Controller
 
         $model->update( $data );
 
+        \Cache::tags('response')->flush();
+
         return $this->successJsonResponse();
     }
 }

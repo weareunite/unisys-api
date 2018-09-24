@@ -24,6 +24,8 @@ trait MassDelete
 
         $this->repository->massDelete($data['ids']);
 
+        \Cache::tags('response')->flush();
+
         return $this->successJsonResponse();
     }
 }

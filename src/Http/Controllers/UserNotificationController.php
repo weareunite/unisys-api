@@ -34,6 +34,8 @@ class UserNotificationController extends Controller
 
         $object->markAsRead();
 
+        \Cache::tags('response')->flush();
+
         return $this->successJsonResponse();
     }
 
@@ -54,6 +56,8 @@ class UserNotificationController extends Controller
         if (!is_null($object->read_at)) {
             $object->forceFill(['read_at' => null])->save();
         }
+
+        \Cache::tags('response')->flush();
 
         return $this->successJsonResponse();
     }

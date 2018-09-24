@@ -96,6 +96,8 @@ class UserController extends Controller
         $object = $this->repository->create($data);
         $object->roles()->sync( $request->get('roles_id') ?: [] );
 
+        \Cache::tags('response')->flush();
+
         return $this->response->resource($object);
     }
 
@@ -120,6 +122,8 @@ class UserController extends Controller
 
         $object->update($data);
         $object->roles()->sync( $request->get('roles_id') ?: [] );
+
+        \Cache::tags('response')->flush();
 
         return $this->successJsonResponse();
     }
@@ -180,6 +184,8 @@ class UserController extends Controller
         /** @var \Unite\UnisysApi\Models\User $object */
         $object = Auth::user();
         $object->unreadNotifications->markAsRead();
+
+        \Cache::tags('response')->flush();
 
         return $this->successJsonResponse();
     }
