@@ -16,6 +16,10 @@ class CacheResponse
      */
     public function handle($request, Closure $next, $tag = null)
     {
+        if(!env('CACHE_RESPONSE', false)) {
+            return $next($request);
+        }
+
         $key = md5($request->fullUrl());
 
         $tags = ['response', $tag];
