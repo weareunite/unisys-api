@@ -68,11 +68,6 @@ class User extends AuthModel
         'password', 'remember_token',
     ];
 
-    protected $resourceEagerLoads = [
-        'roles'
-    ];
-
-
     //  =================================================================================================
     //
     //  Setters

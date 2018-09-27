@@ -77,7 +77,7 @@ class SettingController extends Controller
      */
     public function company()
     {
-        $object = $this->service->companyProfile();
+        $object = app('companyProfile');
 
         return new ContactResource($object);
     }

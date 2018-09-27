@@ -243,13 +243,4 @@ abstract class Repository implements RepositoryInterface
 
         return $this;
     }
-
-    /**
-     * @return array
-     */
-
-    public function getResourceEagerLoads(): array
-    {
-        return $this->model->getResourceEagerLoads();
-    }
 }

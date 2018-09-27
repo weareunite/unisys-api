@@ -9,10 +9,4 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
  */
 abstract class Model extends BaseModel
 {
-    protected $resourceEagerLoads = [];
-
-    public function getResourceEagerLoads(): array
-    {
-        return $this->resourceEagerLoads;
-    }
 }

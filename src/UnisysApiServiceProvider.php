@@ -13,6 +13,7 @@ use Unite\UnisysApi\Providers\AuthServiceProvider;
 use Unite\UnisysApi\Providers\RouteServiceProvider;
 use Unite\UnisysApi\Providers\ScheduleServiceProvider;
 use Unite\UnisysApi\Providers\MiddlewareServiceProvider;
+use Unite\UnisysApi\Services\SettingService;
 
 class UnisysApiServiceProvider extends ServiceProvider
 {
@@ -96,6 +97,11 @@ class UnisysApiServiceProvider extends ServiceProvider
             $this->app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
         }
 
+        $this->app->singleton('companyProfile', function ($app) {
+            return $app['cache']->remember('companyProfile', 60*12, function () {
+                return app(SettingService::class)->companyProfile();
+            });
+        });
 
         app()->config["filesystems.disks.uploads"] = [
             'driver' => 'local',

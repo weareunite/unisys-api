@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Response;
 
 use Illuminate\Database\Eloquent\Model;
-use Unite\UnisysApi\Http\Resources\Resource;
 use Unite\UnisysApi\Repositories\Repository;
 
 class Response
@@ -11,7 +10,7 @@ class Response
     /** @var Repository */
     protected $repository;
 
-    /** @var Resource */
+    /** @var \Unite\UnisysApi\Http\Resources\Resource */
     protected $resourceClass;
 
     /** @var string */
@@ -25,9 +24,10 @@ class Response
 
     public function resource(Model $model, string $resourceClass = null)
     {
+        /** @var \Unite\UnisysApi\Http\Resources\Resource $resourceClass */
         $resourceClass = $resourceClass ?: $this->resourceClass;
 
-        $model->load( $this->repository->getResourceEagerLoads() );
+        $model->load( $resourceClass::getEagerLoads() );
 
         /** @var Resource $resource */
         $resource = (new $resourceClass($model));
@@ -37,6 +37,7 @@ class Response
 
     public function collection($collection, string $resourceClass = null)
     {
+        /** @var \Unite\UnisysApi\Http\Resources\Resource $resourceClass */
         $resourceClass = $resourceClass ?: $this->resourceClass;
 
         return $resourceClass::collection($collection);

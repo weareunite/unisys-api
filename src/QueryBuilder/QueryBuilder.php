@@ -158,53 +158,16 @@ class QueryBuilder
     protected function init()
     {
         $this->loadAllVirtualFields();
+    }
 
+    protected function loadAllVirtualFields()
+    {
+        $this->virtualFields = $this->resourceClass::getVirtualFields();
     }
 
     /**
      * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
      */
-    protected function loadAllVirtualFields(string $resourceClass = null)
-    {
-        if(!$resourceClass) {
-            $resourceClass = $this->resourceClass;
-        }
-
-        $this->loadVirtualFields($resourceClass);
-
-        $resourceMaps = $resourceClass::resourceMap();
-
-        foreach ($resourceMaps as $resourceClass) {
-            $this->loadVirtualFields($resourceClass);
-        }
-
-        if(!$resourceMaps->isEmpty()) {
-            $this->loadAllVirtualFields($resourceClass);
-        }
-    }
-
-    /**
-     * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
-     */
-    protected function loadVirtualFields(string $resourceClass)
-    {
-        $table = $this->getTableFromResourceClass($resourceClass);
-
-        $resourceClass::virtualFields()->map(function(Closure $fn, string $column) use ($table) {
-            $this->addVirtualField($table . '.' . $column, $fn);
-        });
-    }
-
-    /**
-     * @param string $field
-     * @param Closure $closure
-     */
-    protected function addVirtualField(string $field, Closure $closure)
-    {
-        $this->virtualFields[$field] = $closure;
-        return $this;
-    }
-
     protected function getTableFromModelClass(string $resourceClass)
     {
         return with(new $resourceClass)->getTable();
@@ -229,6 +192,7 @@ class QueryBuilder
     {
         /** @var \Illuminate\Database\Eloquent\Builder $baseQuery */
         $baseQuery = ($resourceClass::modelClass())::query();
+        $baseQuery->with($resourceClass::getEagerLoads());
 
         $builder = new static($baseQuery, $request ?? request());
         $builder->setResourceClass($resourceClass);

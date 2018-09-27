@@ -56,7 +56,7 @@ class SetCompanyProfile extends Command
      */
     public function handle(SettingService $settingService, CountryRepository $countryRepository)
     {
-        if($settingService->companyProfile()) {
+        if(app('companyProfile')) {
             $this->info('Company profile already exist');
 
             if (!$this->confirm('Do you wish to continue and rewrite it?')) {
