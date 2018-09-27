@@ -39,6 +39,7 @@ class Export
     {
         $object = QueryBuilder::for($this->repository, $this->request)
             ->get();
+
         $columns = $this->request->get('columns') ? json_decode(base64_decode($this->request->get('columns'))) : null;
         if(!$columns) {
             return;
@@ -65,6 +66,16 @@ class Export
 
                 if ($field->key === 'tags') {
                     foreach ($row->tags as $i => $tag) {
+                        if ($i === 0) {
+                            $value .= $tag->name;
+                        } else {
+                            $value .= ', ' . $tag->name;
+                        }
+                    }
+                } elseif(str_contains($field->key, '.tags')) {
+                    $tags = $this->makeValue($row, $field->key);
+
+                    foreach ($tags as $i => $tag) {
                         if ($i === 0) {
                             $value .= $tag->name;
                         } else {
@@ -128,13 +139,13 @@ class Export
                 $value = $row->{$keys[0]};
                 break;
             case 2:
-                $value = $row->{$keys[0]}->{$keys[1]};
+                $value = $row->{camel_case($keys[0])}->{$keys[1]};
                 break;
             case 3:
-                $value = $row->{$keys[0]}->{$keys[1]}->{$keys[2]};
+                $value = $row->{camel_case($keys[0])}->{camel_case($keys[1])}->{$keys[2]};
                 break;
             case 4:
-                $value = $row->{$keys[0]}->{$keys[1]}->{$keys[2]}->{$keys[3]};
+                $value = $row->{camel_case($keys[0])}->{camel_case($keys[1])}->{camel_case($keys[2])}->{$keys[3]};
                 break;
         }
 

@@ -17,7 +17,7 @@ class SearchParser extends Parser
         $value = $value ?: [];
 
         if (isset($value->query) && $value->query !== '') {
-            if($firstChar = substr($value->query, 0, 1) === '%') {
+            if($firstChar = mb_substr($value->query, 0, 1, "utf-8") === '%') {
                 $query = substr($value->query, 1);
                 $fulltext = true;
             } else {

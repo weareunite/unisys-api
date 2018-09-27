@@ -90,7 +90,7 @@ class FilterParser extends Parser
     : DataItem
     {
         $operator = '=';
-        $firstChar = substr(urlencode($value), 0, 1);
+        $firstChar = mb_substr($value, 0, 1, "utf-8");
 
         if (in_array($firstChar, ['<', '>', '=', '%'])) {
             $value = substr($value, 1);

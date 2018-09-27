@@ -11,7 +11,7 @@ class OrderParser extends Parser
         if (!$value) {
             $column = config('query-filter.default_order_column');
             $direction = config('query-filter.default_order_direction');
-        } elseif (substr($value, 0, 1) === '-') {
+        } elseif (mb_substr($value, 0, 1, "utf-8") === '-') {
             $direction = 'desc';
             $column = substr($value, 1);
         } else {
