@@ -21,5 +21,10 @@ class SettingResource extends Resource
             'type'  => $this->type,
         ];
     }
+
+    public static function modelClass()
+    {
+        return Setting::class;
+    }
 }
 

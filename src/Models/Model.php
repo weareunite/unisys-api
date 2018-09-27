@@ -11,15 +11,8 @@ abstract class Model extends BaseModel
 {
     protected $resourceEagerLoads = [];
 
-    protected $resourceTableMap = [];
-
     public function getResourceEagerLoads(): array
     {
         return $this->resourceEagerLoads;
-    }
-
-    public function getResourceTableMap(): array
-    {
-        return $this->resourceTableMap;
     }
 }

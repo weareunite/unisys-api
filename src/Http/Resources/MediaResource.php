@@ -2,6 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
+use Spatie\MediaLibrary\Models\Media;
+
 class MediaResource extends Resource
 {
     /**
@@ -24,5 +26,10 @@ class MediaResource extends Resource
             'link'              => route('api.media.stream', ['id' => $this->id]),
             'downloadLink'      => route('api.media.download', ['id' => $this->id]),
         ];
+    }
+
+    public static function modelClass()
+    {
+        return Media::class;
     }
 }

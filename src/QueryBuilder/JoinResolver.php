@@ -2,10 +2,7 @@
 
 namespace Unite\UnisysApi\QueryBuilder;
 
-use Illuminate\Support\Collection;
 use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\DataItem;
-use Unite\UnisysApi\QueryBuilder\Types\Filter;
 use Unite\UnisysApi\QueryBuilder\Types\Join;
 use Unite\UnisysApi\QueryBuilder\Types\Relation;
 
@@ -72,7 +69,6 @@ class JoinResolver
                 }
             }
         }
-
     }
 
     protected function manyMorphed(Relation $relation, Relation $parentRelation = null)
@@ -82,8 +78,9 @@ class JoinResolver
         if ($parentRelation) {
             $second = $parentRelation->relationId;
 
-            if(isset($this->queryBuilder->tableClasses[$parentRelation->real])) {
-                $modelClass = $this->queryBuilder->tableClasses[$parentRelation->real];
+            if(isset($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested])) {
+                $modelClass = get_class($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested]
+                    ::modelClass());
             }
         } else {
             $second = $this->queryBuilder->baseTable . '.id';
@@ -110,29 +107,6 @@ class JoinResolver
 
         $this->createJoin($relation->real, $first, $second);
     }
-
-//    protected function hasMany(Relation $relation, Relation $parentRelation = null)
-//    {
-//        if ($parentRelation) {
-//            if(str_singular($relation->real) !== str_singular($relation->requested)) {
-//                $first = $this->queryBuilder->baseTable . '.' . $relation->foreignId;
-//            } else {
-//                $first = $parentRelation->real . '.' . $relation->foreignId;
-//            }
-//
-//            $second = $relation->relationId;
-//        } else {
-//            if(str_singular($relation->real) !== str_singular($relation->requested)) {
-//                $first = $this->queryBuilder->baseTable . '.' . $relation->foreignId;
-//                $second = $relation->relationId;
-//            } else {
-//                $first = $this->queryBuilder->baseTable . '.id';
-//                $second = $relation->real . '.' . str_singular($this->queryBuilder->baseTable) . '_id';
-//            }
-//        }
-//
-//        $this->createJoin($relation->real, $first, $second);
-//    }
 
     protected function belongsTo(Relation $relation, Relation $parentRelation = null)
     {

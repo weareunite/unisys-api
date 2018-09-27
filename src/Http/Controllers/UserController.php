@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function list(QueryBuilderRequest $request)
     {
-        $object = QueryBuilder::for($this->repository, $request)->paginate();
+        $object = QueryBuilder::for($this->resource, $request)->paginate();
 
         return $this->response->collection($object);
     }

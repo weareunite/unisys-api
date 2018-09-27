@@ -247,10 +247,6 @@ abstract class Repository implements RepositoryInterface
     /**
      * @return array
      */
-    public function getResourceTableMap(): array
-    {
-        return $this->model->getResourceTableMap();
-    }
 
     public function getResourceEagerLoads(): array
     {

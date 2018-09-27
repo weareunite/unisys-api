@@ -2,6 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
+use Illuminate\Notifications\DatabaseNotification;
+
 class DatabaseNotificationResource extends Resource
 {
     /**
@@ -20,5 +22,10 @@ class DatabaseNotificationResource extends Resource
             'read_at'           => (String)$this->read_at,
             'created_at'        => (String)$this->created_at,
         ];
+    }
+
+    public static function modelClass()
+    {
+        return DatabaseNotification::class;
     }
 }

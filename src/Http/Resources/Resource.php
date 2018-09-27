@@ -4,18 +4,28 @@ namespace Unite\UnisysApi\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource as BaseResource;
 
-class Resource extends BaseResource
+abstract class Resource extends BaseResource
 {
-    protected static $virtualFields = [];
+    abstract public static function modelClass();
 
-    protected static function setVirtualFields(array $virtualFields)
+    public static function eagerLoads()
     {
-        return collect($virtualFields);
+        return collect();
+    }
+
+    public static function tableTrough()
+    {
+        return collect();
     }
 
     public static function virtualFields()
     {
-        return self::setVirtualFields([]);
+        return collect();
+    }
+
+    public static function resourceMap()
+    {
+        return collect();
     }
 }
 

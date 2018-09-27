@@ -2,6 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
+use Unite\UnisysApi\Models\User;
+
 class UserResource extends Resource
 {
     /**
@@ -21,5 +23,19 @@ class UserResource extends Resource
             'username'          => $this->username,
             'roles'             => RoleResource::collection($this->roles()->get(['id', 'name']))
         ];
+    }
+
+    public static function modelClass()
+    {
+        return User::class;
+    }
+
+    public static function resourceMap()
+    {
+        $map = [
+            'roles' => RoleResource::class
+        ];
+
+        return parent::resourceMap()->merge($map);
     }
 }

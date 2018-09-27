@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\QueryBuilder;
 
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -16,7 +17,6 @@ use Unite\UnisysApi\QueryBuilder\Types\Filter;
 use Unite\UnisysApi\QueryBuilder\Types\Join;
 use Unite\UnisysApi\QueryBuilder\Types\OrderBy;
 use Unite\UnisysApi\QueryBuilder\Types\Search;
-use Unite\UnisysApi\Repositories\Repository;
 
 class QueryBuilder
 {
@@ -53,14 +53,14 @@ class QueryBuilder
     /** @var string */
     public $modelClass;
 
+    /** @var \Unite\UnisysApi\Http\Resources\Resource */
+    public $resourceClass;
+
     /** @var JoinResolver */
     public $joinResolver;
 
     /** @var array */
     public $virtualFields;
-
-    /** @var array */
-    public $tableClasses = [];
 
     public function __construct(Builder $builder, ? Request $request = null)
     {
@@ -69,8 +69,6 @@ class QueryBuilder
         $this->initializeFromBuilder($builder);
 
         $this->request = $request ?? request();
-
-        $this->parseRequest();
     }
 
     public function getBuilder()
@@ -116,7 +114,7 @@ class QueryBuilder
 
     public function resolveColumn(string $column)
     {
-        $column = new Column($column, $this->baseTable, $this->baseModel->getResourceTableMap());
+        $column = new Column($column, $this->baseTable, $this->resourceClass::tableTrough()->toArray());
 
         if($column->needJoin) {
             $this->joinResolver->addColumn($column);
@@ -150,23 +148,94 @@ class QueryBuilder
         $this->joinResolver = new JoinResolver($this);
     }
 
-    public static function for($baseQuery, ? Request $request = null) : self
+    protected function setResourceClass(string $value)
     {
-        if (is_string($baseQuery)) {
-            /** @var \Illuminate\Database\Eloquent\Builder $baseQuery */
-            $baseQuery = ($baseQuery)::query();
-        } elseif($baseQuery instanceof Repository) {
-            $repository = $baseQuery;
-            $baseQuery = $baseQuery
-                ->getQueryBuilder()
-                ->with($repository->getResourceEagerLoads());
-        } elseif($baseQuery instanceof Model) {
-            $baseQuery = $baseQuery
-                ->newQuery()
-                ->with($baseQuery->getResourceEagerLoads());
+        $this->resourceClass = $value;
+
+        return $this;
+    }
+
+    protected function init()
+    {
+        $this->loadAllVirtualFields();
+
+    }
+
+    /**
+     * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
+     */
+    protected function loadAllVirtualFields(string $resourceClass = null)
+    {
+        if(!$resourceClass) {
+            $resourceClass = $this->resourceClass;
         }
 
-        return new static($baseQuery, $request ?? request());
+        $this->loadVirtualFields($resourceClass);
+
+        $resourceMaps = $resourceClass::resourceMap();
+
+        foreach ($resourceMaps as $resourceClass) {
+            $this->loadVirtualFields($resourceClass);
+        }
+
+        if(!$resourceMaps->isEmpty()) {
+            $this->loadAllVirtualFields($resourceClass);
+        }
+    }
+
+    /**
+     * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
+     */
+    protected function loadVirtualFields(string $resourceClass)
+    {
+        $table = $this->getTableFromResourceClass($resourceClass);
+
+        $resourceClass::virtualFields()->map(function(Closure $fn, string $column) use ($table) {
+            $this->addVirtualField($table . '.' . $column, $fn);
+        });
+    }
+
+    /**
+     * @param string $field
+     * @param Closure $closure
+     */
+    protected function addVirtualField(string $field, Closure $closure)
+    {
+        $this->virtualFields[$field] = $closure;
+        return $this;
+    }
+
+    protected function getTableFromModelClass(string $resourceClass)
+    {
+        return with(new $resourceClass)->getTable();
+    }
+
+    /**
+     * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
+     */
+    protected function getTableFromResourceClass(string $resourceClass)
+    {
+        /** @var Model $modelClass */
+        $modelClass = $resourceClass::modelClass();
+
+        return $this->getTableFromModelClass($modelClass);
+    }
+
+    /**
+     * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
+     * @param Request $request
+     */
+    public static function for(string $resourceClass, ? Request $request = null) : self
+    {
+        /** @var \Illuminate\Database\Eloquent\Builder $baseQuery */
+        $baseQuery = ($resourceClass::modelClass())::query();
+
+        $builder = new static($baseQuery, $request ?? request());
+        $builder->setResourceClass($resourceClass);
+        $builder->init();
+        $builder->parseRequest();
+
+        return $builder;
     }
 
     /**
@@ -237,22 +306,6 @@ class QueryBuilder
     protected function isVirtualField(string $field)
     {
         return isset($this->virtualFields[$field]);
-    }
-
-    public function setVirtualFields(Collection $virtualFields)
-    {
-        $this->virtualFields = $virtualFields;
-
-        return $this;
-    }
-
-    public function addTableClasses(array $tableClasses)
-    {
-        foreach ($tableClasses as $table => $class) {
-            $this->tableClasses[$table] = $class;
-        }
-
-        return $this;
     }
 
     protected function addFilterToBuilder()

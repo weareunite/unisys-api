@@ -37,7 +37,7 @@ class Export
 
     public function export()
     {
-        $object = QueryBuilder::for($this->repository, $this->request)
+        $object = QueryBuilder::for($this->resource, $this->request)
             ->get();
 
         $columns = $this->request->get('columns') ? json_decode(base64_decode($this->request->get('columns'))) : null;

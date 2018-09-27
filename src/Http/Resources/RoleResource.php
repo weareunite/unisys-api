@@ -2,6 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
+use Spatie\Permission\Models\Role;
+
 class RoleResource extends Resource
 {
     /**
@@ -17,5 +19,10 @@ class RoleResource extends Resource
             'id'                => $this->id,
             'name'              => $this->name,
         ];
+    }
+
+    public static function modelClass()
+    {
+        return Role::class;
     }
 }

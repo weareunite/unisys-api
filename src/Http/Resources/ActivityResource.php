@@ -2,6 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
+use Spatie\Activitylog\Models\Activity;
+
 class ActivityResource extends Resource
 {
     /**
@@ -22,5 +24,10 @@ class ActivityResource extends Resource
             'properties'        => $this->properties,
             'created_at'        => (string)$this->created_at,
         ];
+    }
+
+    public static function modelClass()
+    {
+        return Activity::class;
     }
 }
