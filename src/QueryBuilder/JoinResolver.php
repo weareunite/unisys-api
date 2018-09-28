@@ -56,22 +56,27 @@ class JoinResolver
                     continue;
                 }
 
+                $parentRelation = $column->relations[ $i - 1 ] ?? null;
+
                 switch ($relation->type) {
-                    case Relation::TYPE_HAS_MANY_MORPHED:
-                        $this->manyMorphed($relation,$column->relations[ $i - 1 ] ?? null);
+                    case Relation::TYPE_MORPH_TO_MANY:
+                        $this->morphToMany($relation, $parentRelation);
+                        break;
+                    case Relation::TYPE_MORPH_MANY:
+                        $this->morphMany($relation, $parentRelation);
                         break;
                     case Relation::TYPE_HAS_MANY:
-                        $this->hasMany($relation, $column->relations[ $i - 1 ] ?? null);
+                        $this->hasMany($relation, $parentRelation);
                         break;
                     case Relation::TYPE_BELONGS_TO:
-                        $this->belongsTo($relation, $column->relations[ $i - 1 ] ?? null);
+                        $this->belongsTo($relation, $parentRelation);
                         break;
                 }
             }
         }
     }
 
-    protected function manyMorphed(Relation $relation, Relation $parentRelation = null)
+    protected function morphToMany(Relation $relation, Relation $parentRelation = null)
     {
         $modelClass = $this->queryBuilder->modelClass;
 
@@ -93,6 +98,29 @@ class JoinResolver
 
         $this->createJoin($relation->real, $relation->real . '.' . $relation->manyMorphedId, $second, $filters);
         $this->createJoin($relation->requested, $relation->real . '.' . $relation->foreignId, $relation->requested . '.id');
+    }
+
+    protected function morphMany(Relation $relation, Relation $parentRelation = null)
+    {
+        $modelClass = $this->queryBuilder->modelClass;
+
+        if ($parentRelation) {
+            $second = $parentRelation->relationId;
+
+            if(isset($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested])) {
+                $modelClass = get_class($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested]
+                    ::modelClass());
+            }
+        } else {
+            $second = $this->queryBuilder->baseTable . '.id';
+        }
+
+        $filters = [
+            'column' => $relation->real . '.subject_type',
+            'value' => $modelClass,
+        ];
+
+        $this->createJoin($relation->real, $relation->real . '.subject_id', $second, $filters);
     }
 
     protected function hasMany(Relation $relation, Relation $parentRelation = null)

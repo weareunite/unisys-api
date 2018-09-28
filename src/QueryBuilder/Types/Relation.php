@@ -29,7 +29,8 @@ class Relation extends Type
 
     const TYPE_HAS_MANY = 'hasMany';
     const TYPE_BELONGS_TO = 'belongsTo';
-    const TYPE_HAS_MANY_MORPHED = 'hasManyMorphed';
+    const TYPE_MORPH_MANY = 'morphMany';
+    const TYPE_MORPH_TO_MANY = 'morphToMany';
 
     public function __construct(string $relation)
     {
@@ -60,7 +61,12 @@ class Relation extends Type
         }
 
         if(ends_with($this->real, 'ables')) {
-            $this->type = self::TYPE_HAS_MANY_MORPHED;
+            $this->type = self::TYPE_MORPH_TO_MANY;
+            return $this;
+        }
+
+        if(in_array($this->real, config('query-filter.many_morphed_tables'))) {
+            $this->type = self::TYPE_MORPH_MANY;
             return $this;
         }
 
@@ -68,5 +74,7 @@ class Relation extends Type
             $this->type = self::TYPE_HAS_MANY;
             return $this;
         }
+
+        return $this;
     }
 }
