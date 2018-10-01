@@ -6,7 +6,6 @@ use Unite\UnisysApi\Export\Export;
 use Unite\UnisysApi\Export\ExportRequest;
 
 /**
- * @property-read \Unite\UnisysApi\Repositories\Repository $repository
  * @property-read \Unite\UnisysApi\Http\Resources\Resource $resource
  */
 trait HasExport
@@ -20,7 +19,7 @@ trait HasExport
     public function export(ExportRequest $request, Export $export)
     {
         $export
-            ->setRepository($this->repository)
+            ->setResource($this->resource)
             ->setRequest($request)
             ->export();
     }

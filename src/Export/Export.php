@@ -5,25 +5,25 @@ namespace Unite\UnisysApi\Export;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Unite\UnisysApi\Http\Resources\Resource;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
-use Unite\UnisysApi\Repositories\Repository;
 
 class Export
 {
     /** @var \Illuminate\Http\Request */
     protected $request;
 
-    /** @var Repository */
-    protected $repository;
+    /** @var Resource */
+    protected $resourceClass;
 
     public function __construct(? Request $request = null)
     {
         $this->request = $request;
     }
 
-    public function setRepository(Repository $repository)
+    public function setResource(string $resourceClass)
     {
-        $this->repository = $repository;
+        $this->resourceClass = $resourceClass;
 
         return $this;
     }
@@ -37,7 +37,7 @@ class Export
 
     public function export()
     {
-        $object = QueryBuilder::for($this->resource, $this->request)
+        $object = QueryBuilder::for($this->resourceClass, $this->request)
             ->get();
 
         $columns = $this->request->get('columns') ? json_decode(base64_decode($this->request->get('columns'))) : null;
