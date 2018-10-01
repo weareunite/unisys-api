@@ -15,7 +15,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HasPrefixTrait;
 
     /** @var \Unite\UnisysApi\Http\Resources\Resource */
-    protected $resource;
+    protected $resource = null;
 
     /** @var \Unite\UnisysApi\Repositories\Repository */
     protected $repository;

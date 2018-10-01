@@ -16,7 +16,7 @@ class Response
     /** @var string */
     protected $cacheKey;
 
-    public function __construct(Repository $repository, string $resourceClass)
+    public function __construct(Repository $repository, string $resourceClass = null)
     {
         $this->repository = $repository;
         $this->resourceClass = $resourceClass;
