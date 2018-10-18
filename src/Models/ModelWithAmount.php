@@ -7,5 +7,5 @@ namespace Unite\UnisysApi\Models;
  */
 abstract class ModelWithAmount extends Model
 {
-
+    public $amount;
 }
