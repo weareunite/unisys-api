@@ -125,6 +125,8 @@ class JoinResolver
 
     protected function hasMany(Relation $relation, Relation $parentRelation = null)
     {
+        $table = $relation->real;
+
         if ($parentRelation) {
             $first = $parentRelation->relationId;
             $second = $relation->real . '.' . $parentRelation->foreignId;
@@ -133,20 +135,30 @@ class JoinResolver
             $second = $relation->real . '.' . str_singular($this->queryBuilder->baseTable) . '_id';
         }
 
-        $this->createJoin($relation->real, $first, $second);
+        $this->createJoin($table, $first, $second);
     }
 
     protected function belongsTo(Relation $relation, Relation $parentRelation = null)
     {
+        $table = $relation->real;
+
         if ($parentRelation) {
             $first = $parentRelation->real . '.' . $relation->foreignId;
+
+            if($this->isTableJoined($relation->real)) {
+                $table = $relation->real . ' as ' . $relation->real .'_'.$parentRelation->real;
+            }
         } else {
             $first = $this->queryBuilder->baseTable . '.' . $relation->foreignId;
         }
 
         $second = $relation->relationId;
 
-        $this->createJoin($relation->real, $first, $second);
+        if($this->isTableJoined($relation->real)) {
+            $second = $relation->real .'_'.$parentRelation->real.'.id';
+        }
+
+        $this->createJoin($table, $first, $second);
     }
 
     protected function createJoin(string $table, string $first, string $second, ... $conditions)
@@ -158,5 +170,12 @@ class JoinResolver
 
             $this->joins->push(new Join($table, $first, $second, $conditions));
         }
+    }
+
+    protected function isTableJoined(string $table)
+    {
+        return $this->joins->filter(function(Join $join) use($table) {
+            return $join->table === $table;
+        })->isNotEmpty();
     }
 }
