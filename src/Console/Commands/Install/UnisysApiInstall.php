@@ -50,6 +50,8 @@ class UnisysApiInstall extends Command
 
         $this->call('passport:install', ['--force']);
 
+        $this->call('unisys-api:install:contacts');
+
         $this->call('unisys:sync-permissions');
 
         $this->call('unisys:import-users');
