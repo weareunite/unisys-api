@@ -21,7 +21,7 @@ class FilterParser extends Parser
 
     protected function handle($value = null)
     {
-        $rawFilters = $value ? json_decode(base64_decode($value)) : [];
+        $rawFilters = $value ? json_decode($value) : [];
         $rawFilters = $rawFilters ?: [];
         $filters = [];
 
