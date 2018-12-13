@@ -5,7 +5,6 @@ namespace Unite\UnisysApi\Export;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Unite\UnisysApi\Http\Resources\Resource;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
 
 class Export
@@ -73,6 +72,7 @@ class Export
                         }
                     }
                 } elseif(str_contains($field->key, '.tags')) {
+                    /** @var array $tags */
                     $tags = $this->makeValue($row, $field->key);
 
                     foreach ($tags as $i => $tag) {
