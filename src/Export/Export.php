@@ -39,7 +39,7 @@ class Export
         $object = QueryBuilder::for($this->resourceClass, $this->request)
             ->get();
 
-        $columns = $this->request->get('columns') ? base64_decode(json_decode($this->request->get('columns'))) : null;
+        $columns = $this->request->get('columns') ? json_decode($this->request->get('columns')) : null;
         if(!$columns) {
             return;
         }
