@@ -29,7 +29,7 @@ use Unite\Contacts\Traits\HasContacts;
  * @method static \Illuminate\Database\Eloquent\Builder|\Unite\UnisysApi\Models\User whereUpdatedAt($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Unite\UnisysApi\Models\Role[] $roles
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @method static \Illuminate\Database\Eloquent\Builder|\Unite\UnisysApi\Models\User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|\Unite\UnisysApi\Models\User role($roles)

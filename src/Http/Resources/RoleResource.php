@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Http\Resources;
 
-use Spatie\Permission\Models\Role;
+use Unite\UnisysApi\Models\Role;
 
 class RoleResource extends Resource
 {
@@ -14,7 +14,7 @@ class RoleResource extends Resource
      */
     public function toArray($request)
     {
-        /** @var \Spatie\Permission\Models\Role $this->resource */
+        /** @var \Unite\UnisysApi\Models\Role $this->resource */
         return [
             'id'                => $this->id,
             'name'              => $this->name,

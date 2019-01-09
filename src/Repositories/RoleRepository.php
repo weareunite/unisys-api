@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Repositories;
 
-use Spatie\Permission\Models\Role;
+use Unite\UnisysApi\Models\Role;
 
 class RoleRepository extends Repository
 {
