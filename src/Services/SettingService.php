@@ -54,7 +54,9 @@ class SettingService extends AbstractService
         if($profile = $setting->contacts()->first()) {
             $profile->update($data);
         } else {
-            $setting->contacts()->create($data);
+            $profile = $setting->contacts()->create($data);
         }
+
+        return $profile;
     }
 }

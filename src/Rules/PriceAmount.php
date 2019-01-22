@@ -15,7 +15,7 @@ class PriceAmount implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ( preg_match('/^\d{1,10}(\.\d{2})??$/', $value) );
+        return ( preg_match('/^\d{1,10}(\.\d{1,2})??$/', $value) );
     }
 
     /**
