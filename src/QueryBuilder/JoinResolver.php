@@ -84,8 +84,8 @@ class JoinResolver
             $second = $parentRelation->relationId;
 
             if(isset($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested])) {
-                $modelClass = get_class($this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested]
-                    ::modelClass());
+                $modelClass = $this->queryBuilder->resourceClass::resourceMap()[$parentRelation->requested]
+                    ::modelClass();
             }
         } else {
             $second = $this->queryBuilder->baseTable . '.id';
