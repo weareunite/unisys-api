@@ -5,7 +5,7 @@ namespace Unite\UnisysApi\Services;
 use Closure;
 use Illuminate\Cache\Repository as Cache;
 
-class CacheService extends AbstractService
+class CacheService extends Service
 {
     protected $page;
     protected $cache;

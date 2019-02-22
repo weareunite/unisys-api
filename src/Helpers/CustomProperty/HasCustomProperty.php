@@ -33,4 +33,11 @@ interface HasCustomProperty
      * @return $this
      */
     public function forgetCustomProperty(string $name);
+
+    /**
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setCustomPropertiesAttribute($value = null);
 }

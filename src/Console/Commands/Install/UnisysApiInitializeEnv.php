@@ -107,14 +107,20 @@ class UnisysApiInitializeEnv extends Command
      */
     private function setApplicationName()
     {
-        if(env('APP_NAME') == 'Laravel') {
+        $appName = $this->ask('What is your project name?', 'Unisys API');
+
+        if(!empty($appName)) {
             $this->strReplaceInFile(base_path('.env'),
                 'APP_NAME=Laravel',
-                'APP_NAME="Unisys API"');
+                'APP_NAME='.$appName);
 
             $this->strReplaceInFile(base_path('.env.example'),
                 'APP_NAME=Laravel',
-                'APP_NAME="Unisys API"');
+                'APP_NAME='.$appName);
+
+            $this->strReplaceInFile(base_path('.env.testing'),
+                'APP_NAME=Laravel',
+                'APP_NAME='.$appName);
         }
     }
 

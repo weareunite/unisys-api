@@ -6,10 +6,11 @@ use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Unite\UnisysApi\Contracts\Repository as RepositoryContract;
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Services\CacheService;
 
-abstract class Repository implements RepositoryInterface
+abstract class Repository implements RepositoryContract
 {
     /**
      * @var Model;

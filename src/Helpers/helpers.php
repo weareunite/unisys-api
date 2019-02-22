@@ -55,3 +55,12 @@ if(! function_exists('short_locale_file_path'))
         return str_replace($app_path, '', $full_path);
     }
 }
+
+if(! function_exists('companyProfile'))
+{
+    function companyProfile()
+    {
+        return app('companyProfile');
+    }
+}
+

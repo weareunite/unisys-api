@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Services;
 
-class VersionService extends AbstractService
+class VersionService extends Service
 {
     public static function getLastCommitDate()
     {
