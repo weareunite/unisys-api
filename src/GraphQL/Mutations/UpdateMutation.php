@@ -16,7 +16,6 @@ abstract class UpdateMutation extends Mutation
     {
         return [
             'id' => [
-                'name' => 'id',
                 'type' => Type::nonNull(Type::int()),
                 'rules' => [
                     'required',

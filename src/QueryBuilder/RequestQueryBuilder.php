@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Unite\UnisysApi\Models\Model;
-use Unite\UnisysApi\QueryBuilder\Parsers\FilterParser;
+use Unite\UnisysApi\QueryBuilder\Parsers\ConditionsParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\LimitParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\OrderParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\PageParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\SearchParser;
 use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\Filter;
+use Unite\UnisysApi\QueryBuilder\Types\Condition;
 use Unite\UnisysApi\QueryBuilder\Types\Join;
 use Unite\UnisysApi\QueryBuilder\Types\OrderBy;
 use Unite\UnisysApi\QueryBuilder\Types\Search;
 
-class QueryBuilder
+class RequestQueryBuilder
 {
     /** @var \Illuminate\Database\Eloquent\Builder */
     protected $builder;
@@ -38,7 +38,7 @@ class QueryBuilder
     /** @var Search|null */
     protected $search;
 
-    /** @var Collection|Filter[] */
+    /** @var Collection|Condition[] */
     protected $filters;
 
     /** @var Collection|Join[] */
@@ -102,7 +102,7 @@ class QueryBuilder
         $this->orderBy = (new OrderParser($this))->parse($requestData['order']);
         $this->page = (new PageParser($this))->parse($requestData['page']);
         $this->search = (new SearchParser($this))->parse($requestData['search']);
-        $this->filters = (new FilterParser($this))->parse($requestData['filter']);
+        $this->filters = (new ConditionsParser($this))->parse($requestData['conditions']);
     }
 
     public function computeColumn(string $column)
@@ -188,10 +188,10 @@ class QueryBuilder
      * @param \Unite\UnisysApi\Http\Resources\Resource $resourceClass
      * @param Request $request
      */
-    public static function for(string $resourceClass, ? Request $request = null) : self
+    public static function for(string $modelClass, ? Request $request = null) : self
     {
         /** @var \Illuminate\Database\Eloquent\Builder $baseQuery */
-        $baseQuery = ($resourceClass::modelClass())::query();
+        $baseQuery = ($modelClass)::query();
         $baseQuery->with($resourceClass::getEagerLoads());
 
         $builder = new static($baseQuery, $request ?? request());
@@ -234,7 +234,7 @@ class QueryBuilder
 
         $this->addSearchToBuilder();
 
-        $this->addFilterToBuilder();
+        $this->addConditionToBuilder();
 
         $this->addOrderByToBuilder();
 
@@ -272,17 +272,17 @@ class QueryBuilder
         return isset($this->virtualFields[$field]);
     }
 
-    protected function addFilterToBuilder()
+    protected function addConditionToBuilder()
     {
         foreach ($this->filters as $filter) {
             $this->builder->where(function ($query) use ($filter) {
                 /** @var $query Builder */
-                $this->addFilterDataToBuilder($query, $filter);
+                $this->addConditionDataToBuilder($query, $filter);
             });
         }
     }
 
-    protected function addFilterDataToBuilder(Builder $query, Filter $filter)
+    protected function addConditionDataToBuilder(Builder $query, Filter $filter)
     {
         if($filter->operator === 'and') {
             $this->builder->groupBy($this->baseTable . '.id');

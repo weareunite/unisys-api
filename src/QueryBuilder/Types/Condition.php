@@ -4,33 +4,33 @@ namespace Unite\UnisysApi\QueryBuilder\Types;
 
 use Illuminate\Support\Collection;
 
-class Filter extends Type
+class Condition extends Type
 {
-    /** @var Column */
+    /** @var string */
     public $column;
 
     /** @var string */
     public $operator;
 
     /** @var Collection|DataItem[]|DataItem */
-    public $data;
+    public $values;
 
-    public function __construct(Column $column, string $operator, $data)
+    public function __construct(string $column, string $operator, $values)
     {
         $this->column = $column;
         $this->operator = $operator;
-        $this->data = $data;
+        $this->values = $values;
     }
 
     public function getDataValues(): array
     {
-        if($this->data instanceof DataItem) {
-            return [$this->data->value];
+        if($this->values instanceof DataItem) {
+            return [$this->values->value];
         }
 
         $values = [];
 
-        foreach ($this->data as $dataItem) {
+        foreach ($this->values as $dataItem) {
             $values[] = $dataItem->value;
         }
 

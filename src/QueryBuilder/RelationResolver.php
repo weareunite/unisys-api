@@ -9,14 +9,6 @@ namespace Unite\UnisysApi\QueryBuilder;
 class RelationResolver
 {
     /**
-     * @return array
-     */
-    public static function getGlobalRelationsMap(): array
-    {
-        return config('query-filter.global_relation_map');
-    }
-
-    /**
      * @param string $relation
      * @param bool $convertToReal
      * @return string
@@ -34,6 +26,11 @@ class RelationResolver
         }
 
         return $relation;
+    }
+
+    public static function getRelations(string $dotColumn, string $baseTable)
+    {
+
     }
 
     /**
@@ -133,9 +130,11 @@ class RelationResolver
      * @param array $localMap
      * @return string
      */
-    public static function onlyRelations(string $dotRelation, array $localMap = []): string
+    public static function onlyRelations(string $dotRelation, string $baseTable): string
     {
-        $dotRelation = self::mapRelation($dotRelation, $localMap);
+        if(!self::hasRelation($dotRelation)) {
+            $dotRelation = $baseTable . '.' . $dotRelation;
+        }
 
         $parts = explode('.', $dotRelation);
 
@@ -187,9 +186,9 @@ class RelationResolver
 
         $table = last($parts);
 
-        if(!RelationResolver::hasManyMorphed($table)) {
-            $table = self::relationToTable($table);
-        }
+//        if(!RelationResolver::hasManyMorphed($table)) {
+//            $table = self::relationToTable($table);
+//        }
 
         return $table . '.' . $column;
     }

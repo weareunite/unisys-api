@@ -6,9 +6,9 @@ use Illuminate\Support\Arr;
 use stdClass;
 use Unite\UnisysApi\QueryBuilder\Types\Column;
 use Unite\UnisysApi\QueryBuilder\Types\DataItem;
-use Unite\UnisysApi\QueryBuilder\Types\Filter;
+use Unite\UnisysApi\QueryBuilder\Types\Condition;
 
-class FilterParser extends Parser
+class ConditionsParser extends Parser
 {
     /** @var Column */
     protected $column;
@@ -17,32 +17,38 @@ class FilterParser extends Parser
     protected $operator;
 
     /** @var \Illuminate\Support\Collection|DataItem[] */
-    protected $data;
+    protected $values;
 
     protected function handle($value = null)
     {
-        $rawFilters = $value ? json_decode($value) : [];
-        $rawFilters = $rawFilters ?: [];
-        $filters = [];
+        if(!is_array($value)) {
+            $value = json_decode($value);
+        }
 
-        foreach ($rawFilters as $column => $filter) {
-            $this->column = $this->queryBuilder->resolveColumn($column);
+        $conditions = [];
+
+        foreach ($value as $condition) {
+            if(!is_object($condition)) {
+                $condition = (object) $condition;
+            }
+
+            $this->column = $condition->field;
 
             $this->reset();
 
-            $filters[] = $this->createFilter($filter);
+            $conditions[] = $this->createCondition($condition);
         }
 
-        return collect($filters);
+        return collect($conditions);
     }
 
     protected function reset()
     {
         $this->operator = 'or';
-        $this->data = collect();
+        $this->values = collect();
     }
 
-    protected function createFilter($value)
+    protected function createCondition($value)
     {
         switch (gettype($value)) {
             case 'object':
@@ -58,19 +64,19 @@ class FilterParser extends Parser
                 break;
         }
 
-        return new Filter($this->column, $this->operator, $this->data);
+        return new Condition($this->column, $this->operator, $this->values);
     }
 
     protected function parseObject(stdClass $value)
     {
-        if (in_array($value->operator, [ 'and', 'or', 'between' ])) {
+        if (isset($value->operator) && in_array($value->operator, [ 'and', 'or', 'between' ])) {
             $this->operator = $value->operator;
         }
 
-        if (Arr::accessible($value->data)) {
-            $this->parseArray($value->data);
+        if (Arr::accessible($value->values)) {
+            $this->parseArray($value->values);
         } else {
-            $this->parseString($value->data);
+            $this->parseString($value->values);
         }
     }
 
@@ -83,10 +89,10 @@ class FilterParser extends Parser
 
     protected function parseString(string $value)
     {
-        $this->data->push($this->parseFilterValue($value));
+        $this->values->push($this->parseConditionValue($value));
     }
 
-    protected static function parseFilterValue(string $value)
+    protected static function parseConditionValue(string $value)
     : DataItem
     {
         $operator = '=';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Export;
+namespace Unite\UnisysApi\Modules\Export;
 
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
