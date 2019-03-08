@@ -53,6 +53,7 @@ class SettingService extends AbstractService
 
         if($profile = $setting->contacts()->first()) {
             $profile->update($data);
+            Cache::forget('companyProfile');
         } else {
             $profile = $setting->contacts()->create($data);
         }
