@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Query;
 use Unite\UnisysApi\Modules\Users\User;
 
@@ -20,6 +20,9 @@ class RolesQuery extends Query
     public function args()
     {
         return [
+            'paging' => [
+                'type' => GraphQL::type('PaginationInput')
+            ],
             'filter' => [
                 'type' => GraphQL::type('QueryFilterInput')
             ]

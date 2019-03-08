@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\GraphQL;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class QueryFilterInput extends GraphQLType
@@ -24,20 +24,10 @@ class QueryFilterInput extends GraphQLType
                 'type'        => Type::int(),
                 'rules'       => [ 'numeric' ],
             ],
-            'limit'      => [
-                'description' => 'Number of results. `default: ' . config('query-filter.default_limit') . '`, `max:' . config('query-filter.max_limit') . '`',
-                'type'        => Type::int(),
-                'rules'       => [ 'integer', 'min:1', 'max:' . config('query-filter.max_limit') ],
-            ],
             'order'      => [
                 'description' => 'Column for order by. `default:-' . config('query-filter.default_order_column') . '`',
                 'type'        => Type::string(),
                 'rules'       => [ 'string' ],
-            ],
-            'page'       => [
-                'description' => 'Number of page',
-                'type'        => Type::int(),
-                'rules'       => [ 'integer', 'min:1' ],
             ],
             'search'     => [
                 'description' => 'Search phrase. eg. `search+string` or `%search+string`',

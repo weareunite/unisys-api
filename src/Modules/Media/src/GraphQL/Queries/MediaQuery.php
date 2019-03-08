@@ -2,12 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Queries;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Unite\UnisysApi\Modules\Contacts\GraphQL\CountryType;
-use Unite\UnisysApi\Modules\Contacts\Models\Contact;
 
 abstract class MediaQuery extends Query
 {

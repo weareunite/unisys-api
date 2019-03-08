@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Providers;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 
 trait LoadGraphQL
 {

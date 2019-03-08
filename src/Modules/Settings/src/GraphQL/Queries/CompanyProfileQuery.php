@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Settings\GraphQL\Queries;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Query;
 
 class CompanyProfileQuery extends Query

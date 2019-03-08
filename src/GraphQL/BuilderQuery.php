@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\GraphQL;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Query;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
 use Rebing\GraphQL\Support\SelectFields;
@@ -29,9 +29,12 @@ abstract class BuilderQuery extends Query
     public function args()
     {
         return [
+            'paging' => [
+                'type' => GraphQL::type('PaginationInput')
+            ],
             'filter' => [
                 'type' => GraphQL::type('QueryFilterInput')
-            ]
+            ],
         ];
     }
 
@@ -40,8 +43,8 @@ abstract class BuilderQuery extends Query
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
-        $limit = $this->handleLimit($args['filter']['limit'] ?? null);
-        $page = $this->handlePage($args['filter']['page'] ?? null);
+        $limit = PaginationInput::handleLimit($args);
+        $page = PaginationInput::handlePage($args);
 
 //        $typeFields = app($this->typeClass())->fields();
 //
@@ -54,29 +57,13 @@ abstract class BuilderQuery extends Query
         $query = $this->modelClassOfType()::with($with)
             ->select($select);
 
-        if(isset($args['filter'])) {
-            $query = $query->filter($args['filter'], app($this->typeClass()));
-        }
+//        if(isset($args['filter'])) {
+//            $query = $query->filter($args['filter'], app($this->typeClass()));
+//        }
 
         return $query->paginate($limit, $select, config('query-filter.page_name'), $page);
 
 //        return QueryBuilder::for(Contact::class, $args)
 //            ->paginate();
-    }
-
-    protected function handleLimit($value = null)
-    {
-        $limit = $value ?: config('query-filter.default_limit');
-
-        if ($limit > config('query-filter.max_limit')) {
-            $limit = config('query-filter.max_limit');
-        }
-
-        return $limit;
-    }
-
-    protected function handlePage($value = null)
-    {
-        return $value ?: 1;
     }
 }

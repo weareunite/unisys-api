@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;
 

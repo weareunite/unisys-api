@@ -28,6 +28,11 @@ class Contact extends Model implements HasCustomProperty
         'custom_properties' => 'array',
     ];
 
+    protected static $logAttributes = [
+        'type', 'name', 'surname', 'company', 'street', 'zip', 'city', 'country_id', 'reg_no', 'tax_no', 'vat_no',
+        'web', 'email', 'telephone', 'description',
+    ];
+
     public function subject(): MorphTo
     {
         return $this->morphTo();

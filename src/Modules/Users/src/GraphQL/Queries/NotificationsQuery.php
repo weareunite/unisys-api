@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Queries;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Unite\UnisysApi\GraphQL\User\UserType;

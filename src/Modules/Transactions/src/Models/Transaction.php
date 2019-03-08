@@ -23,6 +23,10 @@ class Transaction extends Model
         'type', 'transaction_source_id', 'destination_iban', 'amount', 'variable_symbol', 'specific_symbol', 'description', 'posted_at',
     ];
 
+    protected static $logAttributes = [
+        'type', 'transaction_source_id', 'destination_iban', 'amount', 'variable_symbol', 'specific_symbol', 'description', 'posted_at',
+    ];
+
     protected $dispatchesEvents = [
         'creating'  => TransactionCreating::class,
         'updating'  => TransactionUpdating::class,

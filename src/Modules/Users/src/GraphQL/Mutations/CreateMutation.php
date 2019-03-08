@@ -6,7 +6,7 @@ use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Users\UserRepository;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 
 class CreateMutation extends BaseCreateMutation
 {

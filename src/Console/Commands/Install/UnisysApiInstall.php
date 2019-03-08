@@ -47,7 +47,7 @@ class UnisysApiInstall extends Command
         $this->call('migrate');
 
         $this->call('passport:install', ['--force']);
-        $this->call('passport:keys', ['--force']);
+        $this->call('passport:keys');
 
         $this->call('unisys-api:install:contacts');
         $this->call('unisys-api:install:media');
@@ -114,6 +114,11 @@ class UnisysApiInstall extends Command
         //Rebing graphql-laravel
         $this->call('vendor:publish', [
             '--provider' => "Rebing\\GraphQL\\GraphQLServiceProvider",
+        ]);
+
+        //Mll-lab laravel-graphql-playground
+        $this->call('vendor:publish', [
+            '--provider' => "MLL\\GraphQLPlayground\\GraphQLPlaygroundServiceProvider",
         ]);
 
         //Unite unisys-api

@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\GraphQL;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\SelectFields;
@@ -52,7 +52,10 @@ abstract class DetailQuery extends Query
 
         $args = $this->beforeResolve($root, $args, $select, $with);
 
-        $object = $this->modelClassOfType()::find($args['id'])->with($with)->select($select);
+        $object = $this->modelClassOfType()::with($with)
+            ->select($select)
+            ->where('id', '=', $args['id'])
+            ->first();
 
         $this->afterResolve($root, $args, $select, $with, $object);
 

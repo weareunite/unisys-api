@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Tags\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Tags\TagRepository;
 

@@ -13,6 +13,7 @@
  *     'App\GraphQL\Type\UserType'
  */
 return [
+    \Unite\UnisysApi\GraphQL\PaginationInput::class,
     \Unite\UnisysApi\GraphQL\QueryFilterInput::class,
     \Unite\UnisysApi\GraphQL\SearchInput::class,
     \Unite\UnisysApi\GraphQL\ConditionsInput::class,

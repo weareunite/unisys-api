@@ -2,9 +2,9 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Unite\UnisysApi\Modules\Users\User;
+use Unite\UnisysApi\Modules\Permissions\Permission;
 
 class ListQuery extends Query
 {
@@ -14,12 +14,15 @@ class ListQuery extends Query
 
     public function type()
     {
-        return GraphQL::pagination(GraphQL::type(RoleType::class));
+        return GraphQL::pagination(GraphQL::type('Role'));
     }
 
     public function args()
     {
         return [
+            'paging' => [
+                'type' => GraphQL::type('PaginationInput')
+            ],
             'filter' => [
                 'type' => GraphQL::type('QueryFilterInput')
             ]
