@@ -4,7 +4,7 @@
 php artisan down && git reset --hard HEAD && git pull origin $1;
 
 php artisan clear-compiled;
-composer update --optimize-autoloader;
+composer install --optimize-autoloader;
 
 php artisan cache:forget spatie.permission.cache;
 
