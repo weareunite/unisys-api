@@ -1,8 +1,65 @@
-image: phpunit/phpunit:5.0.3
+image: php:7.1.1
 
 pipelines:
+  default:
+      - step:
+          caches:
+            - composer
+          script:
+            - composer --version
+            - apt-get update && apt-get install -y unzip
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            - composer install
+            - vendor/bin/phpunit --version
+            - php artisan key:generate
+            - vendor/bin/phpunit
   branches:
     production:
+      - step:
+          name: Sentry Release
+          image: getsentry/sentry-cli
+          script:
+            - sentry-cli releases -o "${SENTRY_ORG}" new -p "${SENTRY_PROJECT}" "${BITBUCKET_BUILD_NUMBER}"
+            - sentry-cli releases -o "${SENTRY_ORG}" set-commits --auto "${BITBUCKET_BUILD_NUMBER}"
+      - step:
+          name: PHP Build
+          #image: php:7.1.12
+          image:
+            name: snaver/docker-deploy
+          caches:
+            - composer
+          script:
+            - php -r "copy('.env.pipelines', '.env');"
+            - composer install --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
+          services:
+            - mysql
+            - redis
+          artifacts:
+            - vendor/**
+      - step:
+                name: PHP Test
+                #image: php:7.1.12
+                image:
+                  name: snaver/docker-deploy
+                services:
+                  #- mysql
+                script:
+                  - php -r "copy('.env.pipelines', '.env');"
+                  - php artisan migrate --seed
+                  - ./vendor/bin/phpunit
+      - step:
+                name: Deploy (Production)
+                deployment: production
+                image:
+                  name: snaver/docker-deploy
+                script:
+                  - envoy run deploy --host=$DEPLOY_HOST --user=$DEPLOY_USER --path=$DEPLOY_PATH --build=$BITBUCKET_BUILD_NUMBER --commit=$BITBUCKET_COMMIT --branch=$BITBUCKET_BRANCH --php=php --dir=$BITBUCKET_CLONE_DIR
+      - step:
+          name: Sentry Finalize Release & Deploy
+          image: getsentry/sentry-cli
+          script:
+            - sentry-cli releases -o "${SENTRY_ORG}" finalize "${BITBUCKET_BUILD_NUMBER}"
+            - sentry-cli releases -o "${SENTRY_ORG}" deploys "${BITBUCKET_BUILD_NUMBER}" new -e "production"
       - step:
           name: Deployment to production
           deployment: production
@@ -14,3 +71,22 @@ pipelines:
           deployment: staging
           script:
             - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh staging"
+    develop:
+      - step:
+          name: Deployment to develop
+          deployment: develop
+          script:
+            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh develop"
+
+ definitions:
+   services:
+     mysql:
+       image: mysql:5.7
+#       image: mysql
+       environment:
+         MYSQL_DATABASE: 'test'
+         MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+         MYSQL_USER: 'test'
+         MYSQL_PASSWORD: 'secret'
+     redis:
+       image: redis
