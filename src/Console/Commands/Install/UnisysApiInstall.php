@@ -151,6 +151,16 @@ class UnisysApiInstall extends Command
             "'driver' => 'token'",
             "'driver' => 'passport'");
 
+        //change Permission model in config/permission.php
+        $this->strReplaceInFile(config_path('permission.php'),
+            "Spatie\\Permission\\Models\\Permission::class",
+            "Unite\\UnisysApi\\Models\\Permission::class");
+
+        //change Role model in config/permission.php
+        $this->strReplaceInFile(config_path('permission.php'),
+            "Spatie\\Permission\\Models\\Role::class",
+            "Unite\\UnisysApi\\Models\\Role::class");
+
         // Remove User from App/User
         $files->delete(app_path('User.php'));
 

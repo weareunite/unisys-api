@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\Console;
 
 use Illuminate\Console\Command;
 use Unite\UnisysApi\Repositories\InstalledModuleRepository;
+use Illuminate\Filesystem\Filesystem;
 
 abstract class InstallModuleCommand extends Command implements InstallModuleCommandInterface
 {
@@ -13,13 +14,17 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
 
     protected $installedModuleRepository;
 
-    public function __construct(InstalledModuleRepository $installedModuleRepository)
+    protected $fileSystem;
+
+    public function __construct(InstalledModuleRepository $installedModuleRepository, Filesystem $files)
     {
         $this->installedModuleRepository = $installedModuleRepository;
 
         $this->signature = 'unisys-api:install:' . $this->moduleName;
 
         $this->description = 'Install [' . $this->moduleName . '] module to Unisys API';
+
+        $this->fileSystem = $files;
 
         parent::__construct();
     }
