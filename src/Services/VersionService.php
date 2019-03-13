@@ -20,18 +20,19 @@ class VersionService extends AbstractService
     public static function getLastTag()
     {
         $versionFile = base_path('version.txt');
+
         return file_exists($versionFile) ? file_get_contents($versionFile) : exec('git describe --tags');
     }
 
     public function getPackageVersions(string $package)
     {
-        $process = new Process(['composer', 'show', '--latest', $package]);
+        $process = new Process([ 'composer', 'show', '--latest', $package ]);
         $process->run();
 
-        if($process->isSuccessful()){
+        if ($process->isSuccessful()) {
             preg_match_all('/(versions|latest)\s+:\s+(.*)/', $process->getOutput(), $versions);
 
-            $current = str_replace(['*', ' '], '', $versions[2][0]);
+            $current = str_replace([ '*', ' ' ], '', $versions[2][0]);
             $latest = $versions[2][1];
 
             $isLatest = ($current === $latest);
@@ -42,9 +43,15 @@ class VersionService extends AbstractService
         }
     }
 
-    public function updatePackage(string $package)
+    public function updatePackage(string $package, string $version = null)
     {
-        $process = new Process(['composer', 'update', '-n', $package]);
+        if ($version) {
+            $cmd = [ 'composer', 'require', $package . ':' . $version ];
+        } else {
+            $cmd = [ 'composer', 'update', '-n', $package ];
+        }
+
+        $process = new Process($cmd);
         $process->setTimeout(3600);
 //        $process->setIdleTimeout(3600);
         $process->run();
@@ -52,9 +59,10 @@ class VersionService extends AbstractService
         return $process->getOutput();
     }
 
-    public function getCurrentInstalledVersion(string $package): string
+    public function getCurrentInstalledVersion(string $package)
+    : string
     {
-        $process = new Process(['composer', 'show', '--format=json']);
+        $process = new Process([ 'composer', 'show', '--format=json' ]);
         $process->run();
 
         $package = collect(json_decode($process->getOutput())->installed)->where('name', '=', $package)->first();
