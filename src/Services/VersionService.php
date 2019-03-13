@@ -42,15 +42,9 @@ class VersionService extends AbstractService
         }
     }
 
-    public function updatePackage(string $package, string $version = null)
+    public function updatePackage(string $package)
     {
-        if($version) {
-            $packageForUpdate =  $package . ':' . $version;
-        } else {
-            $packageForUpdate =  $package;
-        }
-
-        $process = new Process(['composer', 'update', '-n', $packageForUpdate]);
+        $process = new Process(['composer', 'update', '-n', $package]);
         $process->setTimeout(3600);
 //        $process->setIdleTimeout(3600);
         $process->run();
