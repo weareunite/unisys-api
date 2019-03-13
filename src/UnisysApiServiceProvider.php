@@ -8,6 +8,7 @@ use Unite\UnisysApi\Commands\SetCompanyProfile;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInstall;
 use Illuminate\Support\ServiceProvider;
+use Unite\UnisysApi\Console\Commands\Update;
 use Unite\UnisysApi\Console\Commands\Users\ImportUsers;
 use Unite\UnisysApi\Providers\AuthServiceProvider;
 use Unite\UnisysApi\Providers\RouteServiceProvider;
@@ -40,6 +41,7 @@ class UnisysApiServiceProvider extends ServiceProvider
             ImportUsers::class,
             PermissionsSync::class,
             SetCompanyProfile::class,
+            Update::class,
         ]);
 
         if ($this->app->runningInConsole()) {
