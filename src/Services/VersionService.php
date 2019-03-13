@@ -35,9 +35,10 @@ class VersionService extends AbstractService
             $current = str_replace([ '*', ' ' ], '', $versions[2][0]);
             $latest = $versions[2][1];
 
-            $isLatest = ($current === $latest);
+            $version_compare = version_compare($current, $latest);
+            $isLatest = $version_compare === 0;
 
-            return compact('current', 'latest', 'isLatest');
+            return compact('current', 'latest', 'isLatest', 'version_compare');
         } else {
             throw new ProcessFailedException($process);
         }
