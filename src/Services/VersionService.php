@@ -45,6 +45,10 @@ class VersionService extends AbstractService
 
     public function updatePackage(string $package, string $version = null)
     {
+        $process = new Process(['rm', '-rf', $package]);
+        $process->setWorkingDirectory(base_path('vendor'));
+        $process->run();
+
         if ($version) {
             $cmd = [ 'composer', 'require', $package . ':' . $version ];
         } else {
