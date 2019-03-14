@@ -50,7 +50,7 @@ class Update extends Command
 
         $this->line($updateStatus);
 
-        $this->info('Package "' . $package . '" was updated ' . $current['current'] . ' -> ' . $afterUpdateVersion);
+        $this->info('Package "' . $package . '" was updated to version ' . $afterUpdateVersion);
 
         if ($afterUpdateVersion !== $current['latest']) {
             $this->error('Package is still out of date');
