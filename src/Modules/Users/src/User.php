@@ -38,6 +38,13 @@ class User extends AuthModel
         'password', 'remember_token',
     ];
 
+    public function frontend_permissions()
+    {
+        $permissions = $this->permissions()->where('guard_name', '=', 'frontend');
+
+        return $permissions;
+    }
+
     //  =================================================================================================
     //
     //  Setters

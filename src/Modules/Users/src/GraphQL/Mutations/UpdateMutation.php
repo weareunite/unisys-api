@@ -44,7 +44,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'type'  => Type::string(),
                 'rules' => 'required_with:password|string|min:6|max:30',
             ],
-            'role_ids'              => [
+            'roles_ids'             => [
                 'type'  => Type::listOf(Type::int()),
                 'rules' => 'array',
             ],
@@ -69,6 +69,6 @@ class UpdateMutation extends BaseUpdateMutation
 
     protected function afterUpdate(Model $model, $root, $args)
     {
-        $model->roles()->sync($args['roles_id'] ?? []);
+        $model->roles()->sync($args['roles_ids'] ?? []);
     }
 }

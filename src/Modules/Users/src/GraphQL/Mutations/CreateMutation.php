@@ -52,7 +52,7 @@ class CreateMutation extends BaseCreateMutation
                 'type'  => Type::string(),
                 'rules' => 'required|string|min:6|max:30',
             ],
-            'roles_id'              => [
+            'roles_ids'             => [
                 'type'  => Type::listOf(Type::int()),
                 'rules' => 'array',
             ],
@@ -61,8 +61,8 @@ class CreateMutation extends BaseCreateMutation
 
     protected function afterCreate(Model $model, $root, $args)
     {
-        if(isset($args['roles_id'])) {
-            $model->roles()->sync($args['roles_id'] ?: []);
+        if (isset($args['roles_ids'])) {
+            $model->roles()->sync($args['roles_ids'] ?: []);
         }
     }
 }

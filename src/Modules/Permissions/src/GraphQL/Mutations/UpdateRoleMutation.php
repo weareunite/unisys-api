@@ -26,21 +26,21 @@ class UpdateRoleMutation extends Mutation
     public function args()
     {
         return [
-            'id'       => [
-                'type' => Type::string(),
+            'id'              => [
+                'type'  => Type::string(),
                 'rules' => [
                     'required',
                     'numeric',
                     'exists:roles,id',
                 ],
             ],
-            'name'           => [
+            'name'            => [
                 'type'  => Type::string(),
                 'rules' => [
                     'string',
                 ],
             ],
-            'permission_ids' => [
+            'permissions_ids' => [
                 'type'  => Type::string(),
                 'rules' => [
                     'integer',
@@ -56,7 +56,7 @@ class UpdateRoleMutation extends Mutation
 
         $model->update($args);
 
-        $model->permissions()->sync($args['permission_ids']);
+        $model->permissions()->sync($args['permissions_ids']);
 
         return true;
     }

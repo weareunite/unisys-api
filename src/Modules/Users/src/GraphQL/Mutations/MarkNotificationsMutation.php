@@ -27,32 +27,32 @@ class MarkNotificationsMutation extends BaseUpdateMutation
     public function args()
     {
         return array_merge(parent::args(), [
-            'name'     => [
-                'type' => Type::string(),
+            'name'                  => [
+                'type'  => Type::string(),
                 'rules' => 'string|min:3|max:100',
             ],
-            'surname'  => [
-                'type' => Type::string(),
+            'surname'               => [
+                'type'  => Type::string(),
                 'rules' => 'string|max:100',
             ],
-            'email'    => [
-                'type' => Type::string(),
-                'rules' => 'email|unique:users,email,'.$this->id,
+            'email'                 => [
+                'type'  => Type::string(),
+                'rules' => 'email|unique:users,email,' . $this->id,
             ],
-            'username' => [
-                'type' => Type::string(),
-                'rules' => 'regex:/^\S*$/u|min:4|max:20|unique:users,username,'.$this->id,
+            'username'              => [
+                'type'  => Type::string(),
+                'rules' => 'regex:/^\S*$/u|min:4|max:20|unique:users,username,' . $this->id,
             ],
-            'password' => [
-                'type' => Type::string(),
+            'password'              => [
+                'type'  => Type::string(),
                 'rules' => 'string|confirmed|min:6|max:30',
             ],
             'password_confirmation' => [
-                'type' => Type::string(),
+                'type'  => Type::string(),
                 'rules' => 'required_with:password|string|min:6|max:30',
             ],
-            'role_ids' => [
-                'type' => Type::listOf(Type::int()),
+            'roles_ids'             => [
+                'type'  => Type::listOf(Type::int()),
                 'rules' => 'required|array',
             ],
         ]);
@@ -67,7 +67,7 @@ class MarkNotificationsMutation extends BaseUpdateMutation
 
     public function markAsRead($uid)
     {
-        if(!$object = $this->model->find($uid)) {
+        if (!$object = $this->model->find($uid)) {
             abort(404);
         }
 
@@ -88,14 +88,14 @@ class MarkNotificationsMutation extends BaseUpdateMutation
      */
     public function markAsUnread($uid)
     {
-        if(!$object = $this->model->find($uid)) {
+        if (!$object = $this->model->find($uid)) {
             abort(404);
         }
 
         $this->authorize('update', $object);
 
         if (!is_null($object->read_at)) {
-            $object->forceFill(['read_at' => null])->save();
+            $object->forceFill([ 'read_at' => null ])->save();
         }
 
         \Cache::tags('response')->flush();
