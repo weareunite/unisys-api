@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Contacts\ContactsServiceProvider;
+use Unite\UnisysApi\Modules\Help\HelpServiceProvider;
 use Unite\UnisysApi\Modules\Media\MediaServiceProvider;
 use Unite\UnisysApi\Modules\Permissions\PermissionsServiceProvider;
 use Unite\UnisysApi\Modules\Settings\SettingsServiceProvider;
@@ -21,6 +22,7 @@ class ModulesServiceProvider extends ServiceProvider
         TagsServiceProvider::class,
         TransactionsServiceProvider::class,
         UserServiceProvider::class,
+        HelpServiceProvider::class,
     ];
 
     /**

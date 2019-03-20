@@ -16,7 +16,7 @@ abstract class DetailQuery extends Query
         return app($this->typeClass())->name;
     }
 
-    private function modelClassOfType()
+    protected function modelClassOfType()
     {
         return app($this->typeClass())->model;
     }
