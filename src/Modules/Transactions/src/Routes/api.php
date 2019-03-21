@@ -17,8 +17,8 @@ Route::group([
     'as' => 'api.'
 ], function ()
 {
-    Route::group(['as' => 'transaction.', 'prefix' => 'transaction'], function ()
-    {
-        Route::get('export',                        ['as' => 'export',                  'uses' => 'TransactionController@export']);
-    });
+//    Route::group(['as' => 'transaction.', 'prefix' => 'transaction'], function ()
+//    {
+//        Route::get('export',                        ['as' => 'export',                  'uses' => 'TransactionController@export']);
+//    });
 });
