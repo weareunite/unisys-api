@@ -38,11 +38,9 @@ class User extends AuthModel
         'password', 'remember_token',
     ];
 
-    public function frontend_permissions()
+    public function getFrontendPermissions()
     {
-        $permissions = $this->permissions()->where('guard_name', '=', 'frontend');
-
-        return $permissions;
+        return $this->getAllPermissions()->where('guard_name', '=', 'frontend');
     }
 
     //  =================================================================================================

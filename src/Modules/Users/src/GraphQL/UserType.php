@@ -45,8 +45,15 @@ class UserType extends GraphQLType
             'frontend_permissions' => [
                 'type'        => Type::listOf(GraphQL::type('Permission')),
                 'description' => 'The all permissions',
+                'selectable'  => false,
             ],
         ];
+    }
+
+    protected function resolveFrontendPermissionsField($root, $args)
+    {
+        /** @var User $root */
+        return $root->getFrontendPermissions();
     }
 }
 
