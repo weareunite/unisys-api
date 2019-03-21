@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\Modules\Help\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Help\HelpRepository;
 
 class UpdateMutation extends BaseUpdateMutation
@@ -41,13 +40,8 @@ class UpdateMutation extends BaseUpdateMutation
         return [
             'key' => [
                 'string',
-                'unique:help,key,' . $args['key'],
+                'unique:help,key,' . $args['id'],
             ],
         ];
-    }
-
-    protected function afterUpdate(Model $model, $root, $args)
-    {
-        $model->roles()->sync($args['roles_ids'] ?? []);
     }
 }

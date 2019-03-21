@@ -36,7 +36,7 @@ class DetailQuery extends BaseDetailQuery
         $args = $this->beforeResolve($root, $args, $select, $with);
 
         $column = 'id';
-        $value = $args['id'];
+        $value = $args['id'] ?? null;
 
         if(isset($args['key'])) {
             $column = 'key';
