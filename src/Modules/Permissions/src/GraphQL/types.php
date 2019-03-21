@@ -13,6 +13,7 @@
  *     'App\GraphQL\Type\UserType'
  */
 return [
-    \Unite\UnisysApi\GraphQL\Permissions\RoleType::class,
-    \Unite\UnisysApi\GraphQL\Permissions\PermissionType::class,
+    \Unite\UnisysApi\Modules\Permissions\GraphQL\RoleType::class,
+    \Unite\UnisysApi\Modules\Permissions\GraphQL\PermissionType::class,
+    \Unite\UnisysApi\Modules\Permissions\GraphQL\PermissionSelectType::class,
 ];

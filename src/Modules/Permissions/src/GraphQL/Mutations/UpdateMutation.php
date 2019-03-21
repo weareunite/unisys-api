@@ -6,48 +6,35 @@ use GraphQL\Type\Definition\Type;
 use Spatie\Permission\Contracts\Role;
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Modules\Permissions\RoleRepository;
+use Unite\UnisysApi\Modules\Permissions\PermissionRepository;
 
-class UpdateRoleMutation extends BaseUpdateMutation
+class UpdateMutation extends BaseUpdateMutation
 {
     protected $attributes = [
-        'name' => 'updateRole',
+        'name' => 'updatePermission',
     ];
 
     public function repositoryClass()
     : string
     {
-        return RoleRepository::class;
+        return PermissionRepository::class;
     }
 
     public function args()
     {
         return array_merge(parent::args(), [
-            'name'            => [
+            'name'       => [
                 'type'  => Type::string(),
                 'rules' => [
                     'string',
                 ],
             ],
-            'guard_name'      => [
+            'guard_name' => [
                 'type'  => Type::string(),
                 'rules' => [
                     'string',
-                ],
-            ],
-            'permissions_ids' => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'integer',
-                    'exists:permissions,id',
                 ],
             ],
         ]);
-    }
-
-    protected function afterUpdate(Model $model, $root, $args)
-    {
-        /** @var Role $model */
-        $model->permissions()->sync($args['permissions_ids'] ?? []);
     }
 }

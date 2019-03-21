@@ -6,11 +6,11 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Permissions\Permission;
 
-class PermissionType extends GraphQLType
+class PermissionSelectType extends GraphQLType
 {
     protected $attributes = [
-        'name'        => 'Permission',
-        'description' => 'A Permission',
+        'name'        => 'PermissionSelect',
+        'description' => 'A Permission with Selected¬',
         'model'       => Permission::class,
     ];
 
@@ -28,6 +28,10 @@ class PermissionType extends GraphQLType
             'guard_name' => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The guard_name of permission',
+            ],
+            'selected'   => [
+                'type'        => Type::nonNull(Type::boolean()),
+                'description' => 'If permission is selected',
             ],
         ];
     }

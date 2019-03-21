@@ -20,11 +20,11 @@ class SynchronizeMutation extends Mutation
     public function args()
     {
         return [
-            'name'           => [
+            'names'  => [
                 'type'  => Type::string(),
                 'rules' => [
                     'required',
-                    'string'
+                    'string',
                 ],
             ],
             'secret' => [
