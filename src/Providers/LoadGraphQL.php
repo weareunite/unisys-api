@@ -17,11 +17,10 @@ trait LoadGraphQL
 
         foreach ($schemas as $type => $schema) {
             if(isset($allSchemas[$type])) {
-                $allSchemas[$type]['query'] = array_merge($allSchemas[$type]['query'], $schema['query']);
-                $allSchemas[$type]['mutation'] = array_merge($allSchemas[$type]['mutation'], $schema['mutation']);
+                $allSchemas[$type]['query'] = array_unique(array_merge($allSchemas[$type]['query'], $schema['query']));
+                $allSchemas[$type]['mutation'] = array_unique(array_merge($allSchemas[$type]['mutation'], $schema['mutation']));
 
                 GraphQL::addSchema($type, $allSchemas[$type]);
-
             }
         }
     }
