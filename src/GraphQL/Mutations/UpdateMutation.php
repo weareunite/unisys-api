@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class UpdateMutation extends Mutation
 {

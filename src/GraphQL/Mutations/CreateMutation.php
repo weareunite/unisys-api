@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\GraphQL\Mutations;
 
-use Unite\UnisysApi\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class CreateMutation extends Mutation
 {

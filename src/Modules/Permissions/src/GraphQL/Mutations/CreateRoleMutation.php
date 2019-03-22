@@ -5,7 +5,7 @@ namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 use GraphQL\Type\Definition\Type;
 use Spatie\Permission\Contracts\Role;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
-use Unite\UnisysApi\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\Permissions\RoleRepository;
 use GraphQL;
 
