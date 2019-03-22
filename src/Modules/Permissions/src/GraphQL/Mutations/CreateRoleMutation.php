@@ -42,10 +42,9 @@ class CreateRoleMutation extends BaseCreateMutation
                 ],
             ],
             'permissions_ids' => [
-                'type'  => Type::string(),
+                'type'  => Type::listOf(Type::int()),
                 'rules' => [
-                    'integer',
-                    'exists:permissions,id',
+                    'array'
                 ],
             ],
         ];

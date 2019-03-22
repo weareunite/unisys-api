@@ -36,10 +36,9 @@ class UpdateRoleMutation extends BaseUpdateMutation
                 ],
             ],
             'permissions_ids' => [
-                'type'  => Type::string(),
+                'type'  => Type::listOf(Type::int()),
                 'rules' => [
-                    'integer',
-                    'exists:permissions,id',
+                    'array'
                 ],
             ],
         ]);

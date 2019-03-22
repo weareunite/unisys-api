@@ -30,14 +30,18 @@ class RoleType extends GraphQLType
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The guard_name of role',
             ],
+            'permissions' => [
+                'type'        => Type::listOf(GraphQL::type('Permission')),
+                'description' => 'The attached permissions',
+            ],
             'frontend_permissions' => [
                 'type'        => Type::listOf(GraphQL::type('PermissionSelect')),
-                'description' => 'The all permissions',
+                'description' => 'The all existing frontend_permissions with selected',
                 'selectable'  => false,
             ],
             'api_permissions'      => [
                 'type'        => Type::listOf(GraphQL::type('PermissionSelect')),
-                'description' => 'The all permissions',
+                'description' => 'The all existing api_permissions with selected',
                 'selectable'  => false,
             ],
         ];
