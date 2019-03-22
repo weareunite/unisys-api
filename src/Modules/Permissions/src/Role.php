@@ -6,6 +6,10 @@ use Spatie\Permission\Models\Role as BaseRole;
 
 class Role extends BaseRole
 {
+    protected $fillable = [
+        'name', 'guard_name',
+    ];
+
     public function getAllPermissionsWithSelected()
     {
         $allPermissions = Permission::all([
