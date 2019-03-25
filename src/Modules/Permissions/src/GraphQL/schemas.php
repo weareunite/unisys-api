@@ -39,6 +39,10 @@ return [
             \Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations\DeleteRoleMutation::class,
 
             \Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations\SynchronizeMutation::class,
+
+            \Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations\MassDeleteRolesMutation::class,
+            \Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations\MassDeletePermissionsMutation::class,
+
         ],
     ],
 ];

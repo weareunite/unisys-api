@@ -31,6 +31,7 @@ return [
             \Unite\UnisysApi\Modules\Help\GraphQL\Mutations\CreateMutation::class,
             \Unite\UnisysApi\Modules\Help\GraphQL\Mutations\UpdateMutation::class,
             \Unite\UnisysApi\Modules\Help\GraphQL\Mutations\DeleteMutation::class,
+            \Unite\UnisysApi\Modules\Help\GraphQL\Mutations\MassDeleteMutation::class,
         ],
     ],
 ];
