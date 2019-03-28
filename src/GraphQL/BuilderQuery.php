@@ -62,8 +62,5 @@ abstract class BuilderQuery extends Query
 //        }
 
         return $query->paginate($limit, $select, config('query-filter.page_name'), $page);
-
-//        return QueryBuilder::for(Contact::class, $args)
-//            ->paginate();
     }
 }
