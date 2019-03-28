@@ -62,6 +62,8 @@ class UnisysApiInstall extends Command
 
         $this->call('unisys:set-company-profile');
 
+        $this->call('deploy:init');
+
 //        $this->comment('Admin password is: ' . $this->password);
 
         $this->info('UniSys API skeleton was installed.');
@@ -174,7 +176,8 @@ class UnisysApiInstall extends Command
         $files->delete(base_path('package.json'));
 
         $files->copy(base_path('vendor/weareunite/unisys-api/bitbucket-pipelines.yml'), base_path('bitbucket-pipelines.yml'));
-        $files->copy(base_path('vendor/weareunite/unisys-api/.push-to'), base_path('.push-to'));
-        $files->copy(base_path('vendor/weareunite/unisys-api/deploy.sh'), base_path('deploy.sh'));
+        $files->copy(base_path('vendor/weareunite/unisys-api/deploy-manifest.json'), base_path('deploy-manifest.json'));
+        $files->copy(base_path('vendor/weareunite/unisys-api/.env.testing'), base_path('.env.testing'));
+        $files->copy(base_path('vendor/weareunite/unisys-api/Envoy.blade.php'), base_path('Envoy.blade.php'));
     }
 }
