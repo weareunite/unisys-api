@@ -1,4 +1,4 @@
-@servers(['web' => $user.'@'.$host,'localhost' => '127.0.0.1'])
+@servers(['web' => $user.'@'.$host, 'localhost' => '127.0.0.1'])
 
 @setup
     // Sanity checks
@@ -22,8 +22,8 @@
         exit("ERROR: cannot access $path");
     }
 
-    // Ensure given $path is a potential web directory (/home/* or /var/www/*)
-    if (!(preg_match("/(\/home\/|\/var\/www\/)/i", $path) === 1)) {
+    // Ensure given $path is a potential web directory (/home/* or /var/www/*, /web/*)
+    if (!(preg_match("/(\/home\/|\/var\/www\/|\/web\/)/i", $path) === 1)) {
         exit('ERROR: $path provided doesn\'t look like a web directory path?');
     }
 
@@ -46,6 +46,10 @@
     optimise
     migrate
     cleanup
+@endstory
+
+@story('manifest')
+    manifest_file
 @endstory
 
 @task('debug', ['on' => 'localhost'])

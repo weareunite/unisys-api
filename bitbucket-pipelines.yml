@@ -1,92 +1,100 @@
-image: php:7.1.1
+image: php:7.1.23
 
-pipelines:
-  default:
-      - step:
+definitions:
+  services:
+      mysql:
+          image: mysql:5.7
+    #      image: mysql
+          environment:
+              MYSQL_DATABASE: 'homestead'
+              MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+              MYSQL_USER: 'homestead'
+              MYSQL_PASSWORD: 'secret'
+      redis:
+          image: redis
+  steps:
+      - step: &prepare-building
+          name: Prepare Building
           caches:
-            - composer
+              - composer
           script:
-            - composer --version
-            - apt-get update && apt-get install -y unzip
-            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-            - composer install
-            - vendor/bin/phpunit --version
-            - php artisan key:generate
-            - vendor/bin/phpunit
-  branches:
-    production:
-      - step:
-          name: Sentry Release
-          image: getsentry/sentry-cli
-          script:
-            - sentry-cli releases -o "${SENTRY_ORG}" new -p "${SENTRY_PROJECT}" "${BITBUCKET_BUILD_NUMBER}"
-            - sentry-cli releases -o "${SENTRY_ORG}" set-commits --auto "${BITBUCKET_BUILD_NUMBER}"
-      - step:
+              - apt-get update && apt-get install -qy git curl unzip libmcrypt-dev mysql-client
+              - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - step: &php-build
           name: PHP Build
           #image: php:7.1.12
           image:
-            name: snaver/docker-deploy
+              name: snaver/docker-deploy
           caches:
-            - composer
+              - composer
+          size: 2x
           script:
-            - php -r "copy('.env.pipelines', '.env');"
-            - composer install --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
-          services:
-            - mysql
-            - redis
+              - composer install --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-reqs
+              - php -r "copy('.env.testing', '.env');"
+      #            - ln -f -s .env.pipelines .env
+              - php artisan key:generate
+              - vendor/bin/phpunit --version
           artifacts:
-            - vendor/**
-      - step:
-                name: PHP Test
-                #image: php:7.1.12
-                image:
-                  name: snaver/docker-deploy
-                services:
-                  #- mysql
-                script:
-                  - php -r "copy('.env.pipelines', '.env');"
-                  - php artisan migrate --seed
-                  - ./vendor/bin/phpunit
-      - step:
-                name: Deploy (Production)
-                deployment: production
-                image:
-                  name: snaver/docker-deploy
-                script:
-                  - envoy run deploy --host=$DEPLOY_HOST --user=$DEPLOY_USER --path=$DEPLOY_PATH --build=$BITBUCKET_BUILD_NUMBER --commit=$BITBUCKET_COMMIT --branch=$BITBUCKET_BRANCH --php=php --dir=$BITBUCKET_CLONE_DIR
-      - step:
-          name: Sentry Finalize Release & Deploy
-          image: getsentry/sentry-cli
+              - vendor/**
+              - .env
+      - step: &php-test-app
+          name: PHP Test App
+          #image: php:7.1.12
+          image:
+              name: snaver/docker-deploy
           script:
-            - sentry-cli releases -o "${SENTRY_ORG}" finalize "${BITBUCKET_BUILD_NUMBER}"
-            - sentry-cli releases -o "${SENTRY_ORG}" deploys "${BITBUCKET_BUILD_NUMBER}" new -e "production"
-      - step:
-          name: Deployment to production
-          deployment: production
-          script:
-            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh production"
-    staging:
-      - step:
-          name: Deployment to staging
-          deployment: staging
-          script:
-            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh staging"
-    develop:
-      - step:
-          name: Deployment to develop
-          deployment: develop
-          script:
-            - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh develop"
+              - docker-php-ext-install pdo_mysql
+              - php artisan migrate --seed
+              - vendor/bin/phpunit
+          services:
+              - mysql
+              - redis
 
- definitions:
-   services:
-     mysql:
-       image: mysql:5.7
-#       image: mysql
-       environment:
-         MYSQL_DATABASE: 'test'
-         MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-         MYSQL_USER: 'test'
-         MYSQL_PASSWORD: 'secret'
-     redis:
-       image: redis
+pipelines:
+  default:
+      - step: *prepare-building
+      - step: *php-build
+      - step: *php-test-app
+  branches:
+      production:
+          - step:
+              name: Sentry Release
+              image: getsentry/sentry-cli
+              script:
+                  - sentry-cli releases -o "${SENTRY_ORG}" new -p "${SENTRY_PROJECT}" "${BITBUCKET_BUILD_NUMBER}"
+                  - sentry-cli releases -o "${SENTRY_ORG}" set-commits --auto "${BITBUCKET_BUILD_NUMBER}"
+          - step:
+              name: Deploy (Production)
+              deployment: production
+              trigger: manual
+              image:
+                name: snaver/docker-deploy
+              script:
+                  - php artisan deploy $BITBUCKET_BRANCH
+          - step:
+              name: Sentry Finalize Release & Deploy
+              image: getsentry/sentry-cli
+              script:
+                  - sentry-cli releases -o "${SENTRY_ORG}" finalize "${BITBUCKET_BUILD_NUMBER}"
+                  - sentry-cli releases -o "${SENTRY_ORG}" deploys "${BITBUCKET_BUILD_NUMBER}" new -e "production"
+                  - envoy run manifest --build=$BITBUCKET_BUILD_NUMBER --commit=$BITBUCKET_COMMIT --branch=$BITBUCKET_BRANCH --php=php --dir=$BITBUCKET_CLONE_DIR
+#          - step:
+#              name: Deployment to production
+#              deployment: production
+#              script:
+#                  - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh production"
+      staging:
+          - step:
+              name: Deploy to staging
+              deployment: staging
+              image:
+                  name: snaver/docker-deploy
+              script:
+                  - php artisan deploy $BITBUCKET_BRANCH
+      test:
+          - step:
+              name: Deploy to test
+              deployment: test
+              script:
+                  - php artisan deploy $BITBUCKET_BRANCH
+#                  - ssh $SSH_LOGIN "cd $APP_DIR && bash deploy.sh develop"

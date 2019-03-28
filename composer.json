@@ -37,6 +37,7 @@
     "mll-lab/laravel-graphql-playground": "^1.0",
     "mpociot/laravel-apidoc-generator": "^2.0",
     "phpoffice/phpspreadsheet": "^1.4",
+    "lorisleiva/laravel-deployer": "^0.2.8",
     "predis/predis": "^1.1",
     "rebing/graphql-laravel": "^1.19",
     "sentry/sentry-laravel": "^0.11.0",
