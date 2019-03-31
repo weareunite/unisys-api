@@ -44,6 +44,12 @@ class UpdateMutation extends BaseUpdateMutation
                 'type'  => Type::string(),
                 'rules' => 'required_with:password|string|min:6|max:30',
             ],
+            'active'                => [
+                'type'  => Type::boolean(),
+                'rules' => [
+                    'boolean',
+                ],
+            ],
             'roles_ids'             => [
                 'type'  => Type::listOf(Type::int()),
                 'rules' => 'array',

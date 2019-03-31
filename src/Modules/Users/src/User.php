@@ -26,7 +26,7 @@ class User extends AuthModel
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'username', 'password'
+        'name', 'surname', 'email', 'username', 'password', 'active'
     ];
 
     /**
@@ -36,6 +36,10 @@ class User extends AuthModel
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'active' => 'boolean'
     ];
 
     public function getFrontendPermissions()
@@ -73,5 +77,10 @@ class User extends AuthModel
     public function findForPassport($username)
     {
         return $this->where('username', $username)->first();
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 }

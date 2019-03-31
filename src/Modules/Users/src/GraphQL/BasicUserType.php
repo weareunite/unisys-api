@@ -18,25 +18,29 @@ class BasicUserType extends GraphQLType
     public function fields()
     {
         return [
-            'id'                   => [
+            'id'       => [
                 'type'        => Type::nonNull(Type::int()),
                 'description' => 'The id of the user',
             ],
-            'name'                 => [
+            'name'     => [
                 'type'        => Type::string(),
                 'description' => 'The name of user',
             ],
-            'surname'              => [
+            'surname'  => [
                 'type'        => Type::string(),
                 'description' => 'The surname of user',
             ],
-            'email'                => [
+            'email'    => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The email of user',
             ],
-            'username'             => [
+            'username' => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The username of user',
+            ],
+            'active'   => [
+                'type'        => Type::nonNull(Type::boolean()),
+                'description' => 'If user is active or not',
             ],
         ];
     }

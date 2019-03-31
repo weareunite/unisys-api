@@ -38,6 +38,10 @@ class UserType extends GraphQLType
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The username of user',
             ],
+            'active'               => [
+                'type'        => Type::nonNull(Type::boolean()),
+                'description' => 'If user is active or not',
+            ],
             'roles'                => [
                 'type'        => Type::listOf(GraphQL::type('Role')),
                 'description' => 'The roles assigned to user',
