@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Unite\UnisysApi\Modules\ActivityLogs\ActivityLogServiceProvider;
 use Unite\UnisysApi\Modules\Contacts\ContactsServiceProvider;
 use Unite\UnisysApi\Modules\Help\HelpServiceProvider;
 use Unite\UnisysApi\Modules\Media\MediaServiceProvider;
@@ -23,6 +24,7 @@ class ModulesServiceProvider extends ServiceProvider
         TransactionsServiceProvider::class,
         UserServiceProvider::class,
         HelpServiceProvider::class,
+        ActivityLogServiceProvider::class,
     ];
 
     /**
