@@ -11,12 +11,12 @@ abstract class BuilderQuery extends Query
 {
     abstract protected function typeClass(): string;
 
-    private function nameOfType()
+    protected function nameOfType()
     {
         return app($this->typeClass())->name;
     }
 
-    private function modelClassOfType()
+    protected function modelClassOfType()
     {
         return app($this->typeClass())->model;
     }
