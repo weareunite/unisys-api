@@ -14,7 +14,6 @@ use Unite\UnisysApi\QueryBuilder\Types\Condition;
 use Unite\UnisysApi\QueryBuilder\Types\Join;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
-
 class QueryFilter
 {
     /** @var \Illuminate\Database\Eloquent\Builder */
@@ -146,7 +145,7 @@ class QueryFilter
 
     public function buildQuery()
     {
-        dd($this->getGraphQLTypeFields());
+//        dd($this->getGraphQLTypeFields());
 //        $this->joins = $this->resolveJoins();
 
         $this->addOrderByToBuilder();
@@ -155,11 +154,11 @@ class QueryFilter
 
         $this->addConditionToBuilder();
 
-        $this->addJoinsToBuilder();
+//        $this->addJoinsToBuilder();
 
-        $this->builder->select($this->baseSelect());
+//        $this->builder->select($this->baseSelect());
 
-        $this->builder->distinct();
+//        $this->builder->distinct();
 
         return $this->builder;
     }
@@ -201,20 +200,20 @@ class QueryFilter
 
     protected function addConditionDataToBuilder(Builder $query, Condition $condition)
     {
-        if($condition->operator === 'and') {
-            $this->builder->groupBy($this->baseTable . '.id');
-            $this->builder->havingRaw('COUNT(*) = ?', [$condition->data->count()]);
-        }
+//        if($condition->operator === 'and') {
+//            $this->builder->groupBy($this->baseTable . '.id');
+//            $this->builder->havingRaw('COUNT(*) = ?', [$condition->data->count()]);
+//        }
 
         foreach ($condition->data as $dataItem) {
             if ($condition->operator === 'or' || $condition->operator === 'and') {
-                if($this->isVirtualField($condition->column->fullColumn)) {
-                    $this->executeVirtualField($query, $condition->column->fullColumn, $dataItem->value);
-                } else {
-                    $query->orWhere($condition->column->fullColumn, $dataItem->operator, $dataItem->value);
-                }
+//                if($this->isVirtualField($condition->column->fullColumn)) {
+//                    $this->executeVirtualField($query, $condition->column->fullColumn, $dataItem->value);
+//                } else {
+                $query->orWhere($condition->column, $dataItem->operator, $dataItem->value);
+//                }
             } elseif ($condition->operator === 'between') {
-                $query->whereBetween($condition->column->fullColumn, $condition->getDataValues());
+                $query->whereBetween($condition->column, $condition->getDataValues());
             }
         }
 
@@ -224,24 +223,25 @@ class QueryFilter
     protected function addOrderByToBuilder()
     {
         $rawColumn = $this->filter->getOrderBy()->column;
-        $realColumn = $this->getRealColumn($rawColumn);
+        $realColumn = $rawColumn;
+//        $realColumn = $this->getRealColumn($rawColumn);
         $direction = $this->filter->getOrderBy()->direction;
-        $singleColumn = $this->getSingleColumn($rawColumn);
+//        $singleColumn = $this->getSingleColumn($rawColumn);
 
-        if($this->getGraphQLTypeFields()[$singleColumn]['type'] instanceof ListOfType) {
-            $model = app($this->getGraphQLTypeFields()[$singleColumn]['type']->ofType->config['model']);
-            $table = $model->getTable();
-        }
-
-        if($this->getGraphQLTypeFields()[$singleColumn]['type'] instanceof ObjectType) {
-            $model = app($this->getGraphQLTypeFields()[$singleColumn]['type']->config['model']);
-            $table = $model->getTable();
-        }
-
-        if(isset($this->getGraphQLTypeFields()[$singleColumn]['selectable']) && $this->getGraphQLTypeFields()[$singleColumn]['selectable'] === false) {
-//            ListOfType
-//            ObjectType
-        }
+//        if($this->getGraphQLTypeFields()[$singleColumn]['type'] instanceof ListOfType) {
+//            $model = app($this->getGraphQLTypeFields()[$singleColumn]['type']->ofType->config['model']);
+//            $table = $model->getTable();
+//        }
+//
+//        if($this->getGraphQLTypeFields()[$singleColumn]['type'] instanceof ObjectType) {
+//            $model = app($this->getGraphQLTypeFields()[$singleColumn]['type']->config['model']);
+//            $table = $model->getTable();
+//        }
+//
+//        if(isset($this->getGraphQLTypeFields()[$singleColumn]['selectable']) && $this->getGraphQLTypeFields()[$singleColumn]['selectable'] === false) {
+////            ListOfType
+////            ObjectType
+//        }
 
 //        if($this->isVirtualField($this->filter->getOrderBy()->column->fullColumn)) {
 //            $this->executeVirtualField($this->builder, $this->filter->getOrderBy()->column->fullColumn, $direction);

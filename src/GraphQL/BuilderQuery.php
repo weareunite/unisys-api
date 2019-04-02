@@ -38,6 +38,11 @@ abstract class BuilderQuery extends Query
         ];
     }
 
+    public function customScope(&$query, $args)
+    {
+        return $query;
+    }
+
     public function resolve($root, $args, SelectFields $fields)
     {
         $select = $fields->getSelect();
@@ -54,12 +59,15 @@ abstract class BuilderQuery extends Query
 //            }
 //        }
 
+        /** @var \Eloquent $query */
         $query = $this->modelClassOfType()::with($with)
             ->select($select);
 
-//        if(isset($args['filter'])) {
-//            $query = $query->filter($args['filter'], app($this->typeClass()));
-//        }
+        if(isset($args['filter'])) {
+            $query = $query->filter($args['filter'], app($this->typeClass()));
+        }
+
+        $this->customScope($query, $args);
 
         return $query->paginate($limit, $select, config('query-filter.page_name'), $page);
     }

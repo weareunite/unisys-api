@@ -7,6 +7,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Unite\UnisysApi\Modules\Contacts\Models\HasContacts;
+use Unite\UnisysApi\QueryBuilder\HasQueryFilter;
 
 class User extends AuthModel
 {
@@ -15,6 +16,7 @@ class User extends AuthModel
     use Notifiable;
     use CausesActivity;
     use HasContacts;
+    use HasQueryFilter;
 
     const ADMIN_ROLE_NAME   = 'admin';
 
