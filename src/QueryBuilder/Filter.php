@@ -24,6 +24,7 @@ class Filter
     public function __construct(ConditionsParser $conditionsParser)
     {
         $this->conditionsParser = $conditionsParser;
+        $this->conditions = collect();
     }
 
     public function setOrderBy($orderBy = null)
@@ -40,7 +41,10 @@ class Filter
 
     public function setConditions($conditions = null)
     {
-        $this->conditions = $this->conditionsParser->parse($conditions);
+        if($conditions) {
+            $this->conditions = $this->conditionsParser->parse($conditions);
+        }
+
         return $this;
     }
 

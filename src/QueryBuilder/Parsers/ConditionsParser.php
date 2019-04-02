@@ -19,7 +19,7 @@ class ConditionsParser extends Parser
     /** @var \Illuminate\Support\Collection|DataItem[] */
     protected $values;
 
-    protected function handle($value = null)
+    protected function handle($value)
     {
         if(!is_array($value)) {
             $value = json_decode($value);

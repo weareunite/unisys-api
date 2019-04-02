@@ -4,10 +4,10 @@ namespace Unite\UnisysApi\QueryBuilder\Parsers;
 
 abstract class Parser
 {
-    public function parse($value = null)
+    public function parse($value)
     {
         return $this->handle($value);
     }
 
-    abstract protected function handle($value = null);
+    abstract protected function handle($value);
 }
