@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\GraphQL;
 
 use GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Unite\UnisysApi\QueryBuilder\QueryBuilder;
 use Rebing\GraphQL\Support\SelectFields;
 
 abstract class BuilderQuery extends Query
