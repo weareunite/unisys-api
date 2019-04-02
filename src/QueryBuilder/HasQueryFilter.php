@@ -10,11 +10,11 @@ trait HasQueryFilter
     {
         $filter = QueryFilter::createFilter($filterData);
 
-        $query = new QueryFilter($query);
-        $query->setFilter($filter);
-        $query->setGraphQLType($graphQLType);
-        $query->buildQuery();
+        $qf = new QueryFilter($query);
+        $qf->setFilter($filter);
+        $qf->setGraphQLType($graphQLType);
+        $qf->buildQuery();
 
-        return $query;
+        return $qf->getBuilder();
     }
 }

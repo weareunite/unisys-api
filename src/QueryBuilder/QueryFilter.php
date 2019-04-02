@@ -190,7 +190,7 @@ class QueryFilter
 
     protected function addConditionToBuilder()
     {
-        foreach ($this->conditions as $condition) {
+        foreach ($this->filter->getConditions() as $condition) {
             $this->builder->where(function ($query) use ($condition) {
                 /** @var $query Builder */
                 $this->addConditionDataToBuilder($query, $condition);
