@@ -205,7 +205,7 @@ class QueryFilter
 //            $this->builder->havingRaw('COUNT(*) = ?', [$condition->data->count()]);
 //        }
 
-        foreach ($condition->data as $dataItem) {
+        foreach ($condition->values as $dataItem) {
             if ($condition->operator === 'or' || $condition->operator === 'and') {
 //                if($this->isVirtualField($condition->column->fullColumn)) {
 //                    $this->executeVirtualField($query, $condition->column->fullColumn, $dataItem->value);
