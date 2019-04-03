@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Modules\Users\Console\Commands;
 
 use Unite\UnisysApi\Console\InstallModuleCommand;
-use Illuminate\Support\Facades\File;
 
 class Install extends InstallModuleCommand
 {
@@ -26,11 +25,5 @@ class Install extends InstallModuleCommand
         $this->call('notifications:table');
 
         $this->call('migrate');
-    }
-
-    private function strReplaceInFile($fileName, $find, $replaceWith)
-    {
-        $content = File::get($fileName);
-        return File::put($fileName, str_replace($find, $replaceWith, $content));
     }
 }

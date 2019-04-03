@@ -5,6 +5,7 @@ namespace Unite\UnisysApi\Console;
 use Illuminate\Console\Command;
 use Unite\UnisysApi\Repositories\InstalledModuleRepository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 
 abstract class InstallModuleCommand extends Command implements InstallModuleCommandInterface
 {
@@ -64,5 +65,11 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
         $this->installedModuleRepository->create([
             'name' => $this->moduleName
         ]);
+    }
+
+    protected function strReplaceInFile($fileName, $find, $replaceWith)
+    {
+        $content = File::get($fileName);
+        return File::put($fileName, str_replace($find, $replaceWith, $content));
     }
 }

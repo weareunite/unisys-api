@@ -84,16 +84,6 @@ class UnisysApiInstall extends Command
             '--provider' => "Spatie\\Backup\\BackupServiceProvider",
         ]);
 
-        //Spatie Log activity
-        $this->call('vendor:publish', [
-            '--provider' => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
-            '--tag' => 'migrations'
-        ]);
-        $this->call('vendor:publish', [
-            '--provider' => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
-            '--tag' => 'config'
-        ]);
-
         //Spatie model-status
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\\ModelStatus\\ModelStatusServiceProvider',

@@ -4,14 +4,14 @@ namespace Unite\UnisysApi\Modules\ActivityLogs\GraphQL;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
-use Spatie\Activitylog\Models\Activity;
+use Unite\UnisysApi\Modules\ActivityLogs\ActivityLog;
 
 class ActivityLogType extends GraphQLType
 {
     protected $attributes = [
         'name'        => 'ActivityLog',
         'description' => 'A ActivityLog',
-        'model'       => Activity::class,
+        'model'       => ActivityLog::class,
     ];
 
     public function fields()
