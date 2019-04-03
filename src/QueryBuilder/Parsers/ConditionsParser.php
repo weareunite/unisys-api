@@ -98,6 +98,12 @@ class ConditionsParser extends Parser
         $operator = '=';
         $firstChar = mb_substr($value, 0, 1, "utf-8");
 
+        if($value === 'true') {
+            $value = true;
+        } elseif($value === 'false') {
+            $value = false;
+        }
+
         if (in_array($firstChar, ['<', '>', '=', '%'])) {
             $value = substr($value, 1);
 
