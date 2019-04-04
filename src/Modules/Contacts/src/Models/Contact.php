@@ -7,13 +7,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Unite\UnisysApi\Helpers\CustomProperty\HasCustomProperty;
 use Unite\UnisysApi\Helpers\CustomProperty\HasCustomPropertyTrait;
 use Unite\UnisysApi\Models\Model;
-use Unite\UnisysApi\QueryBuilder\HasQueryFilter;
 
 class Contact extends Model implements HasCustomProperty
 {
     use LogsActivity;
     use HasCustomPropertyTrait;
-    use HasQueryFilter;
 
     protected $table = 'contacts';
 
