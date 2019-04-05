@@ -29,7 +29,7 @@ abstract class DeleteMutation extends Mutation
 
     protected function beforeDelete(Model $model, $root, $args)
     {
-
+        return $model;
     }
 
     protected function afterDelete(Model $model, $root, $args)
