@@ -33,6 +33,10 @@ class QueryFilterInput extends GraphQLType
                 'description' => 'Search phrase. eg. `search+string` or `%search+string`',
                 'type'        => GraphQL::type('SearchInput'),
             ],
+            'distinct'   => [
+                'description' => 'Get distinct values',
+                'type'        => Type::boolean(),
+            ],
             'conditions' => [
                 'description' => 'Conditions phrase',
                 'type'        => Type::listOf(Type::nonNull(GraphQL::type('ConditionsInput'))),

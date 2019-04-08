@@ -18,6 +18,9 @@ class Filter
     /** @var  \Illuminate\Support\Collection|Condition[] */
     protected $conditions;
 
+    /** @var boolean  */
+    protected $distinct = false;
+
     /** @var ConditionsParser  */
     protected $conditionsParser;
 
@@ -48,6 +51,12 @@ class Filter
         return $this;
     }
 
+    public function setDistinct(bool $distinct = false)
+    {
+        $this->distinct = $distinct;
+        return $this;
+    }
+
     /**
      * @return OrderBy
      */
@@ -70,5 +79,13 @@ class Filter
     public function getConditions(): \Illuminate\Support\Collection
     {
         return $this->conditions;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDistinct(): bool
+    {
+        return $this->distinct;
     }
 }

@@ -56,7 +56,8 @@ class QueryFilter
         return app(Filter::class)
             ->setOrderBy($filterData['order'] ?? null)
             ->setSearch($filterData['search'] ?? null)
-            ->setConditions($filterData['conditions'] ?? null);
+            ->setConditions($filterData['conditions'] ?? null)
+            ->setDistinct($filterData['distinct'] ?? false);
     }
 
     public function setBuilder(Builder $builder)
@@ -154,6 +155,8 @@ class QueryFilter
 
         $this->addConditionToBuilder();
 
+        $this->addDistinctToBuilder();
+
 //        $this->addJoinsToBuilder();
 
 //        $this->builder->select($this->baseSelect());
@@ -176,6 +179,13 @@ class QueryFilter
 //                });
 //            });
 //        }
+    }
+
+    protected function addDistinctToBuilder()
+    {
+        if($this->filter->getDistinct()) {
+            $this->builder->distinct();
+        }
     }
 
     protected function executeVirtualField(Builder $query, $field, $value)
