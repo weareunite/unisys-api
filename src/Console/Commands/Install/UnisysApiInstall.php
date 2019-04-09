@@ -114,6 +114,11 @@ class UnisysApiInstall extends Command
             '--provider' => "MLL\\GraphQLPlayground\\GraphQLPlaygroundServiceProvider",
         ]);
 
+        //maatwebsite excel
+        $this->call('vendor:publish', [
+            '--provider' => "Maatwebsite\\Excel\\ExcelServiceProvider",
+        ]);
+
         //Unite unisys-api
         $this->call('vendor:publish', [
             '--provider' => "Unite\\UnisysApi\\UnisysApiServiceProvider",
