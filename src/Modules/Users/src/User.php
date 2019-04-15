@@ -76,7 +76,7 @@ class User extends AuthModel
 
     public function findForPassport($username)
     {
-        return $this->where('username', $username)->first();
+        return $this->where('username', $username)->where('active', 1)->first();
     }
 
     public function isActive()
