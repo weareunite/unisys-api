@@ -7,6 +7,8 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
+use Laravel\Passport\Http\Middleware\CheckScopes;
+use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Unite\UnisysApi\Http\Middleware\Authorize;
@@ -34,6 +36,8 @@ class MiddlewareServiceProvider extends ServiceProvider
         $router->aliasMiddleware('client', CheckClientCredentials::class);
         $router->aliasMiddleware('authorize', Authorize::class);
         $router->aliasMiddleware('cache', CacheResponse::class);
+        $router->aliasMiddleware('scopes', CheckScopes::class);
+        $router->aliasMiddleware('scope', CheckForAnyScope::class);
     }
 
     /**
