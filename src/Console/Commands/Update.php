@@ -8,9 +8,9 @@ use Unite\UnisysApi\Services\VersionService;
 
 class Update extends Command
 {
-    protected $signature = 'unisys-api:update {package : Name of package for update in weareunite family (weareunite/*)}';
+    protected $signature = 'unisys-api:update {package : Name of package for update in weareunite familly (weareunite/*)}';
 
-    protected $description = 'Update package within weareunite family (weareunite/*)';
+    protected $description = '';
 
     public function __construct()
     {
