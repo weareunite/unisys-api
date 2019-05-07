@@ -66,7 +66,7 @@ class PermissionsSync extends Command
 
         $permissions = $routes->merge($global);
 
-        Permission::all()->each(function (Permission $permission) use($permissions) {
+        Permission::where('guard_name' , '<>', 'frontend')->get()->each(function (Permission $permission) use($permissions) {
             if(!$permissions->contains($permission->name)) {
                 $permission->delete();
             }
