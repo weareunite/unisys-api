@@ -14,6 +14,7 @@ use Unite\UnisysApi\Providers\AuthServiceProvider;
 use Unite\UnisysApi\Providers\RouteServiceProvider;
 use Unite\UnisysApi\Providers\ScheduleServiceProvider;
 use Unite\UnisysApi\Providers\MiddlewareServiceProvider;
+use Unite\UnisysApi\Services\InstanceService;
 use Unite\UnisysApi\Services\SettingService;
 
 class UnisysApiServiceProvider extends ServiceProvider
@@ -44,8 +45,20 @@ class UnisysApiServiceProvider extends ServiceProvider
             Update::class,
         ]);
 
+        $this->app->singleton(InstanceService::class, InstanceService::class);
+
+        $this->app->singleton('instanceId', function () {
+            return app(InstanceService::class)->getInstanceId();
+        });
+
         if ($this->app->runningInConsole()) {
             $timestamp = date('Y_m_d_His', time());
+
+            if (!class_exists('CreateInstancesTable')) {
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_instances_table.php.stub' => database_path("/migrations/{$timestamp}_create_instances_table.php"),
+                ], 'migrations');
+            }
 
             if (!class_exists('CreateUsersTable')) {
                 $this->publishes([
