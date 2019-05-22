@@ -196,7 +196,6 @@ class UnisysApiInstall extends Command
         $files->delete(base_path('package.json'));
 
         $files->copy(base_path('vendor/weareunite/unisys-api/bitbucket-pipelines.yml'), base_path('bitbucket-pipelines.yml'));
-        $files->copy(base_path('vendor/weareunite/unisys-api/.push-to'), base_path('.push-to'));
         $files->copy(base_path('vendor/weareunite/unisys-api/deploy.sh'), base_path('deploy.sh'));
     }
 }
