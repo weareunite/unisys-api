@@ -1,4 +1,0 @@
-#!/bin/bash
-# Deployment script
-
-git checkout $1 && git pull origin $1 && git merge master && git push origin $1 && git checkout master;
