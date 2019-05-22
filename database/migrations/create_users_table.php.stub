@@ -20,8 +20,20 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
+            $table->integer('selected_instance_id')->unsigned()->nullable();
+            $table->foreign('selected_instance_id')->references('id')->on('instances');
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::create('user_instance', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('instance_id')->unsigned();
+            $table->foreign('instance_id')->references('id')->on('instances');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unique(['instance_id', 'user_id']);
         });
     }
 
@@ -32,6 +44,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('user_instance');
         Schema::dropIfExists('users');
     }
 }

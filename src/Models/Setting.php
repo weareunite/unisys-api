@@ -9,6 +9,7 @@ class Setting extends Model
 {
     use CausesActivity;
     use HasContacts;
+    use HasInstance;
 
     /**
      * The attributes that are mass assignable.

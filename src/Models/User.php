@@ -56,7 +56,7 @@ class User extends AuthModel
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'username', 'password'
+        'name', 'surname', 'email', 'username', 'password', 'selected_instance_id'
     ];
 
     /**
@@ -67,6 +67,16 @@ class User extends AuthModel
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function instances()
+    {
+        return $this->belongsToMany(Instance::class, 'user_instance');
+    }
+
+    public function selected_instance()
+    {
+        return $this->belongsTo(Instance::class, 'selected_instance_id');
+    }
 
     //  =================================================================================================
     //
@@ -98,5 +108,10 @@ class User extends AuthModel
     public function findForPassport($username)
     {
         return $this->where('username', $username)->first();
+    }
+
+    public function selectedInstanceId()
+    {
+        return $this->selected_instance_id;
     }
 }
