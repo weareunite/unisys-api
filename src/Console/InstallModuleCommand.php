@@ -8,8 +8,6 @@ use Illuminate\Filesystem\Filesystem;
 
 abstract class InstallModuleCommand extends Command implements InstallModuleCommandInterface
 {
-    private $isInstalled = false;
-
     protected $moduleName;
 
     protected $installedModuleRepository;
@@ -33,31 +31,21 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
      */
     public function handle()
     {
-        $this->info('Installing ...');
+        $this->info('Installing module '. $this->moduleName .' ...');
 
-        $this->checkIfNotInstalled();
-
-        if($this->isInstalled) {
+        if($this->installedModuleRepository->isModuleInstalled($this->moduleName)) {
             $this->info('This module was already installed');
-            return;
+        } else {
+
+            $this->install();
+
+            $this->addToInstalled();
+
+            $this->info('UniSys module '. $this->moduleName .' was installed');
         }
-
-        $this->install();
-
-        $this->addToInstalled();
-
-        $this->info('UniSys module was installed');
-
     }
 
     protected abstract function install();
-
-    private function checkIfNotInstalled()
-    {
-        if($this->installedModuleRepository->isModuleInstalled($this->moduleName)) {
-            $this->isInstalled = true;
-        }
-    }
 
     private function addToInstalled()
     {
