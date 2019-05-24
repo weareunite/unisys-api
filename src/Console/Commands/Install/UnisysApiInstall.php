@@ -139,6 +139,9 @@ class UnisysApiInstall extends Command
             "'driver' => 'token'",
             "'driver' => 'passport'");
 
+        // Remove User from App/User
+        $files->delete(app_path('User.php'));
+
         // Clean controllers directory from Http/Controllers
         $files->cleanDirectory(app_path('Http/Controllers'));
 
@@ -171,8 +174,6 @@ class UnisysApiInstall extends Command
         $files->delete(base_path('package.json'));
 
         $files->copy(base_path('vendor/weareunite/unisys-api/bitbucket-pipelines.yml'), base_path('bitbucket-pipelines.yml'));
-        $files->copy(base_path('vendor/weareunite/unisys-api/deploy-manifest.json'), base_path('deploy-manifest.json'));
         $files->copy(base_path('vendor/weareunite/unisys-api/.env.testing'), base_path('.env.testing'));
-        $files->copy(base_path('vendor/weareunite/unisys-api/Envoy.blade.php'), base_path('Envoy.blade.php'));
     }
 }

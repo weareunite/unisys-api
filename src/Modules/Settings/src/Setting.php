@@ -6,11 +6,13 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Contacts\Contracts\HasContacts as HasContactsContract;
 use Unite\UnisysApi\Modules\Contacts\Models\HasContacts;
+use Unite\UnisysApi\Modules\Users\HasInstance;
 
 class Setting extends Model implements HasContactsContract
 {
     use CausesActivity;
     use HasContacts;
+    use HasInstance;
 
     /**
      * The attributes that are mass assignable.

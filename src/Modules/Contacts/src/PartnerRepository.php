@@ -2,10 +2,8 @@
 
 namespace Unite\UnisysApi\Modules\Contacts;
 
-use Unite\UnisysApi\Models\Setting;
 use Unite\UnisysApi\Modules\Contacts\Models\Partner;
 use Unite\UnisysApi\Repositories\Repository;
-use Unite\UnisysApi\Repositories\SettingRepository;
 
 /**
  * @method Partner getQueryBuilder()

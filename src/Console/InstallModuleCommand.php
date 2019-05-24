@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\File;
 
 abstract class InstallModuleCommand extends Command implements InstallModuleCommandInterface
 {
-    private $isInstalled = false;
-
     protected $moduleName;
 
     protected $installedModuleRepository;
 
-    protected $filesystem;
+    protected $fileSystem;
 
     public function __construct(InstalledModuleRepository $installedModuleRepository, Filesystem $files)
     {
@@ -25,7 +23,7 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
 
         $this->description = 'Install [' . $this->moduleName . '] module to Unisys API';
 
-        $this->filesystem = $files;
+        $this->fileSystem = $files;
 
         parent::__construct();
     }
@@ -34,31 +32,21 @@ abstract class InstallModuleCommand extends Command implements InstallModuleComm
      */
     public function handle()
     {
-        $this->info('Installing ...');
+        $this->info('Installing module '. $this->moduleName .' ...');
 
-        $this->checkIfNotInstalled();
-
-        if($this->isInstalled) {
+        if($this->installedModuleRepository->isModuleInstalled($this->moduleName)) {
             $this->info('This module was already installed');
-            return;
+        } else {
+
+            $this->install();
+
+            $this->addToInstalled();
+
+            $this->info('UniSys module '. $this->moduleName .' was installed');
         }
-
-        $this->install();
-
-        $this->addToInstalled();
-
-        $this->info('UniSys module was installed');
-
     }
 
     protected abstract function install();
-
-    private function checkIfNotInstalled()
-    {
-        if($this->installedModuleRepository->isModuleInstalled($this->moduleName)) {
-            $this->isInstalled = true;
-        }
-    }
 
     private function addToInstalled()
     {

@@ -11,6 +11,7 @@ use Unite\UnisysApi\Providers\ModulesServiceProvider;
 use Unite\UnisysApi\Providers\RouteServiceProvider;
 use Unite\UnisysApi\Providers\ScheduleServiceProvider;
 use Unite\UnisysApi\Providers\MiddlewareServiceProvider;
+use Unite\UnisysApi\Console\Commands\Update;
 
 class UnisysApiServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,7 @@ class UnisysApiServiceProvider extends ServiceProvider
         $this->commands([
             UnisysApiInitializeEnv::class,
             UnisysApiInstall::class,
+            Update::class,
         ]);
 
         if ($this->app->runningInConsole()) {

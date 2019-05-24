@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Users\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Notifications\DatabaseNotification;
-use Unite\UnisysApi\Models\Permission;
+use Unite\UnisysApi\Modules\Permissions\Permission;
 use Unite\UnisysApi\Modules\Users\User;
 
 class NotificationPolicy

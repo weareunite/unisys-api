@@ -64,3 +64,10 @@ if(! function_exists('companyProfile'))
     }
 }
 
+if (!function_exists('instanceId')) {
+    function instanceId()
+    :? int
+    {
+        return app('instanceId');
+    }
+}
