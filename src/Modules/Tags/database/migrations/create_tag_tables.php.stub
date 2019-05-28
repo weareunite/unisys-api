@@ -10,6 +10,8 @@ class CreateTagTables extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('instance_id')->unsigned();
+            $table->foreign('instance_id')->references('id')->on('instances');
             $table->string('name');
             $table->json('type')->nullable();
             $table->json('custom_properties')->nullable();

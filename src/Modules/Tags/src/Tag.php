@@ -8,10 +8,12 @@ use Unite\UnisysApi\Helpers\CustomProperty\HasCustomProperty;
 use Unite\UnisysApi\Helpers\CustomProperty\HasCustomPropertyTrait;
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Tags\Contracts\Tag as TagContract;
+use Unite\UnisysApi\Modules\Users\HasInstance;
 
 class Tag extends Model implements HasCustomProperty, TagContract
 {
     use HasCustomPropertyTrait;
+    use HasInstance;
 
     protected $fillable = [
         'name', 'type', 'custom_properties'
