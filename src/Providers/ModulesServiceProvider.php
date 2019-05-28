@@ -5,6 +5,7 @@ namespace Unite\UnisysApi\Providers;
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\ActivityLogs\ActivityLogServiceProvider;
 use Unite\UnisysApi\Modules\Contacts\ContactsServiceProvider;
+use Unite\UnisysApi\Modules\ErrorReports\ErrorReportsServiceProvider;
 use Unite\UnisysApi\Modules\Help\HelpServiceProvider;
 use Unite\UnisysApi\Modules\Media\MediaServiceProvider;
 use Unite\UnisysApi\Modules\Permissions\PermissionsServiceProvider;
@@ -16,15 +17,16 @@ use Unite\UnisysApi\Modules\Users\UserServiceProvider;
 class ModulesServiceProvider extends ServiceProvider
 {
     protected $moduleProviders = [
+        ActivityLogServiceProvider::class,
         ContactsServiceProvider::class,
+        ErrorReportsServiceProvider::class,
         MediaServiceProvider::class,
+        HelpServiceProvider::class,
         PermissionsServiceProvider::class,
         SettingsServiceProvider::class,
         TagsServiceProvider::class,
         TransactionsServiceProvider::class,
         UserServiceProvider::class,
-        HelpServiceProvider::class,
-        ActivityLogServiceProvider::class,
     ];
 
     /**
