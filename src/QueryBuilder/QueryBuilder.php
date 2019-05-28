@@ -64,7 +64,7 @@ class QueryBuilder
 
     public function __construct(Builder $builder, ? Request $request = null)
     {
-        $this->builder = new Builder($builder->getQuery());
+        $this->builder = $builder;
 
         $this->initializeFromBuilder($builder);
 
