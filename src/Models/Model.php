@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Models;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
-use Unite\UnisysApi\QueryBuilder\HasQueryFilter;
+use Unite\UnisysApi\GraphQLQueryBuilder\HasQueryFilter;
 
 abstract class Model extends BaseModel
 {

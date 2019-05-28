@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Permissions;
 
 use Spatie\Permission\Models\Permission as BasePermission;
-use Unite\UnisysApi\QueryBuilder\HasQueryFilter;
+use Unite\UnisysApi\GraphQLQueryBuilder\HasQueryFilter;
 
 class Permission extends BasePermission
 {

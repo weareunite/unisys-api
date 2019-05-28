@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Permissions;
 
 use Spatie\Permission\Models\Role as BaseRole;
-use Unite\UnisysApi\QueryBuilder\HasQueryFilter;
+use Unite\UnisysApi\GraphQLQueryBuilder\HasQueryFilter;
 
 class Role extends BaseRole
 {
