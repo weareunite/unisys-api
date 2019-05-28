@@ -20,8 +20,6 @@ class TransactionsServiceProvider extends ServiceProvider
             Install::class,
         ]);
 
-        $this->loadRoutesFrom(__DIR__.'/Routes/api.php');
-
         if (! class_exists('CreateTransactionsTable')) {
             $timestamp = date('Y_m_d_His', time());
 
@@ -31,6 +29,10 @@ class TransactionsServiceProvider extends ServiceProvider
         }
 
         Event::subscribe(TransactionSubscriber::class);
+
+        $this->app->booted(function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        });
 
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
