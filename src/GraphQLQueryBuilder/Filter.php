@@ -1,11 +1,11 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
-use Unite\UnisysApi\QueryBuilder\Parsers\ConditionsParser;
-use Unite\UnisysApi\QueryBuilder\Types\Condition;
-use Unite\UnisysApi\QueryBuilder\Types\OrderBy;
-use Unite\UnisysApi\QueryBuilder\Types\Search;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\ConditionsParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Condition;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\OrderBy;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Search;
 
 class Filter
 {

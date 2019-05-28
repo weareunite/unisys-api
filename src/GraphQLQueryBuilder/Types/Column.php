@@ -1,14 +1,14 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Types;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Types;
 
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Support\Collection;
-use Unite\UnisysApi\QueryBuilder\QueryFilter;
-use Unite\UnisysApi\QueryBuilder\RelationResolver;
+use Unite\UnisysApi\GraphQLQueryBuilder\QueryFilter;
+use Unite\UnisysApi\GraphQLQueryBuilder\RelationResolver;
 
 class Column extends Type
 {

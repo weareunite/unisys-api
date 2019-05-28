@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Types;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Types;
 
 use Illuminate\Support\Arr;
 

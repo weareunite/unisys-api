@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Contracts;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Contracts;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

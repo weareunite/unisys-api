@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
 use Rebing\GraphQL\Support\Type as GraphQLType;
 

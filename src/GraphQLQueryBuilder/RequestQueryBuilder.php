@@ -1,22 +1,22 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Unite\UnisysApi\Models\Model;
-use Unite\UnisysApi\QueryBuilder\Parsers\ConditionsParser;
-use Unite\UnisysApi\QueryBuilder\Parsers\LimitParser;
-use Unite\UnisysApi\QueryBuilder\Parsers\OrderParser;
-use Unite\UnisysApi\QueryBuilder\Parsers\PageParser;
-use Unite\UnisysApi\QueryBuilder\Parsers\SearchParser;
-use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\Condition;
-use Unite\UnisysApi\QueryBuilder\Types\Join;
-use Unite\UnisysApi\QueryBuilder\Types\OrderBy;
-use Unite\UnisysApi\QueryBuilder\Types\Search;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\ConditionsParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\LimitParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\OrderParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\PageParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Parsers\SearchParser;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Column;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Condition;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Join;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\OrderBy;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Search;
 
 class RequestQueryBuilder
 {

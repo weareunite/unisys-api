@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
-use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\Condition;
-use Unite\UnisysApi\QueryBuilder\Types\Join;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Column;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Condition;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Join;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class QueryFilter

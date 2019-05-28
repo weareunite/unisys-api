@@ -1,8 +1,8 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Types;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Types;
 
-use Unite\UnisysApi\QueryBuilder\RelationResolver;
+use Unite\UnisysApi\GraphQLQueryBuilder\RelationResolver;
 
 class Relation extends Type
 {

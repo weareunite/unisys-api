@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Parsers;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Parsers;
 
 abstract class Parser
 {

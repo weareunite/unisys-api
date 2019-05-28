@@ -1,10 +1,10 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
 /**
  * Class RelationResolver
- * @package Unite\UnisysApi\QueryBuilder
+ * @package Unite\UnisysApi\GraphQLQueryBuilder
  */
 class RelationResolver
 {

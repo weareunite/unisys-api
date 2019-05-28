@@ -1,12 +1,12 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder\Parsers;
+namespace Unite\UnisysApi\GraphQLQueryBuilder\Parsers;
 
 use Illuminate\Support\Arr;
 use stdClass;
-use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\DataItem;
-use Unite\UnisysApi\QueryBuilder\Types\Condition;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Column;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\DataItem;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Condition;
 
 class ConditionsParser extends Parser
 {

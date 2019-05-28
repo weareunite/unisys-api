@@ -1,10 +1,10 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\GraphQLQueryBuilder;
 
-use Unite\UnisysApi\QueryBuilder\Types\Column;
-use Unite\UnisysApi\QueryBuilder\Types\Join;
-use Unite\UnisysApi\QueryBuilder\Types\Relation;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Column;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Join;
+use Unite\UnisysApi\GraphQLQueryBuilder\Types\Relation;
 
 class JoinResolver
 {
