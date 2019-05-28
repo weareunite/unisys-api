@@ -11,7 +11,7 @@ class Media extends Model
         return route('api.media.stream', ['id' => $this->id]);
     }
 
-    protected function getDownloadLink()
+    public function getDownloadLink()
     {
         return route('api.media.download', ['id' => $this->id]);
     }
