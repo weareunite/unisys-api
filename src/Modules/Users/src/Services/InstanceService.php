@@ -5,8 +5,9 @@ namespace Unite\UnisysApi\Modules\Users\Services;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Unite\UnisysApi\Exceptions\MissingInstanceException;
 use Unite\UnisysApi\Modules\Users\User;
+use Unite\UnisysApi\Services\Service;
 
-class InstanceService extends AbstractService
+class InstanceService extends Service
 {
     /** @var User */
     protected $user;
