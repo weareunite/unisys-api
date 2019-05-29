@@ -34,7 +34,7 @@ class InstanceService extends Service
     public function selectInstanceId()
     {
         if($this->instanceId) {
-            return  $this->instanceId;
+            return $this->instanceId;
         }
 
         if (!$this->user->selectedInstanceId()) {

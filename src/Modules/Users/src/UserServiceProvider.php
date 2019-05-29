@@ -32,7 +32,7 @@ class UserServiceProvider extends ServiceProvider
         $this->app->singleton(InstanceService::class, InstanceService::class);
 
         $this->app->singleton('instanceId', function () {
-            return app(InstanceService::class)->selectInstanceId();
+            return app(InstanceService::class)->selectInstanceId()->getInstanceId();
         });
 
         if ($this->app->runningInConsole()) {
