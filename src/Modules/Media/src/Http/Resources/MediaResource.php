@@ -24,8 +24,8 @@ class MediaResource extends Resource
             'size'              => $this->size,
             'custom_properties' => $this->custom_properties,
             'created_at'        => (string)$this->created_at,
-            'link'              => $this->resource->getLink(),
-            'downloadLink'      => $this->resource->getDownloadLink(),
+            'link'              => route('api.media.stream', ['id' => $this->id]),
+            'downloadLink'      => route('api.media.download', ['id' => $this->id]),
         ];
     }
 
