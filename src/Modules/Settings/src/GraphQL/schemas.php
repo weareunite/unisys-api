@@ -26,6 +26,7 @@ return [
             \Unite\UnisysApi\Modules\Settings\GraphQL\Queries\ListQuery::class,
             \Unite\UnisysApi\Modules\Settings\GraphQL\Queries\SettingQuery::class,
             \Unite\UnisysApi\Modules\Settings\GraphQL\Queries\CompanyProfileQuery::class,
+            \Unite\UnisysApi\Modules\Settings\GraphQL\Mutations\UpdateCompanyMutation::class,
         ],
         'mutation' => [
             \Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\CreateMutation::class,
