@@ -51,7 +51,7 @@ class ContactType extends GraphQLType
                 'description' => 'The city of contact',
             ],
             'country'           => [
-                'type'        => Type::listOf(GraphQL::type('Country')),
+                'type'        => GraphQL::type('Country'),
                 'description' => 'The country of contact',
             ],
             'is_abroad'         => [
