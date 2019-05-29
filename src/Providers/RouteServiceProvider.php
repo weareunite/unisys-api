@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
             'model' => '^\d+$',
         ]);
 
-        $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
 
         parent::boot();
     }
