@@ -66,7 +66,7 @@ abstract class BuilderQuery extends Query
             $query = $query->filter($args['filter'], app($this->typeClass()));
         }
 
-        $this->customScope($query, $args);
+        $query = $this->customScope($query, $args);
 
         return $query->paginate($limit, $select, config('query-filter.page_name'), $page);
     }

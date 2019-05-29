@@ -16,4 +16,13 @@ class ListQuery extends Query
     {
         return UserType::class;
     }
+
+    public function customScope(&$query, $args)
+    {
+        $query->join('user_instance', 'user_instance.user_id', '=', 'users.id')
+            ->where('user_instance.instance_id', '=', instanceId())
+            ->distinct();
+
+        return $query;
+    }
 }
