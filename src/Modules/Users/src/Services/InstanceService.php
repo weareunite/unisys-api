@@ -33,6 +33,10 @@ class InstanceService extends Service
 
     public function selectInstanceId()
     {
+        if($this->instanceId) {
+            return  $this->instanceId;
+        }
+
         if (!$this->user->selectedInstanceId()) {
             if ($this->user->instances()->count() < 1) {
                 throw new MissingInstanceException;
