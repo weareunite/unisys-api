@@ -32,6 +32,12 @@ class SettingsServiceProvider extends ServiceProvider
             }
         }
 
+        $this->app->singleton(SettingService::class, SettingService::class);
+
+        $this->app->singleton('companyProfile', function () {
+            return app(SettingService::class)->companyProfile();
+        });
+
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
     }
@@ -41,10 +47,6 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('companyProfile', function ($app) {
-            return $app['cache']->remember('companyProfile', 60*12, function () {
-                return app(SettingService::class)->companyProfile();
-            });
-        });
+        //
     }
 }

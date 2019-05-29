@@ -37,7 +37,7 @@ class InstanceService extends Service
             return $this->instanceId;
         }
 
-        if (!$this->user->selectedInstanceId()) {
+        if (!$instance_id = $this->user->selectedInstanceId()) {
             if ($this->user->instances()->count() < 1) {
                 throw new MissingInstanceException;
             }
@@ -46,8 +46,6 @@ class InstanceService extends Service
 
             $this->user->selected_instance_id = $instance_id;
             $this->user->save();
-        } else {
-            $instance_id = $this->user->selectedInstanceId();
         }
 
         $this->instanceId = $instance_id;
