@@ -6,6 +6,7 @@ use Unite\UnisysApi\Modules\Contacts\Models\Contact;
 use Unite\UnisysApi\Modules\Settings\Setting;
 use Unite\UnisysApi\Modules\Settings\SettingRepository;
 use Unite\UnisysApi\Services\Service;
+use Cache;
 
 class SettingService extends Service
 {
