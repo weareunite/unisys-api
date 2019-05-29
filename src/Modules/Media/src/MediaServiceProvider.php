@@ -22,7 +22,9 @@ class MediaServiceProvider extends ServiceProvider
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
 
-        $this->loadRoutesFrom(__DIR__ . '/Routes/api.php');
+        $this->app->booted(function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        });
     }
 
     /**

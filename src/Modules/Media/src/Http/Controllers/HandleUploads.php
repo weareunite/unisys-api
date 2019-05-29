@@ -68,4 +68,24 @@ trait HandleUploads
 
         return MediaResource::collection($mediaItem);
     }
+
+    /**
+     * Get latest files
+     *
+     * @param int $id
+     * @param int $media_id
+     * @return bool
+     */
+    public function removeFile(int $id, int $media_id)
+    {
+        if(!$object = $this->repository->find($id)) {
+            abort(404);
+        }
+
+        if($media = $object->getMedia()->firstWhere('id', $media_id)) {
+            return $media->delete();
+        }
+
+        return false;
+    }
 }
