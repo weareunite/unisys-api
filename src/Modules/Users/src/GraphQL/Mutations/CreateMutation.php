@@ -75,7 +75,7 @@ class CreateMutation extends BaseCreateMutation
             ->orWhere('users.email', '=', $args['email'])
             ->get(['users.id']);
 
-        if(!$users) {
+        if(!$users->isEmpty()) {
             $object = $this->repository->create($args);
         } elseif ($users->count() === 1) {
             /** @var User $object */
