@@ -86,6 +86,6 @@ trait HandleUploads
             return $media->delete();
         }
 
-        return false;
+        return $this->successJsonResponse();
     }
 }
