@@ -11,9 +11,7 @@ class ErrorReportsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->booted(function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        });
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         if ($this->app->runningInConsole()) {
             $timestamp = date('Y_m_d_His', time());

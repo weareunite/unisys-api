@@ -28,9 +28,7 @@ class TagsServiceProvider extends ServiceProvider
             }
         }
 
-        $this->app->booted(function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        });
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
