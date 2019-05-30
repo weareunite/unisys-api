@@ -14,7 +14,9 @@ class PartnerRepository extends Repository
 
     public function create(array $attributes = [])
     {
-        $companyProfile = companyProfile();
+        if(!$companyProfile = companyProfile()) {
+            throw new \Exception('Company Profile is not exists. Create company profile first');
+        }
 
         $contact = parent::create( $attributes );
 

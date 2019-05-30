@@ -62,7 +62,9 @@ class Contact extends Model implements HasCustomProperty
 
     public function isAbroad()
     {
-        $company = companyProfile();
+        if(!$company = companyProfile()) {
+            return null;
+        }
 
         return $this->country_id !== $company->country_id;
     }
@@ -83,7 +85,11 @@ class Contact extends Model implements HasCustomProperty
     public function virtualIsAbroad(int $company_country_id = null): string
     {
         if(!$company_country_id) {
-            $company_country_id = companyProfile()->country_id;
+            if(!$company = companyProfile()) {
+                $company_country_id = null;
+            } else {
+                $company_country_id = companyProfile()->country_id;
+            }
         }
 
         return 'CASE WHEN contacts.country_id = ' . $company_country_id . ' THEN false ELSE true END';
