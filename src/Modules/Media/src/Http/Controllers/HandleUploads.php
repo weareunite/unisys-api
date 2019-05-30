@@ -83,7 +83,7 @@ trait HandleUploads
         }
 
         if($media = $object->getMedia()->firstWhere('id', $media_id)) {
-            return $media->delete();
+            $media->delete();
         }
 
         return $this->successJsonResponse();
