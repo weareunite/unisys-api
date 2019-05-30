@@ -39,6 +39,14 @@ class MediaController extends Controller
      */
     public function download(Media $model)
     {
-        return response()->download($model->getPath(), $model->name);
+        return response()->streamDownload(function () use ($model) {
+            $stream = $model->stream();
+
+            fpassthru($stream);
+
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, $model->name);
     }
 }
