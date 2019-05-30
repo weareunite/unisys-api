@@ -24,7 +24,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'surname'           => [
@@ -32,7 +32,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'company'           => [
@@ -40,7 +40,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'required',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'street'            => [
@@ -48,7 +48,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
 
             ],
@@ -57,7 +57,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'city'              => [
@@ -65,7 +65,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'country_id'        => [
@@ -81,7 +81,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'tax_no'            => [
@@ -89,7 +89,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'vat_no'            => [
@@ -97,7 +97,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'web'               => [
@@ -105,7 +105,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'email'             => [
@@ -120,7 +120,7 @@ class UpdateArguments extends Arguments
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'description'       => [

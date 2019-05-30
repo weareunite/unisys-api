@@ -67,7 +67,7 @@ class UpdateMutation extends BaseUpdateMutation
             'username' => [
                 'regex:/^\S*$/u',
                 'min:4',
-                'max:50',
+                'max:100',
                 'unique:users,username,' . $args['id'],
             ],
         ];

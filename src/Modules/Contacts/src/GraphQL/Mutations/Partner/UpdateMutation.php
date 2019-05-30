@@ -34,7 +34,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'surname'           => [
@@ -42,7 +42,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'company'           => [
@@ -50,7 +50,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'required',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'street'            => [
@@ -58,7 +58,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
 
             ],
@@ -67,7 +67,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'city'              => [
@@ -75,7 +75,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'country_id'        => [
@@ -91,7 +91,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'tax_no'            => [
@@ -99,7 +99,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'vat_no'            => [
@@ -107,7 +107,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'web'               => [
@@ -115,7 +115,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'email'             => [
@@ -130,7 +130,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'description'       => [

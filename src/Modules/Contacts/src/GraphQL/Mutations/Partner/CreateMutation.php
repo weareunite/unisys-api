@@ -32,7 +32,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'surname'           => [
@@ -40,7 +40,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'company'           => [
@@ -48,7 +48,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'required',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'street'            => [
@@ -56,7 +56,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
 
             ],
@@ -65,7 +65,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'city'              => [
@@ -73,7 +73,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'country_id'        => [
@@ -89,7 +89,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'tax_no'            => [
@@ -97,7 +97,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'vat_no'            => [
@@ -105,7 +105,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'web'               => [
@@ -113,7 +113,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'email'             => [
@@ -128,7 +128,7 @@ class CreateMutation extends BaseCreateMutation
                 'rules' => [
                     'nullable',
                     'string',
-                    'max:40',
+                    'max:150',
                 ],
             ],
             'description'       => [
