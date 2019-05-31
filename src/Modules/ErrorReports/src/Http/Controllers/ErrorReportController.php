@@ -7,10 +7,13 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Unite\UnisysApi\GraphQL\PaginationInput;
 use Unite\UnisysApi\Http\Controllers\Controller;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReport;
+use Unite\UnisysApi\Modules\Media\Http\Controllers\HandleUploads;
 use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 
 class ErrorReportController extends Controller
 {
+    use HandleUploads;
+
     public function list(QueryBuilderRequest $request)
     {
         $args = $request->all();

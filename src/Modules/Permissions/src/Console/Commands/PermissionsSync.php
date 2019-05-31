@@ -74,7 +74,7 @@ class PermissionsSync extends Command
 
         $permissions->each(function ($name) {
             try {
-                Permission::findByName($name);
+                Permission::where('guard_name' , '<>', 'frontend')->where('name', '=', $name)->first();
             } catch (PermissionDoesNotExist $e) {
                 Permission::create(['name' => $name]);
             }
