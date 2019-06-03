@@ -77,8 +77,8 @@ trait HandleUploads
         file_put_contents($tmpFile, $binaryData);
 
         // Check the MimeTypes
-        $validation = Illuminate\Support\Facades\Validator::make(
-            ['file' => new Illuminate\Http\File($tmpFile)],
+        $validation = \Illuminate\Support\Facades\Validator::make(
+            ['file' => new \Illuminate\Http\File($tmpFile)],
             ['file' => 'mimes:' . implode(',', $this->repository->getModelClass()::getAllowedMimes())]
         );
 
