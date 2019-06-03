@@ -13,9 +13,12 @@ class ErrorReport extends Model implements HasMedia, AllowedMimes
     use HasMediaTrait;
     use AllowedMimesTrait;
 
-    protected static $allowedMimes = ['jpeg', 'jpg', 'png'];
-
     protected $fillable = [
         'content',
     ];
+
+    public static function getAllowedMimes(): array
+    {
+        return ['jpeg', 'jpg', 'png'];
+    }
 }
