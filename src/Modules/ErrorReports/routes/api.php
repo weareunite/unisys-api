@@ -16,5 +16,6 @@ Route::group([
         Route::get('{id}/files',                    ['as' => 'getFiles',                'uses' => 'ErrorReportController@getFiles']);
         Route::get('{id}/latestFile',               ['as' => 'getLatestFile',           'uses' => 'ErrorReportController@getLatestFile']);
         Route::delete('{id}/removeFile/{media_id}', ['as' => 'removeFile',              'uses' => 'ErrorReportController@removeFile']);
+        Route::post('{id}/uploadRawFile',           ['as' => 'uploadRawFile',           'uses' => 'ErrorReportController@uploadRawFile']);
     });
 });
