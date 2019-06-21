@@ -20,8 +20,8 @@ class ScheduleServiceProvider extends ServiceProvider
             $schedule->command('activitylog:clean')->daily();
             $schedule->command('auth:clear-resets')->daily();
 
-            $schedule->command('backup:clean')->daily()->at('01:00');
-            $schedule->command('backup:run')->daily()->at('02:00');
+//            $schedule->command('backup:clean')->daily()->at('01:00');
+//            $schedule->command('backup:run')->daily()->at('02:00');
         });
     }
 
