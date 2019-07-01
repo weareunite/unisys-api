@@ -49,14 +49,15 @@ class UnisysApiInstall extends Command
         $this->call('passport:install', ['--force']);
         $this->call('passport:keys');
 
+        $this->call('unisys-api:install:users');
         $this->call('unisys-api:install:contacts');
         $this->call('unisys-api:install:media');
         $this->call('unisys-api:install:permissions');
         $this->call('unisys-api:install:settings');
         $this->call('unisys-api:install:tags');
         $this->call('unisys-api:install:transactions');
-        $this->call('unisys-api:install:users');
         $this->call('unisys-api:install:help');
+        $this->call('unisys-api:install:errorReports');
 
 //        $this->call('unisys:import-users');
 

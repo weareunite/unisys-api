@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\ErrorReports;
 
 use Illuminate\Support\ServiceProvider;
+use Unite\UnisysApi\Modules\ErrorReports\Console\Commands\Install;
 
 class ErrorReportsServiceProvider extends ServiceProvider
 {
@@ -11,6 +12,10 @@ class ErrorReportsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->commands([
+            Install::class,
+        ]);
+
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         if ($this->app->runningInConsole()) {
