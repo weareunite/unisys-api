@@ -84,6 +84,15 @@ class User extends AuthModel
         return false;
     }
 
+    public function getFullName()
+    {
+        if(trim($this->surname) === '' || !$this->surname) {
+            return $this->name;
+        }
+
+        return $this->name . ' ' . $this->surname;
+    }
+
     public function findForPassport($username)
     {
         return $this->where('username', $username)->where('active', 1)->first();

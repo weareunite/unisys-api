@@ -59,9 +59,7 @@ class UnisysApiInstall extends Command
         $this->call('unisys-api:install:help');
         $this->call('unisys-api:install:errorReports');
 
-//        $this->call('unisys:import-users');
-
-        $this->call('unisys:set-company-profile');
+        $this->call('unisys:set-first-user');
 
         $this->call('deploy:init');
 

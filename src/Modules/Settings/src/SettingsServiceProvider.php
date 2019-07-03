@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\Modules\Settings;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Settings\Console\Commands\Install;
-use Unite\UnisysApi\Modules\Settings\Console\Commands\SetCompanyProfile;
 use Unite\UnisysApi\Modules\Settings\Services\SettingService;
 use Unite\UnisysApi\Providers\LoadGraphQL;
 
@@ -19,7 +18,6 @@ class SettingsServiceProvider extends ServiceProvider
     {
         $this->commands([
             Install::class,
-            SetCompanyProfile::class,
         ]);
 
         if ($this->app->runningInConsole()) {

@@ -5,6 +5,7 @@ namespace Unite\UnisysApi\Modules\Users;
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Users\Console\Commands\ImportUsers;
 use Unite\UnisysApi\Modules\Users\Console\Commands\Install;
+use Unite\UnisysApi\Modules\Users\Console\Commands\SetFirstUser;
 use Unite\UnisysApi\Modules\Users\Http\Middleware\Authenticate;
 use Unite\UnisysApi\Modules\Users\Providers\AuthServiceProvider;
 use Unite\UnisysApi\Providers\LoadGraphQL;
@@ -27,6 +28,7 @@ class UserServiceProvider extends ServiceProvider
         $this->commands([
             Install::class,
             ImportUsers::class,
+            SetFirstUser::class,
         ]);
 
         $this->app->singleton(InstanceService::class, InstanceService::class);
