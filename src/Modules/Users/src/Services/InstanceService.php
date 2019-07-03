@@ -19,6 +19,13 @@ class InstanceService extends Service
         $this->user = $auth->user();
     }
 
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getInstanceId()
     {
         return $this->instanceId;
@@ -34,7 +41,7 @@ class InstanceService extends Service
     public function selectInstanceId()
     {
         if($this->instanceId) {
-            return $this->instanceId;
+            return $this;
         }
 
         if (!$instance_id = $this->user->selectedInstanceId()) {

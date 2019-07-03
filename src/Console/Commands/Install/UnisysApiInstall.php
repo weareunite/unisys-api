@@ -46,9 +46,6 @@ class UnisysApiInstall extends Command
 
         $this->call('migrate');
 
-        $this->call('passport:install', ['--force']);
-        $this->call('passport:keys');
-
         $this->call('unisys-api:install:users');
         $this->call('unisys-api:install:contacts');
         $this->call('unisys-api:install:media');
@@ -58,8 +55,11 @@ class UnisysApiInstall extends Command
         $this->call('unisys-api:install:transactions');
         $this->call('unisys-api:install:help');
         $this->call('unisys-api:install:errorReports');
+        $this->call('unisys-api:install:activityLogs');
 
         $this->call('unisys:set-first-user');
+
+        $this->call('passport:install', ['--force']);
 
         $this->call('deploy:init');
 
