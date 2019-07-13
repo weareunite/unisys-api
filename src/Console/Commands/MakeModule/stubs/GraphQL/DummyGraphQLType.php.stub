@@ -1,0 +1,30 @@
+<?php
+
+namespace DummyNamespace\GraphQL;
+
+use DummyNamespace\DummyModel;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class DummyGraphQLType extends GraphQLType
+{
+    protected $attributes = [
+        'name'        => 'DummyModule',
+        'description' => 'A DummyModule',
+        'model'       => DummyModel::class,
+    ];
+
+    public function fields()
+    {
+        return [
+            'id'               => [
+                'type'        => Type::nonNull(Type::int()),
+                'description' => 'The id of product',
+            ],
+            'name'             => [
+                'type'        => Type::nonNull(Type::string()),
+                'description' => 'The name of product',
+            ],
+        ];
+    }
+}

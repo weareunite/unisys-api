@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Unite\UnisysApi\Repositories\Repository;
+
+class DummyModuleRepository extends Repository
+{
+    protected $modelClass = DummyModel::class;
+}

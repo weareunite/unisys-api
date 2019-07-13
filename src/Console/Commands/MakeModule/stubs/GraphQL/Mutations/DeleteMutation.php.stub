@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace\GraphQL\Mutations;
+
+use DummyNamespace\DummyModuleRepository;
+use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+
+class DeleteMutation extends BaseDeleteMutation
+{
+    protected $attributes = [
+        'name' => 'deleteDummyModule',
+    ];
+
+    public function repositoryClass()
+    : string
+    {
+        return DummyModuleRepository::class;
+    }
+}

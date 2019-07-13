@@ -1,0 +1,9 @@
+<?php
+
+namespace DummyNamespace;
+
+use Unite\UnisysApi\Models\Model;
+
+class DummyModel extends Model
+{
+}

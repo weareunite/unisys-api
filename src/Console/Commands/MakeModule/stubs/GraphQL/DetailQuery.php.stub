@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace\GraphQL;
+
+use Unite\UnisysApi\GraphQL\DetailQuery as Query;
+
+class DetailQuery extends Query
+{
+    protected $attributes = [
+        'name'        => 'dummyModule',
+        'description' => 'DummyModule detail',
+    ];
+
+    protected function typeClass()
+    : string
+    {
+        return DummyGraphQLType::class;
+    }
+}

@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace\GraphQL;
+
+use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
+
+class ListQuery extends Query
+{
+    protected $attributes = [
+        'name'        => 'dummyModules',
+        'description' => 'Paginated list of dummyModule',
+    ];
+
+    protected function typeClass()
+    : string
+    {
+        return DummyGraphQLType::class;
+    }
+}

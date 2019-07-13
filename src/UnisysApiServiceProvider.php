@@ -6,6 +6,7 @@ use Route;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInstall;
 use Illuminate\Support\ServiceProvider;
+use Unite\UnisysApi\Console\Commands\MakeModule;
 use Unite\UnisysApi\Providers\GraphQLServiceProvider;
 use Unite\UnisysApi\Providers\ModulesServiceProvider;
 use Unite\UnisysApi\Providers\RouteServiceProvider;
@@ -37,6 +38,7 @@ class UnisysApiServiceProvider extends ServiceProvider
             UnisysApiInitializeEnv::class,
             UnisysApiInstall::class,
             Update::class,
+            MakeModule::class,
         ]);
 
         if ($this->app->runningInConsole()) {

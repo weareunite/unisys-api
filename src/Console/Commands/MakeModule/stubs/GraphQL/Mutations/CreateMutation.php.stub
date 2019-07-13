@@ -1,0 +1,39 @@
+<?php
+
+namespace DummyNamespace\GraphQL\Mutations;
+
+use DummyNamespace\DummyModuleRepository;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
+
+class CreateMutation extends BaseCreateMutation
+{
+    protected $attributes = [
+        'name' => 'createDummyModule',
+    ];
+
+    public function repositoryClass()
+    : string
+    {
+        return DummyModuleRepository::class;
+    }
+
+    public function type()
+    {
+        return GraphQL::type('DummyModule');
+    }
+
+    public function args()
+    {
+        return [
+            'name'              => [
+                'type'  => Type::string(),
+                'rules' => [
+                    'required',
+                    'string',
+                ],
+            ],
+        ];
+    }
+}
