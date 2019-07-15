@@ -9,8 +9,8 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class DummyGraphQLType extends GraphQLType
 {
     protected $attributes = [
-        'name'        => 'DummyModule',
-        'description' => 'A DummyModule',
+        'name'        => 'DummyModel',
+        'description' => 'A DummyModel',
         'model'       => DummyModel::class,
     ];
 
@@ -19,11 +19,11 @@ class DummyGraphQLType extends GraphQLType
         return [
             'id'               => [
                 'type'        => Type::nonNull(Type::int()),
-                'description' => 'The id of product',
+                'description' => 'The id of dummyModule',
             ],
             'name'             => [
                 'type'        => Type::nonNull(Type::string()),
-                'description' => 'The name of product',
+                'description' => 'The name of dummyModule',
             ],
         ];
     }
