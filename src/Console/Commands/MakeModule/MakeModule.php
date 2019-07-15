@@ -16,7 +16,9 @@ class MakeModule extends Command
 
     protected $moduleName;
 
-    protected $basicName;
+    protected $singularName;
+
+    protected $pluralName;
 
     /**
      * Create a new controller creator command instance.
@@ -136,8 +138,8 @@ class MakeModule extends Command
                 $this->getNamespace($this->moduleName),
                 $this->moduleName,
                 Str::snake($this->moduleName),
-                lcfirst($this->moduleName),
-                lcfirst($this->basicName),
+                lcfirst($this->pluralName),
+                lcfirst($this->singularName),
                 $this->getModelClass(),
                 $this->getGraphQlTypeClass(),
             ],
@@ -147,9 +149,11 @@ class MakeModule extends Command
 
     protected function setModuleName(string $name)
     {
-        $this->moduleName = $this->makePluralName($name);
+        $this->moduleName = $this->makeName($name);
 
-        $this->basicName = $this->makeBasicName($name);
+        $this->singularName = $this->makeSingularName($name);
+
+        $this->pluralName = $this->makePluralName($name);
     }
 
     protected function getModulePath()
@@ -159,12 +163,12 @@ class MakeModule extends Command
 
     protected function getModelClass()
     {
-        return $this->basicName;
+        return $this->singularName;
     }
 
     protected function getGraphQlTypeClass()
     {
-        return $this->basicName . 'Type';
+        return $this->singularName . 'Type';
     }
 
     /**
@@ -185,10 +189,15 @@ class MakeModule extends Command
 
     protected function makePluralName(string $name)
     {
-        return Str::plural($this->makeBasicName($name));
+        return Str::plural($this->makeName($name));
     }
 
-    protected function makeBasicName(string $name)
+    protected function makeSingularName(string $name)
+    {
+        return Str::sigular($this->makeName($name));
+    }
+
+    protected function makeName(string $name)
     {
         return ucfirst(trim($name));
     }
