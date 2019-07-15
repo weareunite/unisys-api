@@ -194,7 +194,7 @@ class MakeModule extends Command
 
     protected function makeSingularName(string $name)
     {
-        return Str::sigular($this->makeName($name));
+        return Str::singular($this->makeName($name));
     }
 
     protected function makeName(string $name)
