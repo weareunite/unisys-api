@@ -8,7 +8,7 @@ class DetailQuery extends Query
 {
     protected $attributes = [
         'name'        => 'dummyModule',
-        'description' => 'DummyModule detail',
+        'description' => 'DummyModel detail',
     ];
 
     protected function typeClass()

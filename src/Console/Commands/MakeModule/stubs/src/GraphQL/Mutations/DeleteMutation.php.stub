@@ -8,7 +8,7 @@ use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
 class DeleteMutation extends BaseDeleteMutation
 {
     protected $attributes = [
-        'name' => 'deleteDummyModule',
+        'name' => 'deleteDummyModel',
     ];
 
     public function repositoryClass()

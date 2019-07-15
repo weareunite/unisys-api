@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\Type;
 class UpdateMutation extends BaseUpdateMutation
 {
     protected $attributes = [
-        'name' => 'updateDummyModule',
+        'name' => 'updateDummyModel',
     ];
 
     public function repositoryClass()

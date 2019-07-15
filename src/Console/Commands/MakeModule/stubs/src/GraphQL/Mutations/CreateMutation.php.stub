@@ -10,7 +10,7 @@ use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 class CreateMutation extends BaseCreateMutation
 {
     protected $attributes = [
-        'name' => 'createDummyModule',
+        'name' => 'createDummyModel',
     ];
 
     public function repositoryClass()
@@ -21,7 +21,7 @@ class CreateMutation extends BaseCreateMutation
 
     public function type()
     {
-        return GraphQL::type('DummyModule');
+        return GraphQL::type('DummyModel');
     }
 
     public function args()
