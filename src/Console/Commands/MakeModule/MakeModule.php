@@ -42,6 +42,8 @@ class MakeModule extends Command
 
         $this->createFiles();
 
+        exec('composer dump-autoload');
+
         $this->info($this->moduleName . ' module created successfully.');
     }
 
