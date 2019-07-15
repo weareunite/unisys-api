@@ -2,7 +2,7 @@
 
 namespace DummyNamespace\GraphQL\Mutations;
 
-use DummyNamespace\DummyModuleRepository;
+use DummyNamespace\DummyModelRepository;
 use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
 
 class DeleteMutation extends BaseDeleteMutation
@@ -14,6 +14,6 @@ class DeleteMutation extends BaseDeleteMutation
     public function repositoryClass()
     : string
     {
-        return DummyModuleRepository::class;
+        return DummyModelRepository::class;
     }
 }

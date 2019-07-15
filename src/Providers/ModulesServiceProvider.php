@@ -13,22 +13,10 @@ use Unite\UnisysApi\Modules\Settings\SettingsServiceProvider;
 use Unite\UnisysApi\Modules\Tags\TagsServiceProvider;
 use Unite\UnisysApi\Modules\Transactions\TransactionsServiceProvider;
 use Unite\UnisysApi\Modules\Users\UserServiceProvider;
+use Storage;
 
 class ModulesServiceProvider extends ServiceProvider
 {
-    protected $moduleProviders = [
-        ActivityLogServiceProvider::class,
-        ContactsServiceProvider::class,
-        ErrorReportsServiceProvider::class,
-        MediaServiceProvider::class,
-        HelpServiceProvider::class,
-        PermissionsServiceProvider::class,
-        SettingsServiceProvider::class,
-        TagsServiceProvider::class,
-        TransactionsServiceProvider::class,
-        UserServiceProvider::class,
-    ];
-
     /**
      * Bootstrap any application services.
      *
@@ -36,8 +24,10 @@ class ModulesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        foreach ($this->moduleProviders as $moduleProvider) {
-            $this->app->register($moduleProvider);
+        $directories = Storage::disk('modules')->directories();
+
+        foreach ($directories as $directory) {
+            $this->app->register('Unite\UnisysApi\Modules\\' . $directory . '\src\\'. $directory .'ServiceProvider');
         }
     }
 }

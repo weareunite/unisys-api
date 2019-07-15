@@ -16,6 +16,8 @@ class MakeModule extends Command
 
     protected $moduleName;
 
+    protected $basicName;
+
     /**
      * Create a new controller creator command instance.
      *
@@ -34,19 +36,20 @@ class MakeModule extends Command
      */
     public function handle()
     {
-        $this->moduleName = $this->getNameInput();
+        $this->setModuleName($this->argument('name'));
 
         $this->createDirectories();
 
         $this->createFiles();
 
-        $this->info($this->getModuleName() . ' module created successfully.');
+        $this->info($this->moduleName . ' module created successfully.');
     }
 
     protected function createDirectories()
     {
         $dirs = [
             '/src/GraphQL/Mutations',
+            '/database/migrations',
         ];
 
         foreach ($dirs as $dir) {
@@ -79,17 +82,18 @@ class MakeModule extends Command
     protected function stubs()
     {
         return [
-            'DummyModuleServiceProvider.php.stub',
-            'DummyModuleRepository.php.stub',
-            'DummyModel.php.stub',
-            'GraphQL/types.php.stub',
-            'GraphQL/DummyGraphQLType.php.stub',
-            'GraphQL/schemas.php.stub',
-            'GraphQL/ListQuery.php.stub',
-            'GraphQL/DetailQuery.php.stub',
-            'GraphQL/Mutations/CreateMutation.php.stub',
-            'GraphQL/Mutations/DeleteMutation.php.stub',
-            'GraphQL/Mutations/UpdateMutation.php.stub',
+            'src/DummyModuleServiceProvider.php.stub',
+            'src/DummyModelRepository.php.stub',
+            'src/DummyModel.php.stub',
+            'src/GraphQL/types.php.stub',
+            'src/GraphQL/DummyGraphQLType.php.stub',
+            'src/GraphQL/schemas.php.stub',
+            'src/GraphQL/ListQuery.php.stub',
+            'src/GraphQL/DetailQuery.php.stub',
+            'src/GraphQL/Mutations/CreateMutation.php.stub',
+            'src/GraphQL/Mutations/DeleteMutation.php.stub',
+            'src/GraphQL/Mutations/UpdateMutation.php.stub',
+            'database/migrations/create_dummy_module_tables.php.stub'
         ];
     }
 
@@ -106,7 +110,7 @@ class MakeModule extends Command
     {
         $dummyName = str_replace('.stub', '', $dummyName);
 
-        return $this->getModulePath() . '/src/' .$this->replaceDummyStrings($dummyName);
+        return $this->getModulePath() . '/' .$this->replaceDummyStrings($dummyName);
     }
 
     protected function makeFileContent(string $stub)
@@ -120,6 +124,7 @@ class MakeModule extends Command
             [
                 'DummyNamespace',
                 'DummyModule',
+                'dummy_module',
                 'dummyModules',
                 'dummyModule',
                 'DummyModel',
@@ -127,9 +132,10 @@ class MakeModule extends Command
             ],
             [
                 $this->getNamespace($this->moduleName),
-                $this->getModuleName(),
-                lcfirst($this->getModuleNamePlural()),
-                lcfirst($this->getModuleName()),
+                $this->moduleName,
+                Str::snake($this->moduleName),
+                lcfirst($this->moduleName),
+                lcfirst($this->basicName),
                 $this->getModelClass(),
                 $this->getGraphQlTypeClass(),
             ],
@@ -137,29 +143,26 @@ class MakeModule extends Command
         );
     }
 
-    protected function getModuleName()
+    protected function setModuleName(string $name)
     {
-        return $this->moduleName;
+        $this->moduleName = $this->makePluralName($name);
+
+        $this->basicName = $this->makeBasicName($name);
     }
 
     protected function getModulePath()
     {
-        return $this->laravel['path'] . '/Modules/' . $this->getModuleName();
-    }
-
-    protected function getModuleNamePlural()
-    {
-        return Str::plural($this->moduleName);
+        return $this->laravel['path'] . '/Modules/' . $this->moduleName;
     }
 
     protected function getModelClass()
     {
-        return $this->moduleName;
+        return $this->basicName;
     }
 
     protected function getGraphQlTypeClass()
     {
-        return $this->moduleName . 'Type';
+        return $this->basicName . 'Type';
     }
 
     /**
@@ -178,13 +181,13 @@ class MakeModule extends Command
         return $this->laravel->getNamespace();
     }
 
-    /**
-     * Get the desired class name from the input.
-     *
-     * @return string
-     */
-    protected function getNameInput()
+    protected function makePluralName(string $name)
     {
-        return ucfirst(trim($this->argument('name')));
+        return Str::plural($this->makeBasicName($name));
+    }
+
+    protected function makeBasicName(string $name)
+    {
+        return ucfirst(trim($name));
     }
 }

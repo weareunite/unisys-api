@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use Unite\UnisysApi\Repositories\Repository;
 
-class DummyModuleRepository extends Repository
+class DummyModelRepository extends Repository
 {
     protected $modelClass = DummyModel::class;
 }
