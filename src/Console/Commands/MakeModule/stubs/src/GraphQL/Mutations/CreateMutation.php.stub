@@ -6,6 +6,8 @@ use DummyNamespace\DummyModelRepository;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
+use Illuminate\Database\Eloquent\Model;
+use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties;
 
 class CreateMutation extends BaseCreateMutation
 {
@@ -27,13 +29,25 @@ class CreateMutation extends BaseCreateMutation
     public function args()
     {
         return [
-            'name'              => [
+            'name'       => [
                 'type'  => Type::string(),
                 'rules' => [
                     'required',
                     'string',
                 ],
             ],
+            'properties' => [
+                'type'  => Type::listOf(Type::nonNull(GraphQL::type('Property'))),
+                'rules' => 'array',
+            ],
         ];
+    }
+
+    protected function afterCreate(Model $model, $root, $args)
+    {
+        /** @var $model HasProperties */
+        foreach ($args['properties'] as $property) {
+            $model->addProperty($property['key'], $property['value']);
+        }
     }
 }

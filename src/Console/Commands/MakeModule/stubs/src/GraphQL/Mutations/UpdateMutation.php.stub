@@ -5,6 +5,9 @@ namespace DummyNamespace\GraphQL\Mutations;
 use DummyNamespace\DummyModelRepository;
 use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
 use GraphQL\Type\Definition\Type;
+use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties;
+use Illuminate\Database\Eloquent\Model;
+use GraphQL;
 
 class UpdateMutation extends BaseUpdateMutation
 {
@@ -27,6 +30,17 @@ class UpdateMutation extends BaseUpdateMutation
                     'string',
                 ],
             ],
+            'properties' => [
+                'type'  => Type::listOf(Type::nonNull(GraphQL::type('Property'))),
+            ],
         ]);
+    }
+
+    protected function afterUpdate(Model $model, $root, $args)
+    {
+        /** @var $model HasProperties */
+        foreach ($args['properties'] as $property) {
+            $model->addOrUpdateProperty($property['key'], $property['value']);
+        }
     }
 }
