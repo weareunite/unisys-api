@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePropertiesTables extends Migration
+{
+    public function up()
+    {
+        Schema::create('properties', function (Blueprint $table) {
+            $table->nullableMorphs('subject');
+            $table->string('key');
+            $table->text('value')->nullable();
+            $table->timestamps();
+
+            $table->primary(['subject_id', 'subject_type', 'key']);
+            $table->index(['subject_id', 'subject_type']);
+        });
+    }
+
+    public function down()
+    {
+        Schema::drop('properties');
+    }
+}
