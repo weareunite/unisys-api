@@ -14,5 +14,11 @@ interface HasProperties
 
     public function getProperty(string $key);
 
+    public function updateProperty(string $key, string $value);
+
+    public function addOrUpdateProperty(string $key, string $value);
+
+    public function existProperty(string $key);
+
     public function existProperties();
 }

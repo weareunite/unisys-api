@@ -22,12 +22,35 @@ trait HasProperties
 
     public function removeProperty(string $key)
     {
-        $this->properties()->where('key', '=', $key)->delete();
+        return $this->properties()->where('key', '=', $key)->delete();
     }
 
     public function getProperty(string $key)
     {
-        $this->properties()->where('key', '=', $key)->get(['value']);
+        return $this->properties()->where('key', '=', $key)->first(['value']);
+    }
+
+    public function existProperty(string $key)
+    {
+        return $this->properties()->where('key', '=', $key)->exists();
+    }
+
+    public function updateProperty(string $key, string $value)
+    {
+        if($property = $this->getProperty($key)) {
+            return $property->update(compact($value));
+        }
+
+        return false;
+    }
+
+    public function addOrUpdateProperty(string $key, string $value)
+    {
+        if($property = $this->getProperty($key)) {
+            return $property->update(compact($value));
+        } else {
+            return $this->addProperty($key, $value);
+        }
     }
 
     public function existProperties()
