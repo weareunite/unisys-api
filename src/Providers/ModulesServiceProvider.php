@@ -24,7 +24,7 @@ class ModulesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $directories = Storage::disk('modules')->directories();
+        $directories = Storage::directories(app_path('vendors/weareunite/unisys-api/src/Modules'));
 
         foreach ($directories as $directory) {
             $this->app->register('Unite\UnisysApi\Modules\\' . $directory . '\src\\'. $directory .'ServiceProvider');
