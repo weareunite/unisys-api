@@ -18,4 +18,13 @@ trait HasProperties
         ];
     }
 
+    public function createProperties(\Unite\UnisysApi\Modules\Properties\Contracts\HasProperties $model, $args)
+    {
+        if(isset($args['properties'])) {
+            foreach ($args['properties'] as $property) {
+                $model->addProperty($property['key'], $property['value']);
+            }
+        }
+    }
+
 }
