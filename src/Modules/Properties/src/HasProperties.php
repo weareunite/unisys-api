@@ -57,4 +57,13 @@ trait HasProperties
     {
         return $this->properties()->exists();
     }
+
+    public function handleProperties($properties = null)
+    {
+        if ($properties) {
+            foreach ($properties as $property) {
+                $this->addOrUpdateProperty($property['key'], $property['value']);
+            }
+        }
+    }
 }

@@ -21,4 +21,6 @@ interface HasProperties
     public function existProperty(string $key);
 
     public function existProperties();
+
+    public function handleProperties($properties = null);
 }
