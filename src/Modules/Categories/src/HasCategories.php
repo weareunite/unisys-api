@@ -2,8 +2,8 @@
 
 namespace Unite\UnisysApi\Modules\Categories;
 
+use App\Modules\Categories\Services\CategoryService;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -15,8 +15,17 @@ trait HasCategories
 
     protected $categoryGroup = null;
 
-    protected function getCategoryGroup()
-    : ?string
+    public function categories()
+    : MorphToMany
+    {
+        return $this
+            ->morphToMany(Category::class, 'categoryable')
+            ->withPivot('id as pivot_id')
+            ->orderBy('pivot_id');
+    }
+
+    public function getCategoryGroup()
+    : string
     {
         if (!$this->categoryGroup) {
             return self::class;
@@ -25,7 +34,7 @@ trait HasCategories
         return $this->categoryGroup;
     }
 
-    protected function getPotentialCategoryGroups()
+    public function getPotentialCategoryGroups()
     : array
     {
         $potentialGroups[] = self::class;
@@ -39,67 +48,42 @@ trait HasCategories
 
     public function createCategory(array $attributes)
     {
-        /** @var Category $category */
-        return Category::createFor($this, $attributes);
-    }
-
-    public function deleteCategory(int $id)
-    {
-        return Category::deleteFor($this, $id);
+        return app(CategoryService::class)->create($attributes, $this->getCategoryGroup());
     }
 
     public function updateCategory(int $id, $attributes)
     {
-        /** @var Category $category */
-        if ($category = Category::where('id', '=', $id)->forGroups($this->getPotentialCategoryGroups())->first()) {
-            $category->update($attributes);
-
-            if ($attributes['properties']) {
-                foreach ($attributes['properties'] as $property) {
-                    $category->addOrUpdateProperty($property['key'], $property['value']);
-                }
-            }
-        }
+        return app(CategoryService::class)->update($id, $attributes, $this->getPotentialCategoryGroups());
     }
 
-    public function categories()
-    : MorphToMany
+    public function deleteCategory(int $id)
     {
-        return $this
-            ->morphToMany(Category::class, 'categoryable')
-            ->withPivot('id as pivot_id')
-            ->orderBy('pivot_id');
+        return app(CategoryService::class)->delete($id, $this->getPotentialCategoryGroups());
     }
 
     public function availableCategories()
     : Builder
     {
-        return Category::forGroups($this->getPotentialCategoryGroups());
+        return app(CategoryService::class)->forGroups($this->getPotentialCategoryGroups());
     }
 
-    public function scopeWithAllCategories(Builder $query, $categories, string $group = null)
+    public function scopeWithAllCategories(Builder $query, array $category_ids, string $group = null)
     : Builder
     {
-        $categories = static::convertToCategories($categories, $group);
-
-        collect($categories)->each(function ($category) use ($query) {
-            $query->whereHas('categories', function (Builder $query) use ($category) {
-                return $query->where('id', $category ? $category->id : 0);
+        collect($category_ids)->each(function ($category_id) use ($query) {
+            $query->whereHas('categories', function (Builder $query) use ($category_id) {
+                return $query->where('id', '=', $category_id);
             });
         });
 
         return $query;
     }
 
-    public function scopeWithAnyCategories(Builder $query, $categories, string $group = null)
+    public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null)
     : Builder
     {
-        $categories = static::convertToCategories($categories, $group);
-
-        return $query->whereHas('categories', function (Builder $query) use ($categories) {
-            $categoryIds = collect($categories)->pluck('id');
-
-            $query->whereIn('id', $categoryIds);
+        return $query->whereHas('categories', function (Builder $query) use ($category_ids) {
+            $query->whereIn('id', '=', $category_ids);
         });
     }
 

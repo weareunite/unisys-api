@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface HasCategories
 {
-    public function categories(): MorphMany;
+    public function categories()
+    : MorphMany;
+
+    public function getCategoryGroup()
+    : string;
+
+    public function getPotentialCategoryGroups()
+    : array;
 
     public function createCategory(array $attributes);
 

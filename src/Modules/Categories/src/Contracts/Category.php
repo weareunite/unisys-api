@@ -13,8 +13,4 @@ interface Category
 
     public static function getForGroups($columns = [ '*' ], ... $groups)
     : Collection;
-
-    public static function createFor(HasCategories $parent, array $attributes);
-
-    public static function deleteFor(HasCategories $parent, int $id);
 }
