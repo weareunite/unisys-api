@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\ActivityLogs\Console\Commands\Install;
 use Unite\UnisysApi\Providers\LoadGraphQL;
 
-class ActivityLogServiceProvider extends ServiceProvider
+class ActivityLogsServiceProvider extends ServiceProvider
 {
     use LoadGraphQL;
 
