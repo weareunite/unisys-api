@@ -68,6 +68,12 @@ class UnisysApiServiceProvider extends ServiceProvider
             \Unite\UnisysApi\Exceptions\Handler::class
         );
 
+        $this->app->config["filesystems.disks.unisys-api"] = [
+            'driver' => 'local',
+            'root'   => base_path('vendors/weareunite/unisys-api'),
+            'visibility' => 'private',
+        ];
+
         if ($this->app->environment() === 'local') {
 //            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
