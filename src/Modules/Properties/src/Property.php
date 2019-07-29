@@ -11,9 +11,6 @@ class Property extends Model
 {
     use LogsActivity;
 
-    protected $primaryKey = ['subject_id', 'subject_type', 'key'];
-    public $incrementing = false;
-
     protected $table = 'properties';
 
     protected $fillable = [
