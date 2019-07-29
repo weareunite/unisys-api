@@ -24,9 +24,9 @@ interface HasCategories
 
     public function availableCategories();
 
-    public function scopeWithAllCategories(Builder $query, $categories, string $group = null);
+    public function scopeWithAllCategories(Builder $query, array $category_ids, string $group = null);
 
-    public function scopeWithAnyCategories(Builder $query, $categories, string $group = null);
+    public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null);
 
     public function attachCategories(...$category_ids);
 
