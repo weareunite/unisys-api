@@ -70,7 +70,7 @@ class UnisysApiServiceProvider extends ServiceProvider
 
         $this->app->config["filesystems.disks.unisys-api-modules"] = [
             'driver' => 'local',
-            'root'   => base_path('vendors/weareunite/unisys-api/src/Modules'),
+            'root'   => base_path('vendor/weareunite/unisys-api/src/Modules'),
             'visibility' => 'private',
         ];
 
