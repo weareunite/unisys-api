@@ -2,13 +2,13 @@
 
 namespace Unite\UnisysApi\Modules\Categories\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 interface HasCategories
 {
     public function categories()
-    : MorphMany;
+    : MorphToMany;
 
     public function getCategoryGroup()
     : string;
