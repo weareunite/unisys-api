@@ -19,6 +19,9 @@ class CategoriesServiceProvider extends ServiceProvider
             Install::class,
         ]);
 
+        $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
+        $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
+
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

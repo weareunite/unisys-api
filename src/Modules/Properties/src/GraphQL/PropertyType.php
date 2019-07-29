@@ -17,11 +17,11 @@ class PropertyType extends GraphQLType
     public function fields()
     {
         return [
-            'key'              => [
+            'key'   => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The key of property',
             ],
-            'value'         => [
+            'value' => [
                 'type'        => Type::string(),
                 'description' => 'The value of property',
             ],

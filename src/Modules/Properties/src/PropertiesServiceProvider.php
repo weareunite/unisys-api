@@ -19,6 +19,9 @@ class PropertiesServiceProvider extends ServiceProvider
             Install::class,
         ]);
 
+        $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
+        $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
+
         if (! class_exists('CreatePropertiesTables')) {
             $timestamp = date('Y_m_d_His', time());
 
