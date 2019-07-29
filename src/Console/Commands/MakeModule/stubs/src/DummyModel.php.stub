@@ -11,7 +11,7 @@ class DummyModel extends Model implements \Unite\UnisysApi\Modules\Properties\Co
     use HasInstance;
     use HasProperties;
 
-    protected $attributes = [
+    protected $fillable = [
         'name',
     ];
 }
