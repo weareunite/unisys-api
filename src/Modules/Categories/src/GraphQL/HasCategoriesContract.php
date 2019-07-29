@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\Properties\GraphQL;
+namespace Unite\UnisysApi\Modules\Categories\GraphQL;
 
 interface HasCategoriesContract
 {
