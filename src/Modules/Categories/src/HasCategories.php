@@ -19,7 +19,13 @@ trait HasCategories
     : MorphToMany
     {
         return $this
-            ->morphToMany(Category::class, 'categoryable')
+            ->morphToMany(
+                Category::class,
+                'model',
+                'model_has_categories',
+                'model_id',
+                'category_id'
+            )
             ->withPivot('id as pivot_id')
             ->orderBy('pivot_id');
     }
@@ -146,13 +152,13 @@ trait HasCategories
         // Get a list of category_ids for all current categories
         $current = $this->categories()
             ->newPivotStatement()
-            ->where('categoryable_id', $this->getKey())
+            ->where('model_id', $this->getKey())
             ->when($group !== null, function ($query) use ($group) {
                 $categoryModel = $this->categories()->getRelated();
 
                 return $query->join(
                     $categoryModel->getTable(),
-                    'categoryables.category_id',
+                    'model_has_categories.category_id',
                     '=',
                     $categoryModel->getTable() . '.' . $categoryModel->getKeyName()
                 )

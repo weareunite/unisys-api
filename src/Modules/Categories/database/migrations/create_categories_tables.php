@@ -20,19 +20,19 @@ class CreateCategoriesTables extends Migration
             $table->index(['name', 'group']);
         });
 
-        Schema::create('categoryables', function (Blueprint $table) {
+        Schema::create('model_has_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->morphs('categoryable');
+            $table->morphs('model');
 
-            $table->unique(['category_id', 'categoryable_id', 'categoryable_type']);
+            $table->unique(['category_id', 'model_id', 'model_type']);
         });
     }
 
     public function down()
     {
-        Schema::drop('categoryables');
+        Schema::drop('model_has_categories');
         Schema::drop('categories');
     }
 }
