@@ -6,4 +6,7 @@ interface HasPropertiesContract
 {
     public function propertiesField()
     : array;
+
+    public function propertiesArgs()
+    : array;
 }
