@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\GraphQL\Mutations;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class CreateMutation extends Mutation
@@ -18,11 +19,21 @@ abstract class CreateMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        $this->beforeCreate($root, $args);
+        DB::beginTransaction();
 
-        $object = $this->repository->create($args);
+        try {
+            $this->beforeCreate($root, $args);
 
-        $this->afterCreate($object, $root, $args);
+            $object = $this->repository->create($args);
+
+            $this->afterCreate($object, $root, $args);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            throw $exception;
+        }
 
         return $object;
     }

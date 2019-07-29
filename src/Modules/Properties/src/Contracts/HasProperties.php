@@ -8,15 +8,15 @@ interface HasProperties
 {
     public function properties(): MorphMany;
 
-    public function addProperty(string $key, string $value);
+    public function addProperty(string $key, string $value = null);
 
     public function removeProperty(string $key);
 
     public function getProperty(string $key);
 
-    public function updateProperty(string $key, string $value);
+    public function updateProperty(string $key, string $value = null);
 
-    public function addOrUpdateProperty(string $key, string $value);
+    public function addOrUpdateProperty(string $key, string $value = null);
 
     public function existProperty(string $key);
 

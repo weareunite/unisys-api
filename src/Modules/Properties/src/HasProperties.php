@@ -15,9 +15,9 @@ trait HasProperties
      * @param array $data
      * @return \Unite\UnisysApi\Modules\Properties\Property
      */
-    public function addProperty(string $key, string $value)
+    public function addProperty(string $key, string $value = null)
     {
-        return $this->properties()->create(compact($key, $value));
+        return $this->properties()->create(compact('key', 'value'));
     }
 
     public function removeProperty(string $key)
@@ -35,19 +35,19 @@ trait HasProperties
         return $this->properties()->where('key', '=', $key)->exists();
     }
 
-    public function updateProperty(string $key, string $value)
+    public function updateProperty(string $key, string $value = null)
     {
         if($property = $this->getProperty($key)) {
-            return $property->update(compact($value));
+            return $property->update(compact('value'));
         }
 
         return false;
     }
 
-    public function addOrUpdateProperty(string $key, string $value)
+    public function addOrUpdateProperty(string $key, string $value = null)
     {
         if($property = $this->getProperty($key)) {
-            return $property->update(compact($value));
+            return $property->update(compact('value'));
         } else {
             return $this->addProperty($key, $value);
         }
