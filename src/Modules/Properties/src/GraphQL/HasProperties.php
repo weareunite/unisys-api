@@ -18,6 +18,17 @@ trait HasProperties
         ];
     }
 
+    public function propertiesArgs()
+    : array
+    {
+        return [
+            'properties' => [
+                'type'        => Type::listOf(Type::nonNull(GraphQL::type('PropertyInput'))),
+                'description' => 'The properties',
+            ],
+        ];
+    }
+
     public function createProperties(\Unite\UnisysApi\Modules\Properties\Contracts\HasProperties $model, $args)
     {
         if(isset($args['properties'])) {
