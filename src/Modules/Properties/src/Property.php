@@ -28,7 +28,7 @@ class Property extends Model
 
     public function getValueAttribute()
     {
-        return $this->value;
+        return $this->attributes['value'];
     }
 
     protected function detectValueType(bool $strict = false)
