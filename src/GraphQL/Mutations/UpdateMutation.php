@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 abstract class UpdateMutation extends Mutation
 {
@@ -38,14 +39,24 @@ abstract class UpdateMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        /** @var Model $object */
-        $object = $this->repository->find($args['id']);
+        DB::beginTransaction();
 
-        $this->beforeUpdate($object, $root, $args);
+        try {
+            /** @var Model $object */
+            $object = $this->repository->find($args['id']);
 
-        $object->update($args);
+            $this->beforeUpdate($object, $root, $args);
 
-        $this->afterUpdate($object, $root, $args);
+            $object->update($args);
+
+            $this->afterUpdate($object, $root, $args);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            throw $exception;
+        }
 
         return true;
     }

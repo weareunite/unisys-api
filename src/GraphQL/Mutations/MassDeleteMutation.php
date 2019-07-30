@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 abstract class MassDeleteMutation extends Mutation
 {
@@ -48,15 +49,25 @@ abstract class MassDeleteMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        foreach ($args['ids'] as $id) {
-            /** @var Model $object */
-            $object = $this->repository->find($id);
+        DB::beginTransaction();
 
-            $this->beforeDelete($object, $root, $args);
+        try {
+            foreach ($args['ids'] as $id) {
+                /** @var Model $object */
+                $object = $this->repository->find($id);
 
-            $object->delete();
+                $this->beforeDelete($object, $root, $args);
 
-            $this->afterDelete($object, $root, $args);
+                $object->delete();
+
+                $this->afterDelete($object, $root, $args);
+            }
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            throw $exception;
         }
 
         return true;

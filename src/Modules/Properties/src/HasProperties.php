@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasProperties
 {
-    public function properties(): MorphMany
+    public function properties()
+    : MorphMany
     {
         return $this->morphMany(Property::class, 'subject');
     }
@@ -26,18 +27,26 @@ trait HasProperties
     }
 
     public function getProperty(string $key)
+    : ?string
     {
-        return $this->properties()->where('key', '=', $key)->first(['value']);
+        return $this->properties()->where('key', '=', $key)->first([ 'value' ])->value;
     }
 
     public function existProperty(string $key)
+    : bool
     {
         return $this->properties()->where('key', '=', $key)->exists();
     }
 
+    public function hasProperty(string $key)
+    : bool
+    {
+        return $this->existProperty($key);
+    }
+
     public function updateProperty(string $key, string $value = null)
     {
-        if($property = $this->getProperty($key)) {
+        if ($property = $this->getProperty($key)) {
             return $property->update(compact('value'));
         }
 
@@ -46,7 +55,7 @@ trait HasProperties
 
     public function addOrUpdateProperty(string $key, string $value = null)
     {
-        if($property = $this->getProperty($key)) {
+        if ($property = $this->getProperty($key)) {
             return $property->update(compact('value'));
         } else {
             return $this->addProperty($key, $value);
@@ -54,6 +63,7 @@ trait HasProperties
     }
 
     public function existProperties()
+    : bool
     {
         return $this->properties()->exists();
     }

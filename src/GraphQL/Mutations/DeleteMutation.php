@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 abstract class DeleteMutation extends Mutation
 {
@@ -39,14 +40,24 @@ abstract class DeleteMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        /** @var Model $object */
-        $object = $this->repository->find($args['id']);
+        DB::beginTransaction();
 
-        $this->beforeDelete($object, $root, $args);
+        try {
+            /** @var Model $object */
+            $object = $this->repository->find($args['id']);
 
-        $object->delete();
+            $this->beforeDelete($object, $root, $args);
 
-        $this->afterDelete($object, $root, $args);
+            $object->delete();
+
+            $this->afterDelete($object, $root, $args);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            throw $exception;
+        }
 
         return true;
     }
