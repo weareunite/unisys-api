@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\Properties\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Unite\UnisysApi\Modules\Properties\Property;
 
 interface HasProperties
 {
@@ -14,6 +15,9 @@ interface HasProperties
     public function removeProperty(string $key);
 
     public function getProperty(string $key)
+    : ?Property;
+
+    public function getPropertyValue(string $key)
     : ?string;
 
     public function updateProperty(string $key, string $value = null);

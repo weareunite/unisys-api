@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\Properties;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Unite\UnisysApi\Modules\Properties\Exceptions\PropertyDoesNotExistsException;
 
 trait HasProperties
 {
@@ -27,9 +28,20 @@ trait HasProperties
     }
 
     public function getProperty(string $key)
+    : ?Property
+    {
+        return $this->properties()->where('key', '=', $key)->first([ 'value' ]);
+
+    }
+
+    public function getPropertyValue(string $key)
     : ?string
     {
-        return $this->properties()->where('key', '=', $key)->first([ 'value' ])->value;
+        if ($object = $this->getProperty($key)) {
+            return $object->value;
+        }
+
+        return PropertyDoesNotExistsException::named($key);
     }
 
     public function existProperty(string $key)
