@@ -7,21 +7,39 @@ use GraphQL\Type\Definition\Type;
 
 trait HasCategories
 {
-    public function categoriesField()
+    protected $categoriesFieldName = 'categories';
+    protected $categoriesArgsName = 'category_ids';
+
+    public function categoriesField(string $name = null)
     : array
     {
+        $name = $this->categoriesFieldName = $name ?? $this->categoriesFieldName;
+
         return [
-            'categories' => [
+            $name => [
                 'type'        => Type::listOf(Type::nonNull(GraphQL::type('Category'))),
                 'description' => 'The categories',
             ],
         ];
     }
 
-    public function createCategories(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    public function categoriesArgs(string $name = null)
+    : array
     {
-        if (isset($args['categories'])) {
-            $model->attachCategories(collect($args['categories'])->pluck('id')->toArray());
+        $name = $this->categoriesArgsName = $name ?? $this->categoriesArgsName;
+
+        return [
+            $name => [
+                'type'        => Type::listOf(Type::nonNull(Type::int())),
+                'description' => 'The categories',
+            ],
+        ];
+    }
+
+    public function syncCategories(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    {
+        if (isset($args[$this->categoriesArgsName])) {
+            $model->syncCategories($args[$this->categoriesArgsName]);
         }
     }
 
