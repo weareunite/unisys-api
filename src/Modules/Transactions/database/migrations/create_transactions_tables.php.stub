@@ -44,7 +44,7 @@ class CreateTransactionsTables extends Migration
 
     public function down()
     {
-        Schema::drop('transaction_sources');
         Schema::drop('transactions');
+        Schema::drop('transaction_sources');
     }
 }
