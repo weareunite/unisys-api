@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Categories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Unite\UnisysApi\Modules\Categories\Exceptions\CategoryDoesNotExistsException;
 use Unite\UnisysApi\Services\Service;
 use DB;
