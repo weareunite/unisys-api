@@ -43,7 +43,7 @@ class CategoryService extends Service
         return $model;
     }
 
-    public function update(int $id, array $attributes, ... $groups)
+    public function update(int $id, array $attributes, array $groups)
     {
         /** @var Category $category */
         if ($category = $this->model->where('id', '=', $id)->forGroups($groups)->first()) {
@@ -53,7 +53,7 @@ class CategoryService extends Service
         }
     }
 
-    public function delete(int $id, ... $groups)
+    public function delete(int $id, array $groups)
     {
         if (!$category = $this->model->where('id', '=', $id)->forGroups($groups)->first([ 'id' ])) {
             throw new CategoryDoesNotExistsException;
@@ -62,7 +62,8 @@ class CategoryService extends Service
         return $category->delete();
     }
 
-    public function find(int $id, ... $groups)
+    public function find(int $id, array $groups)
+    : Category
     {
         /** @var Category $category */
         if (!$category = $this->model->where('id', '=', $id)->forGroups($groups)->first()) {
@@ -72,7 +73,18 @@ class CategoryService extends Service
         return $category;
     }
 
-    public function forGroups(... $groups)
+    public function findByName(string $name, array $groups)
+    : Category
+    {
+        /** @var Category $category */
+        if (!$category = $this->model->where('name', '=', $name)->forGroups($groups)->first()) {
+            throw new CategoryDoesNotExistsException;
+        }
+
+        return $category;
+    }
+
+    public function forGroups(array $groups)
     : Builder
     {
         return $this->model->forGroups($groups);

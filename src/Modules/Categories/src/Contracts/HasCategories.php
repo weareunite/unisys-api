@@ -24,17 +24,22 @@ interface HasCategories
 
     public function availableCategories();
 
-    public function scopeWithAllCategories(Builder $query, array $category_ids, string $group = null);
+    public function scopeWithAllCategories(Builder $query, array $category_ids, string $group = null)
+    : Builder;
 
-    public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null);
+    public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null)
+    : Builder;
+
+    public function findByName(string $name)
+    : Category;
 
     public function attachCategories(array $category_ids);
 
-    public function attachCategory(int $category_id);
+    public function attachCategory($category);
 
     public function detachCategories(array $category_ids);
 
-    public function detachCategory(int $category_id);
+    public function detachCategory($category);
 
     public function detachAllCategories();
 
