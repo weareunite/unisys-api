@@ -30,7 +30,7 @@ trait HasProperties
     public function getProperty(string $key)
     : ?Property
     {
-        return $this->properties()->where('key', '=', $key)->first([ 'value' ]);
+        return $this->properties()->where('key', '=', $key)->first([ 'id', 'value' ]);
 
     }
 
