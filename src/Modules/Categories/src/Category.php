@@ -8,12 +8,10 @@ use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Properties\HasProperties;
 use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties as HasPropertiesContract;
 use Unite\UnisysApi\Modules\Categories\Contracts\Category as CategoryContract;
-use Unite\UnisysApi\Modules\Users\HasInstance;
 
 class Category extends Model implements CategoryContract, HasPropertiesContract
 {
     use HasProperties;
-    use HasInstance;
 
     protected $fillable = [
         'name', 'group',
