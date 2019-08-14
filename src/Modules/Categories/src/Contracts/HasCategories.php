@@ -28,15 +28,15 @@ interface HasCategories
 
     public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null);
 
-    public function attachCategories(...$category_ids);
+    public function attachCategories(array $category_ids);
 
     public function attachCategory(int $category_id);
 
-    public function detachCategories(...$category_ids);
+    public function detachCategories(array $category_ids);
 
     public function detachCategory(int $category_id);
 
     public function detachAllCategories();
 
-    public function syncCategories(... $category_ids);
+    public function syncCategories(array $category_ids);
 }

@@ -92,7 +92,7 @@ trait HasCategories
         });
     }
 
-    public function attachCategories(...$category_ids)
+    public function attachCategories(array $category_ids)
     {
         $this->categories()->syncWithoutDetaching($category_ids);
 
@@ -110,7 +110,7 @@ trait HasCategories
      *
      * @return $this
      */
-    public function detachCategories(...$category_ids)
+    public function detachCategories(array $category_ids)
     {
         $this->categories()->detach($category_ids);
 
@@ -137,7 +137,7 @@ trait HasCategories
      *
      * @return $this
      */
-    public function syncCategories(... $category_ids)
+    public function syncCategories(array $category_ids)
     {
         $this->categories()->sync($category_ids);
 
