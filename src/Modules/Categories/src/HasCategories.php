@@ -2,7 +2,6 @@
 
 namespace Unite\UnisysApi\Modules\Categories;
 
-use App\Modules\Categories\Services\CategoryService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 

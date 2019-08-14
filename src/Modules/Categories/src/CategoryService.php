@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Modules\Categories\Services;
+namespace Unite\UnisysApi\Modules\Categories;
 
-use Unite\UnisysApi\Modules\Categories\Category;
 use Unite\UnisysApi\Modules\Categories\Exceptions\CategoryDoesNotExistsException;
 use Unite\UnisysApi\Services\Service;
 use DB;
