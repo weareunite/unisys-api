@@ -57,7 +57,7 @@ class CategoryType extends GraphQLType implements HasPropertiesContract
         ];
     }
 
-    public function syncCategoryIds(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    public static function syncCategoryIds(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
     {
         if (isset($args['category_ids'])) {
             $model->syncCategories($args['category_ids']);
@@ -75,7 +75,7 @@ class CategoryType extends GraphQLType implements HasPropertiesContract
         ];
     }
 
-    public function syncCategoriesByNames(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    public static function syncCategoriesByNames(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
     {
         if (isset($args['category_names'])) {
             $model->syncCategoriesByNames($args['category_names']);
