@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Categories\GraphQL;
 
+use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Categories\Category;

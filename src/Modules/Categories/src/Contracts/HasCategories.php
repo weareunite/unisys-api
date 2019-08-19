@@ -30,8 +30,8 @@ interface HasCategories
     public function scopeWithAnyCategories(Builder $query, array $category_ids, string $group = null)
     : Builder;
 
-    public function findByName(string $name)
-    : Category;
+    public function findByName(string $name, array $attributes = [ '*' ])
+    : \Unite\UnisysApi\Modules\Categories\Category;
 
     public function attachCategories(array $category_ids);
 

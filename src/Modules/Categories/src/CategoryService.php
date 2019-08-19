@@ -90,7 +90,8 @@ class CategoryService extends Service
             ->whereIn('name', $names)
             ->forGroups($groups)
             ->select('id')
-            ->pluck('id');
+            ->pluck('id')
+            ->toArray();
     }
 
     public function forGroups(array $groups)
