@@ -44,4 +44,6 @@ interface HasCategories
     public function detachAllCategories();
 
     public function syncCategories(array $category_ids);
+
+    public function syncCategoriesByNames(array $category_names);
 }

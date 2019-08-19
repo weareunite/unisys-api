@@ -92,10 +92,10 @@ trait HasCategories
         });
     }
 
-    public function findByName(string $name)
+    public function findByName(string $name, array $attributes = [ '*' ])
     : Category
     {
-        return app(CategoryService::class)->findByName($name, $this->getPotentialCategoryGroups());
+        return app(CategoryService::class)->findByName($name, $this->getPotentialCategoryGroups(), $attributes);
     }
 
     public function attachCategories(array $category_ids)
@@ -108,11 +108,7 @@ trait HasCategories
 
     public function attachCategory($category)
     {
-        if (is_string($category)) {
-            $category_id = $this->findByName($category)->id;
-        } else {
-            $category_id = $category;
-        }
+        $category_id = $this->detectCategoryId($category);
 
         return $this->attachCategories([ $category_id ]);
     }
@@ -129,13 +125,20 @@ trait HasCategories
         return $this;
     }
 
-    public function detachCategory($category)
+    protected function detectCategoryId($category)
     {
         if (is_string($category)) {
-            $category_id = $this->findByName($category)->id;
+            $category_id = $this->findByName($category, [ 'id' ])->id;
         } else {
             $category_id = $category;
         }
+
+        return $category_id;
+    }
+
+    public function detachCategory($category)
+    {
+        $category_id = $this->detectCategoryId($category);
 
         return $this->detachCategories([ $category_id ]);
     }
@@ -160,6 +163,13 @@ trait HasCategories
         $this->categories()->sync($category_ids);
 
         return $this;
+    }
+
+    public function syncCategoriesByNames(array $category_names)
+    {
+        $category_ids = app(CategoryService::class)->convertNamesToIds($category_names, $this->getPotentialCategoryGroups());
+
+        $this->syncCategories($category_ids);
     }
 
     protected function syncCategoryIds($ids, string $group = null, $detaching = true)

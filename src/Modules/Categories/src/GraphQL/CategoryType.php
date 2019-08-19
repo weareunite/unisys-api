@@ -34,4 +34,51 @@ class CategoryType extends GraphQLType implements HasPropertiesContract
             $this->propertiesField()
         );
     }
+
+    public static function categoriesField()
+    : array
+    {
+        return [
+            'categories' => [
+                'type'        => Type::listOf(Type::nonNull(GraphQL::type('Category'))),
+                'description' => 'The categories',
+            ],
+        ];
+    }
+
+    public static function categoriesIdsArgs()
+    : array
+    {
+        return [
+            'category_ids' => [
+                'type'        => Type::listOf(Type::nonNull(Type::int())),
+                'description' => 'The categories',
+            ],
+        ];
+    }
+
+    public function syncCategoryIds(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    {
+        if (isset($args['category_ids'])) {
+            $model->syncCategories($args['category_ids']);
+        }
+    }
+
+    public static function categoriesNamesArgs()
+    : array
+    {
+        return [
+            'category_names' => [
+                'type'        => Type::listOf(Type::nonNull(Type::string())),
+                'description' => 'The category names',
+            ],
+        ];
+    }
+
+    public function syncCategoriesByNames(\Unite\UnisysApi\Modules\Categories\Contracts\HasCategories $model, $args)
+    {
+        if (isset($args['category_names'])) {
+            $model->syncCategoriesByNames($args['category_names']);
+        }
+    }
 }

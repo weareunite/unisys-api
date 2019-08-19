@@ -73,15 +73,24 @@ class CategoryService extends Service
         return $category;
     }
 
-    public function findByName(string $name, array $groups)
+    public function findByName(string $name, array $groups, array $attributes = ['*'])
     : Category
     {
         /** @var Category $category */
-        if (!$category = $this->model->where('name', '=', $name)->forGroups($groups)->first()) {
+        if (!$category = $this->model->where('name', '=', $name)->forGroups($groups)->first($attributes)) {
             throw new CategoryDoesNotExistsException;
         }
 
         return $category;
+    }
+
+    public function convertNamesToIds(array $names, array $groups)
+    {
+        return $this->model
+            ->whereIn('name', $names)
+            ->forGroups($groups)
+            ->select('id')
+            ->pluck('id');
     }
 
     public function forGroups(array $groups)
