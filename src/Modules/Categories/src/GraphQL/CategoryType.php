@@ -6,13 +6,10 @@ use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Categories\Category;
-use Unite\UnisysApi\Modules\Properties\GraphQL\HasProperties;
-use Unite\UnisysApi\Modules\Properties\GraphQL\HasPropertiesContract;
+use Unite\UnisysApi\Modules\Properties\GraphQL\PropertyType;
 
-class CategoryType extends GraphQLType implements HasPropertiesContract
+class CategoryType extends GraphQLType
 {
-    use HasProperties;
-
     protected $attributes = [
         'name'        => 'Category',
         'description' => 'A categories',
@@ -32,7 +29,7 @@ class CategoryType extends GraphQLType implements HasPropertiesContract
                     'description' => 'The name of category',
                 ],
             ],
-            $this->propertiesField()
+            PropertyType::propertiesField()
         );
     }
 
