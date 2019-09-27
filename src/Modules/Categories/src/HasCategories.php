@@ -77,7 +77,7 @@ trait HasCategories
     {
         collect($category_ids)->each(function ($category_id) use ($query) {
             $query->whereHas('categories', function (Builder $query) use ($category_id) {
-                return $query->where('id', '=', $category_id);
+                return $query->where('categories.id', '=', $category_id);
             });
         });
 
@@ -88,7 +88,7 @@ trait HasCategories
     : Builder
     {
         return $query->whereHas('categories', function (Builder $query) use ($category_ids) {
-            $query->whereIn('id', '=', $category_ids);
+            $query->whereIn('categories.id', '=', $category_ids);
         });
     }
 
