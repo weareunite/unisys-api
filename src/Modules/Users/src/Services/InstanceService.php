@@ -2,10 +2,11 @@
 
 namespace Unite\UnisysApi\Modules\Users\Services;
 
-use Illuminate\Contracts\Auth\Factory as Auth;
 use Unite\UnisysApi\Exceptions\MissingInstanceException;
 use Unite\UnisysApi\Modules\Users\User;
 use Unite\UnisysApi\Services\Service;
+use DB;
+use DomainException;
 
 class InstanceService extends Service
 {
@@ -13,11 +14,6 @@ class InstanceService extends Service
     protected $user;
 
     protected $instanceId = null;
-
-    public function __construct(Auth $auth)
-    {
-        $this->user = $auth->user();
-    }
 
     public function setUser(User $user)
     {
@@ -40,10 +36,19 @@ class InstanceService extends Service
 
     public function selectInstanceId()
     {
-        if($this->instanceId) {
+        if ($this->instanceId) {
             return $this;
         }
 
+        if ($this->user) {
+            return $this->selectInstanceByUser();
+        }
+
+        return $this->selectSingleDefaultInstance();
+    }
+
+    protected function selectInstanceByUser()
+    {
         if (!$instance_id = $this->user->selectedInstanceId()) {
             if ($this->user->instances()->count() < 1) {
                 throw new MissingInstanceException;
@@ -56,6 +61,22 @@ class InstanceService extends Service
         }
 
         $this->instanceId = $instance_id;
+
+        return $this;
+    }
+
+    protected function getFirstInstanceId()
+    {
+        return DB::table('instances')->select([ 'id' ])->value('id');
+    }
+
+    protected function selectSingleDefaultInstance()
+    {
+        if (DB::table('instances')->count() > 1) {
+            throw new DomainException('Domain has defined more than one instance. You must define instance');
+        }
+
+        $this->instanceId = $this->getFirstInstanceId();
 
         return $this;
     }
