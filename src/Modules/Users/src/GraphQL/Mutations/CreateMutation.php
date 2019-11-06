@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
-use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\Users\UserRepository;
 use GraphQL;
 
