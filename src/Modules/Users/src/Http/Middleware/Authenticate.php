@@ -33,6 +33,7 @@ class Authenticate extends BaseAuthenticate
         $this->authenticate($guards);
 
         if(!instanceId()) {
+            $this->instanceService->setUser($this->auth->user());
             $this->instanceService->selectInstanceId();
         }
 
