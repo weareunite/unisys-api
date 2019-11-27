@@ -2,8 +2,8 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
-use Unite\UnisysApi\Export\Export;
-use Unite\UnisysApi\Export\ExportRequest;
+use Unite\UnisysApi\Modules\Export\Export;
+use Unite\UnisysApi\Modules\Export\ExportRequest;
 
 /**
  * @property-read \Unite\UnisysApi\Http\Resources\Resource $resource
