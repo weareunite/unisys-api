@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if (app()->bound('sentry') && $this->shouldReport($exception) &&
-            (app()->environment() == 'production' || env('FORCE_SENTRY', false) == true)) {
+            (app()->environment() == 'production' || env('FORCE_SENTRY', false) == 'true')) {
                 app('sentry')->captureException($exception);
         }
 
