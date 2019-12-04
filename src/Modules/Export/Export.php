@@ -96,6 +96,10 @@ class Export
                     } else {
                         $value = $this->makeValue($row, $key);
                     }
+
+                    if(isset($field->dateFormat)) {
+                        $value = date($field->dateFormat, strtotime($value));
+                    }
                 }
                 $spreadsheet->setActiveSheetIndex(0)
                     ->setCellValueByColumnAndRow($colIndex + 1, $rowIndex + 2, $value);
