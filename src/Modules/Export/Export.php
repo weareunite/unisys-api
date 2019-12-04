@@ -88,17 +88,13 @@ class Export
                         $a = explode('/', $field->key);
                         foreach ($row->{camel_case($a[0])} as $i => $b) {
                             if ($i === 0) {
-                                $value .= $this->makeValue($b, $a[1]);
+                                $value .= $this->formatDate($field, $this->makeValue($b, $a[1]));
                             } else {
-                                $value .= ', ' . $this->makeValue($b, $a[1]);
+                                $value .= ', ' . $this->formatDate($field, $this->makeValue($b, $a[1]));
                             }
                         }
                     } else {
-                        $value = $this->makeValue($row, $key);
-                    }
-
-                    if(isset($field->dateFormat)) {
-                        $value = date($field->dateFormat, strtotime($value));
+                        $value = $this->formatDate($field, $this->makeValue($row, $key));
                     }
                 }
                 $spreadsheet->setActiveSheetIndex(0)
@@ -128,6 +124,15 @@ class Export
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xls');
         $writer->save('php://output');
+    }
+
+    private function formatDate($field, $value)
+    {
+        if(isset($field->dateFormat)) {
+            return date($field->dateFormat, strtotime($value));
+        }
+
+        return $value;
     }
 
     protected function makeValue($row, $key)
