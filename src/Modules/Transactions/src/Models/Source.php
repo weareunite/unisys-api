@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Modules\Transactions\Models;
 
 use Unite\UnisysApi\Models\Model;
-use Unite\UnisysApi\Modules\Users\HasInstance;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder|\Unite\UnisysApi\Modules\Transactions\Models\Source whereName($value)
@@ -11,8 +10,6 @@ use Unite\UnisysApi\Modules\Users\HasInstance;
  */
 class Source extends Model
 {
-    use HasInstance;
-
     protected $table = 'transaction_sources';
 
     protected $fillable = [

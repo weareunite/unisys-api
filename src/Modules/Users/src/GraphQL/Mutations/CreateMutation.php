@@ -77,10 +77,6 @@ class CreateMutation extends BaseCreateMutation
             throw new \Exception('Cannot create record with this combination username and email');
         }
 
-        if(!$object->instances->contains(instanceId())) {
-            $object->instances()->attach(instanceId());
-        }
-
         if (isset($args['roles_ids'])) {
             $object->roles()->sync($args['roles_ids'] ?: []);
         }

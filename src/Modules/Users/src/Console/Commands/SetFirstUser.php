@@ -7,8 +7,6 @@ use Unite\UnisysApi\Modules\Contacts\CountryRepository;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
 use Unite\UnisysApi\Modules\Permissions\Role;
 use Unite\UnisysApi\Modules\Settings\Services\SettingService;
-use Unite\UnisysApi\Modules\Users\Instance;
-use Unite\UnisysApi\Modules\Users\Services\InstanceService;
 use Unite\UnisysApi\Modules\Users\User;
 
 class SetFirstUser extends Command
@@ -25,13 +23,10 @@ class SetFirstUser extends Command
      *
      * @var string
      */
-    protected $description = 'Set first user and his required relations like instance, roles and company profile';
+    protected $description = 'Set first user and his required relations like roles and company profile';
 
     /** @var  User */
     protected $user;
-
-    /** @var  Instance */
-    protected $instance;
 
     /** @var  Role */
     protected $adminRole;
@@ -42,18 +37,14 @@ class SetFirstUser extends Command
     /** @var  SettingService */
     protected $settingService;
 
-    /** @var  InstanceService */
-    protected $instanceService;
-
     /** @var  string */
     protected $plainPassword;
 
 
-    public function handle(CountryRepository $countryRepository, SettingService $settingService, InstanceService $instanceService)
+    public function handle(CountryRepository $countryRepository, SettingService $settingService)
     {
         $this->countryRepository = $countryRepository;
         $this->settingService = $settingService;
-        $this->instanceService = $instanceService;
 
         if (User::count() > 0) {
             $this->info('Table of users is not empty ...');
@@ -61,15 +52,11 @@ class SetFirstUser extends Command
             return;
         }
 
-        $this->createInstance();
-
         $this->createUser();
 
         $this->createDefaultRoles();
 
         $this->attachUserToRoles();
-
-        $this->attachUserToInstance();
 
         $this->setCompanyProfile();
 
@@ -77,19 +64,6 @@ class SetFirstUser extends Command
 
         $this->getOutput()->note('REMEMBER Login credentials');
         $this->table([ 'Username', 'Password' ], [ [ $this->user->username, $this->plainPassword ] ]);
-    }
-
-    private function createInstance()
-    {
-        $this->getOutput()->title('Create Instance');
-
-        $data['name'] = $this->validate(function () {
-            return $this->ask('Instance name *');
-        }, 'required|string|max:150');
-
-        $this->instance = Instance::create($data);
-
-        $this->getOutput()->success('Instance ' . $this->instance->name . ' was created');
     }
 
     private function createUser()
@@ -120,8 +94,6 @@ class SetFirstUser extends Command
 
         $this->user = User::create($data);
 
-        $this->instanceService->setUser($this->user);
-
         $this->getOutput()->success('User ' . $this->user->getFullName() . ' was created');
     }
 
@@ -145,13 +117,6 @@ class SetFirstUser extends Command
         $this->user->assignRole($this->adminRole);
 
         $this->info('User ' . $this->user->getFullName() . ' was attached to role Admin');
-    }
-
-    private function attachUserToInstance()
-    {
-        $this->user->instances()->attach($this->instance->id);
-
-        $this->info('User ' . $this->user->getFullName() . ' was attached to instance ' . $this->instance->name);
     }
 
     private function setCompanyProfile()

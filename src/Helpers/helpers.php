@@ -63,11 +63,3 @@ if(! function_exists('companyProfile'))
         return app('companyProfile');
     }
 }
-
-if (!function_exists('instanceId')) {
-    function instanceId()
-    :? int
-    {
-        return app('instanceId');
-    }
-}
