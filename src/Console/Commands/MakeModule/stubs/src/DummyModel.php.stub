@@ -4,11 +4,9 @@ namespace DummyNamespace;
 
 use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Properties\HasProperties;
-use Unite\UnisysApi\Modules\Users\HasInstance;
 
 class DummyModel extends Model implements \Unite\UnisysApi\Modules\Properties\Contracts\HasProperties
 {
-    use HasInstance;
     use HasProperties;
 
     protected $fillable = [

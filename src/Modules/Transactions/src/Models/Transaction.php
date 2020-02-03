@@ -9,7 +9,6 @@ use Unite\UnisysApi\Modules\Transactions\Events\TransactionDeleting;
 use Unite\UnisysApi\Modules\Transactions\Events\TransactionSaving;
 use Unite\UnisysApi\Modules\Transactions\Events\TransactionUpdating;
 use Unite\UnisysApi\Models\Model;
-use Unite\UnisysApi\Modules\Users\HasInstance;
 
 /**
  * @property \Unite\UnisysApi\Models\Model $subject
@@ -17,7 +16,6 @@ use Unite\UnisysApi\Modules\Users\HasInstance;
 class Transaction extends Model
 {
     use LogsActivity;
-    use HasInstance;
 
     protected $table = 'transactions';
 

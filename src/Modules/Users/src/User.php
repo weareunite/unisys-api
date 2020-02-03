@@ -26,7 +26,7 @@ class User extends AuthModel
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'username', 'password', 'active', 'selected_instance_id'
+        'name', 'surname', 'email', 'username', 'password', 'active',
     ];
 
     /**
@@ -41,16 +41,6 @@ class User extends AuthModel
     protected $casts = [
         'active' => 'boolean'
     ];
-
-    public function instances()
-    {
-        return $this->belongsToMany(Instance::class, 'user_instance');
-    }
-
-    public function selected_instance()
-    {
-        return $this->belongsTo(Instance::class, 'selected_instance_id');
-    }
 
     public function getFrontendPermissions()
     {
@@ -101,10 +91,5 @@ class User extends AuthModel
     public function isActive()
     {
         return $this->active;
-    }
-
-    public function selectedInstanceId()
-    {
-        return $this->selected_instance_id;
     }
 }

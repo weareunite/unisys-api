@@ -9,7 +9,6 @@ use Unite\UnisysApi\Modules\Users\Console\Commands\SetFirstUser;
 use Unite\UnisysApi\Modules\Users\Http\Middleware\Authenticate;
 use Unite\UnisysApi\Modules\Users\Providers\AuthServiceProvider;
 use Unite\UnisysApi\Providers\LoadGraphQL;
-use Unite\UnisysApi\Modules\Users\Services\InstanceService;
 use Illuminate\Routing\Router;
 
 class UserServiceProvider extends ServiceProvider
@@ -31,20 +30,8 @@ class UserServiceProvider extends ServiceProvider
             SetFirstUser::class,
         ]);
 
-        $this->app->singleton(InstanceService::class, InstanceService::class);
-
-        $this->app->singleton('instanceId', function () {
-            return app(InstanceService::class)->getInstanceId();
-        });
-
         if ($this->app->runningInConsole()) {
             $timestamp = date('Y_m_d_His', time());
-
-            if (!class_exists('CreateInstancesTable')) {
-                $this->publishes([
-                    __DIR__ . '/../database/migrations/create_instances_table.php.stub' => database_path("/migrations/{$timestamp}_create_instances_table.php"),
-                ], 'migrations');
-            }
 
             if (!class_exists('CreateUsersTable')) {
                 $this->publishes([
