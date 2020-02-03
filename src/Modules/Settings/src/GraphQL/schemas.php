@@ -28,9 +28,9 @@ return [
             \Unite\UnisysApi\Modules\Settings\GraphQL\Queries\CompanyProfileQuery::class,
         ],
         'mutation' => [
-            \Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\CreateMutation::class,
-            \Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\UpdateMutation::class,
-            \Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\DeleteMutation::class,
+            \Unite\UnisysApi\Modules\Settings\GraphQL\Mutations\CreateMutation::class,
+            \Unite\UnisysApi\Modules\Settings\GraphQL\Mutations\UpdateMutation::class,
+            \Unite\UnisysApi\Modules\Settings\GraphQL\Mutations\DeleteMutation::class,
             \Unite\UnisysApi\Modules\Settings\GraphQL\Mutations\UpdateCompanyMutation::class,
         ],
     ]
