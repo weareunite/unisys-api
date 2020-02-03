@@ -21,7 +21,7 @@ class UpdateMutation extends BaseUpdateMutation
 
     public function args()
     {
-        return array_merge(parent::args(), [
+        return [
             'key'   => [
                 'type'  => Type::string(),
                 'rules' => 'required|string|max:100|unique:settings',
@@ -36,7 +36,7 @@ class UpdateMutation extends BaseUpdateMutation
                 'type'  => Type::string(),
                 'rules' => 'nullable|in:' . implode(',', Setting::getTypes()),
             ],
-        ]);
+        ];
     }
 
     public function resolve($root, $args)
