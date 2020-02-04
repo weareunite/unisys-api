@@ -5,6 +5,7 @@ namespace Unite\UnisysApi\Modules\Settings\GraphQL\Mutations;
 use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
 use Unite\UnisysApi\Modules\Settings\SettingRepository;
 use DB;
+use GraphQL\Type\Definition\Type;
 
 class DeleteMutation extends BaseDeleteMutation
 {
