@@ -63,7 +63,7 @@ abstract class BuilderQuery extends Query
             ->select($select);
 
         if(isset($args['filter'])) {
-            $query = $query->filter($args['filter'], app($this->typeClass()));
+            $query = $query->filter($args['filter']);
         }
 
         $query = $this->customScope($query, $args);

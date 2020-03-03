@@ -9,7 +9,7 @@ trait HasQueryFilter
         $queryFilter = $this->newQueryFilter($query);
         $queryFilter->setModel($this);
 
-        return $queryFilter->filter($filter['conditions']);
+        return $queryFilter->filter($filter);
     }
 
     public function newQueryFilter($query)

@@ -48,10 +48,18 @@ class QueryFilter implements QueryFilterInterface
     {
         switch ($operator) {
             case 'and':
-                $this->query->whereIn($field, $values);
+                if (count($values) === 1) {
+                    $this->query->where($field, '=', $values[0]);
+                } else {
+                    $this->query->whereIn($field, $values);
+                }
                 break;
             case 'or':
-                $this->query->whereIn($field, $values, 'or');
+                if (count($values) === 1) {
+                    $this->query->orWhere($field, '=', $values[0]);
+                } else {
+                    $this->query->whereIn($field, $values, 'or');
+                }
                 break;
             case 'between';
                 if (count($values) === 2) {
@@ -79,7 +87,7 @@ class QueryFilter implements QueryFilterInterface
         $method = $this->getFilterMethodName($condition['field']);
 
         if (method_exists($this, $method)) {
-            call_user_func($method, $condition['values']);
+            call_user_func_array([ $this, $method ], [ $condition['values'] ]);
         } else {
             $field = $this->getFieldName($condition['field']);
 
@@ -97,7 +105,7 @@ class QueryFilter implements QueryFilterInterface
             $method = $this->getSearchMethodName($field);
 
             if (method_exists($this, $method)) {
-                call_user_func($method, $search['query']);
+                call_user_func_array([ $this, $method ], $search['query']);
             } else {
                 $field = $this->getFieldName($field);
 
