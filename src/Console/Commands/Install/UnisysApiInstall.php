@@ -52,7 +52,6 @@ class UnisysApiInstall extends Command
         $this->call('unisys-api:install:permissions');
         $this->call('unisys-api:install:settings');
         $this->call('unisys-api:install:tags');
-        $this->call('unisys-api:install:transactions');
         $this->call('unisys-api:install:help');
         $this->call('unisys-api:install:errorReports');
         $this->call('unisys-api:install:activityLogs');
