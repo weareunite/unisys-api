@@ -81,7 +81,7 @@ class QueryFilter implements QueryFilterInterface
         $this->query->where($field, 'like', $search . $fulltext ? '%' : '');
     }
 
-    public function filterCondition(array $condition)
+    protected function filterCondition(array $condition)
     : Builder
     {
         $method = self::getFilterMethodName($condition['field']);
@@ -99,7 +99,7 @@ class QueryFilter implements QueryFilterInterface
         return $this->query;
     }
 
-    public function filterSearch(array $search)
+    protected function filterSearch(array $search)
     {
         foreach ($search['fields'] as $field) {
             $method = self::getSearchMethodName($field);
@@ -141,7 +141,11 @@ class QueryFilter implements QueryFilterInterface
 
         foreach (get_class_methods(self::class) as $method) {
             if (Str::startsWith('filter', $method)) {
-                $list[] = self::getFieldName(substr($method, 6));
+                $field = substr($method, 6);
+
+                if(!empty($field)) {
+                    $list[] = self::getFieldName(substr($method, 6));
+                }
             }
         }
 
