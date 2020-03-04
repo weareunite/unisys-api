@@ -26,19 +26,19 @@ class QueryFilter implements QueryFilterInterface
         return $this;
     }
 
-    protected function getFilterMethodName(string $field)
+    protected static function getFilterMethodName(string $field)
     : string
     {
         return 'filter' . ucfirst(Str::camel($field));
     }
 
-    protected function getSearchMethodName(string $field)
+    protected static function getSearchMethodName(string $field)
     : string
     {
         return 'search' . ucfirst(Str::camel($field));
     }
 
-    protected function getFieldName(string $field)
+    protected static function getFieldName(string $field)
     : string
     {
         return lcfirst(Str::snake($field));
@@ -84,12 +84,12 @@ class QueryFilter implements QueryFilterInterface
     public function filterCondition(array $condition)
     : Builder
     {
-        $method = $this->getFilterMethodName($condition['field']);
+        $method = self::getFilterMethodName($condition['field']);
 
         if (method_exists($this, $method)) {
             call_user_func_array([ $this, $method ], [ $condition['values'] ]);
         } else {
-            $field = $this->getFieldName($condition['field']);
+            $field = self::getFieldName($condition['field']);
 
             if (in_array($field, $this->model->getFillable())) {
                 $this->resolveFilter($field, $condition['operator'], $condition['values']);
@@ -102,12 +102,12 @@ class QueryFilter implements QueryFilterInterface
     public function filterSearch(array $search)
     {
         foreach ($search['fields'] as $field) {
-            $method = $this->getSearchMethodName($field);
+            $method = self::getSearchMethodName($field);
 
             if (method_exists($this, $method)) {
                 call_user_func_array([ $this, $method ], $search['query']);
             } else {
-                $field = $this->getFieldName($field);
+                $field = self::getFieldName($field);
 
                 if (in_array($field, $this->model->getFillable())) {
                     $this->resolveSearch($field, $search['query']);
@@ -132,5 +132,19 @@ class QueryFilter implements QueryFilterInterface
         }
 
         return $this->query;
+    }
+
+    public static function getAvailableCustomFilters()
+    : array
+    {
+        $list = [];
+
+        foreach (get_class_methods(self::class) as $method) {
+            if (Str::startsWith('filter', $method)) {
+                $list[] = self::getFieldName(substr($method, 6));
+            }
+        }
+
+        return $list;
     }
 }
