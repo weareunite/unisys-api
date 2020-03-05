@@ -2,12 +2,16 @@
 
 namespace DummyNamespace;
 
-use Unite\UnisysApi\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\Properties\HasProperties;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
+use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties as HasPropertiesContract;
 
-class DummyModel extends Model implements \Unite\UnisysApi\Modules\Properties\Contracts\HasProperties
+class DummyModel extends Model implements HasPropertiesContract, HasQueryFilterInterface
 {
     use HasProperties;
+    use HasQueryFilter;
 
     protected $fillable = [
         'name',
