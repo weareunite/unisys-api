@@ -2,14 +2,17 @@
 
 namespace Unite\UnisysApi\Modules\Properties;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Unite\UnisysApi\Models\Model;
 use Carbon\Carbon;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Property extends Model
+class Property extends Model implements HasQueryFilterInterface
 {
     use LogsActivity;
+    use HasQueryFilter;
 
     protected $table = 'properties';
 

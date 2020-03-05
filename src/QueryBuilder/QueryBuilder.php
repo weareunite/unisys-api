@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\QueryBuilder\Parsers\FilterParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\LimitParser;
 use Unite\UnisysApi\QueryBuilder\Parsers\OrderParser;

@@ -2,12 +2,15 @@
 
 namespace Unite\UnisysApi\Modules\Help;
 
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\CausesActivity;
-use Unite\UnisysApi\Models\Model;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Help extends Model
+class Help extends Model implements HasQueryFilterInterface
 {
     use CausesActivity;
+    use HasQueryFilter;
 
     protected $table = 'help';
 

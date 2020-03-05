@@ -2,15 +2,18 @@
 
 namespace Unite\UnisysApi\Modules\Settings;
 
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\CausesActivity;
-use Unite\UnisysApi\Models\Model;
 use Unite\UnisysApi\Modules\Contacts\Contracts\HasContacts as HasContactsContract;
 use Unite\UnisysApi\Modules\Contacts\Models\HasContacts;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Setting extends Model implements HasContactsContract
+class Setting extends Model implements HasContactsContract, HasQueryFilterInterface
 {
     use CausesActivity;
     use HasContacts;
+    use HasQueryFilter;
 
     /**
      * The attributes that are mass assignable.

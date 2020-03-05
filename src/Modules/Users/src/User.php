@@ -2,21 +2,37 @@
 
 namespace Unite\UnisysApi\Modules\Users;
 
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Unite\UnisysApi\Modules\Contacts\Models\HasContacts;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class User extends AuthModel
+class User extends Model implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract,
+    HasQueryFilterInterface
 {
+    use Authenticatable, Authorizable, CanResetPassword;
+
     use HasRoles;
     use HasApiTokens;
     use Notifiable;
     use CausesActivity;
     use HasContacts;
+    use HasQueryFilter;
 
-    const ADMIN_ROLE_NAME   = 'admin';
+    const ADMIN_ROLE_NAME = 'admin';
 
     protected $guard_name = 'api';
 
@@ -39,7 +55,7 @@ class User extends AuthModel
     ];
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     public function getFrontendPermissions()
@@ -76,7 +92,7 @@ class User extends AuthModel
 
     public function getFullName()
     {
-        if(trim($this->surname) === '' || !$this->surname) {
+        if (trim($this->surname) === '' || !$this->surname) {
             return $this->name;
         }
 

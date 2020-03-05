@@ -2,8 +2,8 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations;
 
-use GraphQL;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Contacts\ContactRepository;
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;

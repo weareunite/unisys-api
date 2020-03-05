@@ -4,9 +4,9 @@ namespace Unite\UnisysApi\Repositories;
 
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Unite\UnisysApi\Contracts\Repository as RepositoryContract;
-use Unite\UnisysApi\Models\Model;
 
 abstract class Repository implements RepositoryContract
 {
@@ -28,7 +28,7 @@ abstract class Repository implements RepositoryContract
 
     protected function loadModelClass()
     {
-        list ($class) = array_slice(array_reverse(explode('\\', get_called_class())), 0, 2);
+        [$class] = array_slice(array_reverse(explode('\\', get_called_class())), 0, 2);
 
         $class = str_replace('Repository', '', $class);
 

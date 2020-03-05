@@ -2,16 +2,19 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Unite\UnisysApi\Helpers\CustomProperty\HasCustomProperty;
 use Unite\UnisysApi\Helpers\CustomProperty\HasCustomPropertyTrait;
-use Unite\UnisysApi\Models\Model;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Contact extends Model implements HasCustomProperty
+class Contact extends Model implements HasCustomProperty, HasQueryFilterInterface
 {
     use LogsActivity;
     use HasCustomPropertyTrait;
+    use HasQueryFilter;
 
     protected $table = 'contacts';
 

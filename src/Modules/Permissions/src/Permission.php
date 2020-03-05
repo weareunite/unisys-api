@@ -4,8 +4,9 @@ namespace Unite\UnisysApi\Modules\Permissions;
 
 use Spatie\Permission\Models\Permission as BasePermission;
 use Unite\UnisysApi\QueryFilter\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Permission extends BasePermission
+class Permission extends BasePermission implements HasQueryFilterInterface
 {
     use HasQueryFilter;
 
