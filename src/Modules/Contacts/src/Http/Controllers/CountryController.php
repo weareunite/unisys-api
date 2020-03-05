@@ -7,7 +7,7 @@ use Unite\UnisysApi\Modules\Contacts\CountryRepository;
 use Unite\UnisysApi\Modules\Contacts\Http\Resources\CountryForSelectResource;
 use Unite\UnisysApi\Modules\Contacts\Http\Resources\CountryResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
 use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 
@@ -16,7 +16,7 @@ use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
  *
  * Country handler
  */
-class CountryController extends Controller
+class CountryController extends UnisysController
 {
     protected $repository;
 

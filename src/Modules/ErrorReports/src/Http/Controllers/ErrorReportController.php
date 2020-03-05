@@ -5,13 +5,13 @@ namespace Unite\UnisysApi\Modules\ErrorReports\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Unite\UnisysApi\GraphQL\PaginationInput;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReport;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReportRepository;
 use Unite\UnisysApi\Modules\Media\Http\Controllers\HandleUploads;
 use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
 
-class ErrorReportController extends Controller
+class ErrorReportController extends UnisysController
 {
     use HandleUploads;
 

@@ -5,7 +5,7 @@ namespace Unite\UnisysApi\Modules\Contacts\Http\Controllers;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\UnisysApi\Modules\Contacts\Http\Resources\ContactResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\Contacts\Http\Requests\UpdateRequest;
 use Unite\UnisysApi\Modules\Contacts\ContactRepository;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
@@ -16,7 +16,7 @@ use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
  *
  * Contacts handler
  */
-class ContactController extends Controller
+class ContactController extends UnisysController
 {
     protected $repository;
 

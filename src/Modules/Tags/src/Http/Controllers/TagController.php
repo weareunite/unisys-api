@@ -5,7 +5,7 @@ namespace Unite\UnisysApi\Modules\Tags\Http\Controllers;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Unite\UnisysApi\Modules\Tags\Http\Requests\StoreRequest;
 use Unite\UnisysApi\Modules\Tags\Tag;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\Tags\Http\Requests\UpdateRequest;
 use Unite\UnisysApi\Modules\Tags\Http\Resources\TagResource;
 use Unite\UnisysApi\Modules\Tags\TagRepository;
@@ -17,7 +17,7 @@ use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
  *
  * Tag handler
  */
-class TagController extends Controller
+class TagController extends UnisysController
 {
     protected $repository;
 

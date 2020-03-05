@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Permissions\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\Permissions\Permission;
 
 /**
@@ -11,7 +11,7 @@ use Unite\UnisysApi\Modules\Permissions\Permission;
  *
  * Roles handler
  */
-class RoleController extends Controller
+class RoleController extends UnisysController
 {
     public function synchronizeFrontendPermissions(Request $request)
     {

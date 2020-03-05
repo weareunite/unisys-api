@@ -3,14 +3,14 @@
 namespace Unite\UnisysApi\Modules\Media\Http\Controllers;
 
 use Spatie\MediaLibrary\Models\Media;
-use Unite\UnisysApi\Http\Controllers\Controller;
+use Unite\UnisysApi\Http\Controllers\UnisysController;
 
 /**
  * @resource Media
  *
  * Media handler
  */
-class MediaController extends Controller
+class MediaController extends UnisysController
 {
     /**
      * Stream

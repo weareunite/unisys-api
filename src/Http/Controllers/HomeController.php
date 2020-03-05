@@ -7,7 +7,7 @@ namespace Unite\UnisysApi\Http\Controllers;
  *
  * Home handler
  */
-class HomeController extends Controller
+class HomeController extends UnisysController
 {
     /**
      * About
