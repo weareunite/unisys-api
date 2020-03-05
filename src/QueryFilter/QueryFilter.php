@@ -44,7 +44,7 @@ class QueryFilter implements QueryFilterInterface
         return lcfirst(Str::snake($field));
     }
 
-    protected function resolveFilter(string $field, string $operator, array $values)
+    protected function resolveCondition(string $field, string $operator, array $values)
     {
         switch ($operator) {
             case 'and':
@@ -81,7 +81,7 @@ class QueryFilter implements QueryFilterInterface
         $this->query->where($field, 'like', $search . $fulltext ? '%' : '');
     }
 
-    protected function conditionFilter(array $condition)
+    protected function prepareCondition(array $condition)
     : Builder
     {
         $method = self::getFilterMethodName($condition['field']);
@@ -92,14 +92,14 @@ class QueryFilter implements QueryFilterInterface
             $field = self::getFieldName($condition['field']);
 
             if (in_array($field, $this->model->getFillable())) {
-                $this->resolveFilter($field, $condition['operator'], $condition['values']);
+                $this->resolveCondition($field, $condition['operator'], $condition['values']);
             }
         }
 
         return $this->query;
     }
 
-    protected function searchFilter(array $search)
+    protected function prepareSearch(array $search)
     {
         foreach ($search['fields'] as $field) {
             $method = self::getSearchMethodName($field);
@@ -119,16 +119,34 @@ class QueryFilter implements QueryFilterInterface
         return $this->query;
     }
 
+    protected function resolveOrder($value = null)
+    {
+        if ($value === null) {
+            $column = config('query-filter.default_order_column');
+            $direction = config('query-filter.default_order_direction');
+        } elseif (mb_substr($value, 0, 1, "utf-8") === '-') {
+            $direction = 'desc';
+            $column = substr($value, 1);
+        } else {
+            $direction = 'asc';
+            $column = $value;
+        }
+
+        $this->query->orderBy($column, $direction);
+    }
+
     public function filter(array $filter)
     {
+        $this->resolveOrder($filter['order'] ?? null);
+
         if (isset($filter['conditions'])) {
             foreach ($filter['conditions'] as $condition) {
-                $this->filterCondition($condition);
+                $this->prepareCondition($condition);
             }
         }
 
         if (isset($filter['search'])) {
-            $this->filterSearch($filter['search']);
+            $this->prepareSearch($filter['search']);
         }
 
         return $this->query;

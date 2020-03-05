@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\ActivityLogs;
 
-use Unite\UnisysApi\GraphQLQueryBuilder\HasQueryFilter;
+use Unite\UnisysApi\QueryFilter\HasQueryFilter;
 
 class ActivityLog extends \Spatie\Activitylog\Models\Activity
 {
