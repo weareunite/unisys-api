@@ -2,9 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Resources;
 
-use Illuminate\Database\Eloquent\Builder;
-use Unite\UnisysApi\Modules\Contacts\Models\Contact;
-use Unite\UnisysApi\Http\Resources\Resource;
+use Illuminate\Http\Resources\Json\Resource;
 
 class ContactResource extends Resource
 {
@@ -37,49 +35,5 @@ class ContactResource extends Resource
             'description'       => $this->description,
             'custom_properties' => $this->custom_properties,
         ];
-    }
-
-    public static function modelClass()
-    {
-        return Contact::class;
-    }
-
-    public static function eagerLoads()
-    {
-        $with = [
-            'country',
-        ];
-
-        return parent::eagerLoads()->merge($with);
-    }
-
-    public static function resourceMap()
-    {
-        $map = [
-            'country' => CountryResource::class
-        ];
-
-        return parent::resourceMap()->merge($map);
-    }
-
-    public static function virtualFields()
-    {
-        $virtualFields = [
-            'abroad' => function (Builder &$query, $value) {
-                $company = app('companyProfile');
-
-                if($value === 'yes') {
-                    $sql = 'contacts.country_id <> ' . $company->country_id;
-                } elseif ($value === 'no') {
-                    $sql = 'contacts.country_id = ' . $company->country_id;
-                } else {
-                    $sql = 'contacts.country_id = ' . $company->country_id;
-                }
-
-                return $query->orWhereRaw($sql);
-            }
-        ];
-
-        return parent::virtualFields()->merge($virtualFields);
     }
 }

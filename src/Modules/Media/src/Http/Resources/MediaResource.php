@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Media\Http\Resources;
 
-use Unite\UnisysApi\Http\Resources\Resource;
+use Illuminate\Http\Resources\Json\Resource;
 use Unite\UnisysApi\Modules\Media\Models\Media;
 
 class MediaResource extends Resource
@@ -10,12 +10,12 @@ class MediaResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      * @return array
      */
     public function toArray($request)
     {
-        /** @var Media $this->resource */
+        /** @var Media $this ->resource */
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -24,13 +24,8 @@ class MediaResource extends Resource
             'size'              => $this->size,
             'custom_properties' => $this->custom_properties,
             'created_at'        => (string)$this->created_at,
-            'link'              => route('api.media.stream', ['id' => $this->id]),
-            'downloadLink'      => route('api.media.download', ['id' => $this->id]),
+            'link'              => route('api.media.stream', [ 'id' => $this->id ]),
+            'downloadLink'      => route('api.media.download', [ 'id' => $this->id ]),
         ];
-    }
-
-    public static function modelClass()
-    {
-        return Media::class;
     }
 }

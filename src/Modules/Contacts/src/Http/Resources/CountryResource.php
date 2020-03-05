@@ -2,20 +2,20 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Resources;
 
+use Illuminate\Http\Resources\Json\Resource;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
-use Unite\UnisysApi\Http\Resources\Resource;
 
 class CountryResource extends Resource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      * @return array
      */
     public function toArray($request)
     {
-        /** @var Country $this->resource */
+        /** @var Country $this ->resource */
         return [
             'id'                => $this->id,
             'capital'           => $this->capital,
@@ -36,10 +36,5 @@ class CountryResource extends Resource
             'calling_code'      => $this->calling_code,
             'flag'              => $this->flag,
         ];
-    }
-
-    public static function modelClass()
-    {
-        return Country::class;
     }
 }
