@@ -6,7 +6,6 @@ use Closure;
 
 class HttpsProtocol
 {
-
     /**
      * Handle an incoming request.
      *
