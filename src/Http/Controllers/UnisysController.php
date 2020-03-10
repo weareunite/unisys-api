@@ -2,7 +2,6 @@
 
 namespace Unite\UnisysApi\Http\Controllers;
 
-use Unite\UnisysApi\Helpers\Prefix\HasPrefixTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -10,7 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UnisysController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HasPrefixTrait;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected function successJsonResponse()
     {
