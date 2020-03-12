@@ -3,7 +3,7 @@
 namespace DummyNamespace\GraphQL\Mutations;
 
 use DummyNamespace\DummyModelRepository;
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
 
 class DeleteMutation extends BaseDeleteMutation
 {

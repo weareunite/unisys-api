@@ -2,11 +2,10 @@
 
 namespace DummyNamespace\GraphQL\Mutations;
 
-use DummyNamespace\DummyModelRepository;
-use GraphQL;
+use DummyNamespace\DummyModel;
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
-use Illuminate\Database\Eloquent\Model;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties;
 
 class CreateMutation extends BaseCreateMutation
@@ -15,10 +14,10 @@ class CreateMutation extends BaseCreateMutation
         'name' => 'createDummyModel',
     ];
 
-    public function repositoryClass()
+    public function modelClass()
     : string
     {
-        return DummyModelRepository::class;
+        return DummyModel::class;
     }
 
     public function type()
@@ -43,9 +42,11 @@ class CreateMutation extends BaseCreateMutation
         ];
     }
 
-    protected function afterCreate(Model $model, $root, $args)
+    public function resolve($root, $args)
     {
         /** @var $model HasProperties */
+        $model = parent::resolve($root, $args);
+
         foreach ($args['properties'] as $property) {
             $model->addProperty($property['key'], $property['value']);
         }

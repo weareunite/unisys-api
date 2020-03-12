@@ -2,7 +2,7 @@
 
 namespace DummyNamespace\GraphQL;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
 
 class ListQuery extends Query
 {

@@ -3,7 +3,7 @@
 namespace DummyNamespace;
 
 use Illuminate\Support\ServiceProvider;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class DummyModuleServiceProvider extends ServiceProvider
 {

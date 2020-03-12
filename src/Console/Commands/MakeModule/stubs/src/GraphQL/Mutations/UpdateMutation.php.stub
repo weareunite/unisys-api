@@ -3,11 +3,11 @@
 namespace DummyNamespace\GraphQL\Mutations;
 
 use DummyNamespace\DummyModelRepository;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Modules\Properties\Contracts\HasProperties;
 use Illuminate\Database\Eloquent\Model;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UpdateMutation extends BaseUpdateMutation
 {
