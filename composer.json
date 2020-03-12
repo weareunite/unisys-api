@@ -35,11 +35,11 @@
     "sentry/sentry-laravel": "^1.7",
     "spatie/data-transfer-object": "^1.13",
     "spatie/eloquent-sortable": "^3.8",
-    "spatie/laravel-activitylog": "^3.11",
+    "spatie/laravel-activitylog": "^3.11.0",
     "spatie/laravel-backup": "^6.8",
     "spatie/laravel-medialibrary": "^8.0.0",
     "spatie/laravel-model-status": "^1.10",
-    "spatie/laravel-permission": "^3.11",
+    "spatie/laravel-permission": "^3.11.0",
     "webpatser/laravel-countries": "^1.5.4"
   },
   "require-dev": {
