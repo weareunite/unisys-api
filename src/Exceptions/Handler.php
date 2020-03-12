@@ -2,13 +2,9 @@
 
 namespace Unite\UnisysApi\Exceptions;
 
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\OAuthServerException;
-use Spatie\Permission\Exceptions\PermissionDoesNotExist;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -19,29 +15,9 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         OAuthServerException::class,
-        AuthenticationException::class,
-        ModelNotFoundException::class,
     ];
 
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
-     */
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
-
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
-     * @return void
-     */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (app()->bound('sentry') && $this->shouldReport($exception) &&
             (app()->environment() == 'production' || env('FORCE_SENTRY', false) == 'true')) {
@@ -51,32 +27,5 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
-    /**
-     * Prepare exception for rendering.
-     *
-     * @param  \Exception  $e
-     * @return \Exception
-     */
-    protected function prepareException(Exception $e)
-    {
-        $e = parent::prepareException($e);
 
-        if($e instanceof PermissionDoesNotExist || $e instanceof AuthorizationException) {
-            $e = new AuthenticationException($e->getMessage());
-        }
-
-        return $e;
-    }
-
-    /**
-     * Convert an authentication exception into a response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return response()->json(['message' => $exception->getMessage()], 401);
-    }
 }
