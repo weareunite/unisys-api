@@ -6,7 +6,6 @@
     "unisys api",
     "unite",
     "weareunite",
-    "api",
     "laravel"
   ],
   "license": "MIT",
@@ -17,19 +16,14 @@
       "email": "vlado.zilka@weareunite.com",
       "homepage": "https://weareunite.com",
       "role": "Developer"
-    },
-    {
-      "name": "Michal Stupák",
-      "email": "michal.stupak@weareunite.com",
-      "homepage": "https://weareunite.com",
-      "role": "Developer"
     }
   ],
   "require": {
     "php": "^7.2",
     "aws/aws-sdk-php": "~3.0",
     "barryvdh/laravel-snappy": "^0.4.7",
-    "illuminate/support": ">=6.8",
+    "illuminate/contracts": "^7.0",
+    "illuminate/support": "^7.0",
     "laravel/passport": "^8.0",
     "league/flysystem-aws-s3-v3": "^1.0",
     "mll-lab/laravel-graphql-playground": "^2.1",
@@ -37,13 +31,13 @@
     "myclabs/php-enum": "^1.7",
     "lorisleiva/laravel-deployer": "^0.3",
     "predis/predis": "^1.1",
-    "rebing/graphql-laravel": "^4",
+    "rebing/graphql-laravel": "5.0.0-rc2",
     "sentry/sentry-laravel": "^1.7",
     "spatie/data-transfer-object": "^1.13",
     "spatie/eloquent-sortable": "^3.8",
     "spatie/laravel-activitylog": "^3.11",
     "spatie/laravel-backup": "^6.8",
-    "spatie/laravel-medialibrary": "^7.0.0",
+    "spatie/laravel-medialibrary": "^8.0.0",
     "spatie/laravel-model-status": "^1.10",
     "spatie/laravel-permission": "^3.11",
     "webpatser/laravel-countries": "^1.5.4"
@@ -51,7 +45,8 @@
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.3",
     "fzaninotto/faker": "~1.4",
-    "mockery/mockery": "0.9.*",
+    "mockery/mockery": "1.3.*",
+    "orchestra/testbench": "5.0.*",
     "phpunit/phpunit": "^8.5",
     "doctrine/dbal": "^2.5"
   },
