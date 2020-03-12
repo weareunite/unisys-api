@@ -16,4 +16,7 @@ return [
     \Unite\UnisysApi\Modules\Permissions\GraphQL\RoleType::class,
     \Unite\UnisysApi\Modules\Permissions\GraphQL\PermissionType::class,
     \Unite\UnisysApi\Modules\Permissions\GraphQL\PermissionSelectType::class,
+
+    \Unite\UnisysApi\Modules\Permissions\GraphQL\Inputs\RoleInput::class,
+    \Unite\UnisysApi\Modules\Permissions\GraphQL\Inputs\PermissionInput::class,
 ];

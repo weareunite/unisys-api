@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as Mutation;
-use Unite\UnisysApi\Modules\Permissions\PermissionRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\Permissions\Permission;
 
-class DeleteMutation extends Mutation
+class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deletePermission',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return PermissionRepository::class;
+        return Permission::class;
     }
 }

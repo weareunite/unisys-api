@@ -2,37 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
-use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Modules\Permissions\PermissionRepository;
+use Unite\UnisysApi\Modules\Permissions\GraphQL\Inputs\PermissionInput;
+use Unite\UnisysApi\Modules\Permissions\Permission;
 
 class UpdateMutation extends BaseUpdateMutation
 {
-    protected $attributes = [
-        'name' => 'updatePermission',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return PermissionRepository::class;
+        return Permission::class;
     }
 
-    public function args()
+    protected function inputClass()
+    : string
     {
-        return array_merge(parent::args(), [
-            'name'       => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'string',
-                ],
-            ],
-            'guard_name' => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'string',
-                ],
-            ],
-        ]);
+        return PermissionInput::class;
     }
 }
