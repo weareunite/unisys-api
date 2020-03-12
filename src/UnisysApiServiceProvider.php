@@ -48,9 +48,9 @@ class UnisysApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerModules();
-
         $this->registerDisk();
+
+        $this->registerModules();
 
         if ($this->app->environment() === 'local') {
             $this->registerIdeHelper();
