@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\MassDeleteMutation as BaseMassDeleteMutation;
-use Unite\UnisysApi\Modules\Help\HelpRepository;
+use Unite\UnisysApi\Modules\Help\Help;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\MassDeleteMutation as BaseMassDeleteMutation;
 
 class MassDeleteMutation extends BaseMassDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'massDeleteHelp',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return HelpRepository::class;
+        return Help::class;
     }
 }

@@ -9,7 +9,7 @@ use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReport;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReportRepository;
 use Unite\UnisysApi\Modules\Media\Http\Controllers\HandleUploads;
-use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
+use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 class ErrorReportController extends UnisysController
 {
@@ -22,7 +22,7 @@ class ErrorReportController extends UnisysController
         $this->repository = $repository;
     }
 
-    public function list(QueryBuilderRequest $request)
+    public function list(QueryFilterRequest $request)
     {
         $args = $request->all();
 

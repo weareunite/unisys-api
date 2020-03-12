@@ -9,7 +9,7 @@ use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\Contacts\Http\Requests\UpdateRequest;
 use Unite\UnisysApi\Modules\Contacts\ContactRepository;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
-use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
+use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 /**
  * @resource Contact
@@ -34,11 +34,11 @@ class ContactController extends UnisysController
     /**
      * List
      *
-     * @param QueryBuilderRequest $request
+     * @param QueryFilterRequest $request
      *
      * @return AnonymousResourceCollection|ContactResource[]
      */
-    public function list(QueryBuilderRequest $request)
+    public function list(QueryFilterRequest $request)
     {
         $object = QueryBuilder::for($this->resource, $request)
             ->paginate();
@@ -60,7 +60,7 @@ class ContactController extends UnisysController
 
         \Cache::tags('response')->flush();
 
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 
     /**
@@ -80,6 +80,6 @@ class ContactController extends UnisysController
 
         \Cache::tags('response')->flush();
 
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 }

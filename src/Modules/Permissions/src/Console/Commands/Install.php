@@ -37,7 +37,5 @@ class Install extends InstallModuleCommand
         ]);
 
         $this->call('migrate');
-
-        $this->call('unisys-api:permissions:sync-permissions');
     }
 }

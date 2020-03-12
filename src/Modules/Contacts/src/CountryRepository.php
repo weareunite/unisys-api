@@ -6,7 +6,7 @@ use Unite\UnisysApi\Modules\Contacts\Models\Country;
 use Unite\UnisysApi\Repositories\Repository;
 
 /**
- * @method Country getQueryBuilder()
+ * @method Country newQuery()
  */
 class CountryRepository extends Repository
 {
@@ -17,7 +17,7 @@ class CountryRepository extends Repository
      */
     public function getOne(int $id)
     {
-        return $this->getQueryBuilder()->getOne($id);
+        return $this->newQuery()->getOne($id);
     }
 
     /**
@@ -25,7 +25,7 @@ class CountryRepository extends Repository
      */
     public function getList(string $sort = null)
     {
-        return $this->getQueryBuilder()->getList($sort);
+        return $this->newQuery()->getList($sort);
     }
 
     /**
@@ -34,7 +34,7 @@ class CountryRepository extends Repository
      */
     public function getListForSelect()
     {
-        return $this->getQueryBuilder()
+        return $this->newQuery()
             ->orderBy('name', 'asc')
             ->get(['id', 'name'])
             ->pluck('name', 'id')
@@ -43,7 +43,7 @@ class CountryRepository extends Repository
 
     public function getByName(string $name)
     {
-        return $this->getQueryBuilder()
+        return $this->newQuery()
             ->where('name', '=', $name)
             ->first();
 

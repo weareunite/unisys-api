@@ -8,8 +8,6 @@ class Install extends InstallModuleCommand
 {
     protected $moduleName = 'categories';
 
-    protected $filesystem;
-
     protected function install()
     {
         $this->call('migrate');

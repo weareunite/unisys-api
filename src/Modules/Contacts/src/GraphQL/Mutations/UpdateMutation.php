@@ -2,29 +2,23 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Unite\UnisysApi\Modules\Contacts\ContactRepository;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\Contacts\GraphQL\Inputs\ContactInput;
+use Unite\UnisysApi\Modules\Contacts\Models\Contact;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
 
 class UpdateMutation extends BaseUpdateMutation
 {
-    protected $attributes = [
-        'name' => 'updateContact',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return ContactRepository::class;
+        return Contact::class;
     }
 
-    public function type()
+    protected function inputClass()
+    : string
     {
-        return GraphQL::type('Contact');
-    }
-
-    public function args()
-    {
-        return array_merge(parent::args(), UpdateArguments::arguments());
+        return ContactInput::class;
     }
 }

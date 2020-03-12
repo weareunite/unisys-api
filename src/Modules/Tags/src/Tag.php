@@ -5,23 +5,19 @@ namespace Unite\UnisysApi\Modules\Tags;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Unite\UnisysApi\Helpers\CustomProperty\HasCustomProperty;
-use Unite\UnisysApi\Helpers\CustomProperty\HasCustomPropertyTrait;
 use Unite\UnisysApi\Modules\Tags\Contracts\Tag as TagContract;
 use Unite\UnisysApi\QueryFilter\HasQueryFilter;
 use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class Tag extends Model implements HasCustomProperty, TagContract, HasQueryFilterInterface
+class Tag extends Model implements TagContract, HasQueryFilterInterface
 {
-    use HasCustomPropertyTrait;
     use HasQueryFilter;
 
     protected $fillable = [
-        'name', 'type', 'custom_properties'
+        'name', 'type',
     ];
 
     protected $casts = [
-        'custom_properties' => 'array',
     ];
 
     public function scopeWithType(Builder $query, string $type = null): Builder

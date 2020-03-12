@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\Modules\Permissions\GraphQL\RoleType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\Permissions\Role;
 
-class RoleListQuery extends Query
+class RoleListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'roles',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return RoleType::class;
+        return Role::class;
     }
 }

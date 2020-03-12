@@ -15,6 +15,7 @@ class PermissionType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'         => [

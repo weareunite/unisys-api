@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
-use Unite\UnisysApi\Modules\Media\MediaRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\Media\Models\Media;
 
 class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deleteMedia',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return MediaRepository::class;
+        return Media::class;
     }
 }

@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Contacts;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Contacts\Console\Commands\Install;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class ContactsServiceProvider extends ServiceProvider
 {
@@ -15,16 +15,18 @@ class ContactsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
 
-        if (! class_exists('CreateContactsTables')) {
-            $timestamp = date('Y_m_d_His', time());
+            if (!class_exists('CreateContactsTables')) {
+                $timestamp = date('Y_m_d_His', time());
 
-            $this->publishes([
-                __DIR__ . '/../database/migrations/create_contacts_tables.php.stub' => database_path("migrations/{$timestamp}_create_contacts_tables.php"),
-            ], 'migrations');
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_contacts_tables.php.stub' => database_path("migrations/{$timestamp}_create_contacts_tables.php"),
+                ], 'migrations');
+            }
         }
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');

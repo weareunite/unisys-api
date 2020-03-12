@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\Modules\Users\GraphQL\UserType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\Users\User;
 
-class ListQuery extends Query
+class ListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'users',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return UserType::class;
+        return User::class;
     }
 }

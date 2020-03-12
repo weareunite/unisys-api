@@ -2,15 +2,16 @@
 
 namespace Unite\UnisysApi\Modules\Tags\Http\Controllers;
 
+use Unite\UnisysApi\Http\Controllers\HasModel;
+use Unite\UnisysApi\Modules\Tags\Contracts\HasTags;
 use Unite\UnisysApi\Modules\Tags\Http\Requests\AttachRequest;
 use Unite\UnisysApi\Modules\Tags\Http\Requests\DetachRequest;
 use Unite\UnisysApi\Modules\Tags\Http\Requests\MassAttachRequest;
 
-/**
- * @property-read \Unite\UnisysApi\Repositories\Repository $repository
- */
 trait AttachDetachTags
 {
+    use HasModel;
+
     /**
      * Attach Tags
      *
@@ -23,18 +24,17 @@ trait AttachDetachTags
      */
     public function attachTags(int $id, AttachRequest $request)
     {
-        /** @var \Unite\UnisysApi\Modules\Tags\Contracts\HasTags $object */
-        if(!$object = $this->repository->find($id)) {
-            abort(404);
+        $object = $this->newQuery()->findOrFail($id);
+
+        if ($object instanceof HasTags) {
+            abort(400, 'Object is not instance of HasTags');
         }
 
-        $data = $request->only(['tag_names']);
+        $data = $request->only([ 'tag_names' ]);
 
         $object->attachTags($data['tag_names']);
 
-        \Cache::tags('response')->flush();
-
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 
     /**
@@ -48,18 +48,20 @@ trait AttachDetachTags
      */
     public function massAttachTags(MassAttachRequest $request)
     {
-        $data = $request->only(['ids', 'tag_names']);
+        $data = $request->only([ 'ids', 'tag_names' ]);
 
-        foreach ($data['ids'] as $model_id) {
-            /** @var \Unite\UnisysApi\Modules\Tags\Contracts\HasTags $object */
-            if($object = $this->repository->find($model_id)) {
-                $object->attachTags($data['tag_names']);
-            }
+        /** @var HasTags[] $objects */
+        $objects = $this->newQuery()->whereIn('id', $data['ids'])->get();
+
+        if (!isset($objects[0]) || !$objects[0] instanceof HasTags) {
+            abort(400, 'Object is not instance of HasTags');
         }
 
-        \Cache::tags('response')->flush();
+        foreach ($objects as $object) {
+            $object->attachTags($data['tag_names']);
+        }
 
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 
     /**
@@ -74,17 +76,16 @@ trait AttachDetachTags
      */
     public function detachTags(int $id, DetachRequest $request)
     {
-        /** @var \Unite\UnisysApi\Modules\Tags\Contracts\HasTags $object */
-        if(!$object = $this->repository->find($id)) {
-            abort(404);
+        $object = $this->newQuery()->findOrFail($id);
+
+        if ($object instanceof HasTags) {
+            abort(400, 'Object is not instance of HasTags');
         }
 
         $data = $request->only('tag_names');
 
         $object->detachTags($data['tag_names']);
 
-        \Cache::tags('response')->flush();
-
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 }

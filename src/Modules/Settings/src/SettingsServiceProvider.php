@@ -4,8 +4,7 @@ namespace Unite\UnisysApi\Modules\Settings;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Settings\Console\Commands\Install;
-use Unite\UnisysApi\Modules\Settings\Services\SettingService;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class SettingsServiceProvider extends ServiceProvider
 {
@@ -16,26 +15,6 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
-
-        if ($this->app->runningInConsole()) {
-            $timestamp = date('Y_m_d_His', time());
-
-            if (!class_exists('CreateSettingsTable')) {
-                $this->publishes([
-                    __DIR__ . '/../database/migrations/create_settings_table.php.stub' => database_path("/migrations/{$timestamp}_create_settings_table.php"),
-                ], 'migrations');
-            }
-        }
-
-        $this->app->singleton(SettingService::class, SettingService::class);
-
-        $this->app->singleton('companyProfile', function () {
-            return app(SettingService::class)->companyProfile();
-        });
-
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
     }
@@ -45,6 +24,10 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+        }
     }
 }

@@ -21,6 +21,7 @@ class TagType extends GraphQLType
     // protected $inputObject = true;
 
     public function fields()
+    : array
     {
         return [
             'id'                => [
@@ -38,10 +39,6 @@ class TagType extends GraphQLType
             'created_at'        => [
                 'type'        => Type::string(),
                 'description' => 'The created_at of tag',
-            ],
-            'custom_properties' => [
-                'type'        => Type::string(),
-                'description' => 'The custom_properties of tag',
             ],
         ];
     }

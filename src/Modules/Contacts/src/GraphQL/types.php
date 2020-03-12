@@ -14,5 +14,13 @@
  */
 return [
     \Unite\UnisysApi\Modules\Contacts\GraphQL\ContactType::class,
+    \Unite\UnisysApi\Modules\Contacts\GraphQL\Inputs\ContactInput::class,
+
     \Unite\UnisysApi\Modules\Contacts\GraphQL\CountryType::class,
+
+    \Unite\UnisysApi\Modules\Contacts\GraphQL\PartnerType::class,
+    \Unite\UnisysApi\Modules\Contacts\GraphQL\Inputs\PartnerInput::class,
+
+    \Unite\UnisysApi\Modules\Contacts\GraphQL\ContactProfileType::class,
+    \Unite\UnisysApi\Modules\Contacts\GraphQL\Inputs\ContactProfileInput::class
 ];

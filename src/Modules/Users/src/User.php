@@ -2,13 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Users;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\CausesActivity;
@@ -17,14 +11,9 @@ use Unite\UnisysApi\Modules\Contacts\Models\HasContacts;
 use Unite\UnisysApi\QueryFilter\HasQueryFilter;
 use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
 
-class User extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract,
+class User extends AuthUser implements
     HasQueryFilterInterface
 {
-    use Authenticatable, Authorizable, CanResetPassword;
-
     use HasRoles;
     use HasApiTokens;
     use Notifiable;
@@ -107,5 +96,18 @@ class User extends Model implements
     public function isActive()
     {
         return $this->active;
+    }
+
+    public function hasExactlyRole($role)
+    {
+        if (!$this->hasRole($role)) {
+            return false;
+        }
+
+        if ($this->getRoleNames()->count() !== 1) {
+            return false;
+        }
+
+        return true;
     }
 }

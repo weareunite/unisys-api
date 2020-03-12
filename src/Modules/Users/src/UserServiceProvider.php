@@ -2,14 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Users;
 
+use Carbon\Carbon;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
+use Laravel\Passport\Http\Middleware\CheckForAnyScope;
+use Laravel\Passport\Http\Middleware\CheckScopes;
+use Laravel\Passport\Passport;
 use Unite\UnisysApi\Modules\Users\Console\Commands\ImportUsers;
 use Unite\UnisysApi\Modules\Users\Console\Commands\Install;
 use Unite\UnisysApi\Modules\Users\Console\Commands\SetFirstUser;
-use Unite\UnisysApi\Modules\Users\Http\Middleware\Authenticate;
-use Unite\UnisysApi\Modules\Users\Providers\AuthServiceProvider;
-use Unite\UnisysApi\Providers\LoadGraphQL;
-use Illuminate\Routing\Router;
+use Unite\UnisysApi\Modules\Users\Policies\NotificationPolicy;
+use Unite\UnisysApi\Modules\Users\Policies\UserPolicy;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -20,17 +27,15 @@ class UserServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->app->register(AuthServiceProvider::class);
+        $this->registerGates();
 
-        $router->aliasMiddleware('auth', Authenticate::class);
+        $this->registerPassport();
 
-        $this->commands([
-            Install::class,
-            ImportUsers::class,
-            SetFirstUser::class,
-        ]);
+        $this->setPassportRouteMiddleware($router);
 
         if ($this->app->runningInConsole()) {
+            $this->setCommands();
+
             $timestamp = date('Y_m_d_His', time());
 
             if (!class_exists('CreateUsersTable')) {
@@ -55,9 +60,44 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            \Illuminate\Foundation\Auth\User::class,
-            \Unite\UnisysApi\Modules\Users\User::class
-        );
+    }
+
+    protected function setCommands()
+    {
+        $this->commands([
+            Install::class,
+            ImportUsers::class,
+            SetFirstUser::class,
+        ]);
+    }
+
+    protected function registerPassport()
+    {
+        Passport::routes();
+
+        Passport::tokensExpireIn(Carbon::now()->addDays(15));
+
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+    }
+
+    protected function setPassportRouteMiddleware(Router $router)
+    {
+        $router->aliasMiddleware('client', CheckClientCredentials::class);
+        $router->aliasMiddleware('scopes', CheckScopes::class);
+        $router->aliasMiddleware('scope', CheckForAnyScope::class);
+    }
+
+    protected function registerGates()
+    {
+        Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(DatabaseNotification::class, NotificationPolicy::class);
+
+        Gate::define('hasPermission', function (User $user, string $permissionName) {
+            if($user->isAdmin()) {
+                return true;
+            }
+
+            return $user->hasPermissionTo($permissionName);
+        });
     }
 }

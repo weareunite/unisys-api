@@ -2,9 +2,9 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ContactResource extends Resource
+class ContactResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -33,7 +33,6 @@ class ContactResource extends Resource
             'email'             => $this->email,
             'telephone'         => $this->telephone,
             'description'       => $this->description,
-            'custom_properties' => $this->custom_properties,
         ];
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Models;
 
+use Domain\Charging\QueryFilters\ChargingSessionFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Unite\UnisysApi\Helpers\CustomProperty\HasCustomProperty;
-use Unite\UnisysApi\Helpers\CustomProperty\HasCustomPropertyTrait;
+use Unite\UnisysApi\Modules\Contacts\QueryFilters\ContactFilter;
 use Unite\UnisysApi\QueryFilter\HasQueryFilter;
 use Unite\UnisysApi\QueryFilter\HasQueryFilterInterface;
+use Unite\UnisysApi\QueryFilter\QueryFilterInterface;
 
-class Contact extends Model implements HasCustomProperty, HasQueryFilterInterface
+class Contact extends Model implements HasQueryFilterInterface
 {
     use LogsActivity;
-    use HasCustomPropertyTrait;
     use HasQueryFilter;
 
     protected $table = 'contacts';
@@ -22,17 +22,22 @@ class Contact extends Model implements HasCustomProperty, HasQueryFilterInterfac
 
     protected $fillable = [
         'type', 'name', 'surname', 'company', 'street', 'zip', 'city', 'country_id', 'reg_no', 'tax_no', 'vat_no',
-        'web', 'email', 'telephone', 'description', 'custom_properties',
+        'web', 'email', 'telephone', 'description',
     ];
 
     protected $casts = [
-        'custom_properties' => 'array',
     ];
 
     protected static $logAttributes = [
         'type', 'name', 'surname', 'company', 'street', 'zip', 'city', 'country_id', 'reg_no', 'tax_no', 'vat_no',
         'web', 'email', 'telephone', 'description',
     ];
+
+    public function newQueryFilter($query)
+    : QueryFilterInterface
+    {
+        return new ContactFilter($query);
+    }
 
     public function subject(): MorphTo
     {

@@ -3,23 +3,20 @@
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Queries;
 
 use Rebing\GraphQL\Support\SelectFields;
-use Unite\UnisysApi\GraphQL\DetailQuery as BaseDetailQuery;
-use Unite\UnisysApi\Modules\Help\GraphQL\HelpType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
 use GraphQL\Type\Definition\Type;
+use Unite\UnisysApi\Modules\Help\Help;
 
 class DetailQuery extends BaseDetailQuery
 {
-    protected $attributes = [
-        'name' => 'help',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return HelpType::class;
+        return Help::class;
     }
 
     public function args()
+    : array
     {
         return array_merge(parent::args(), [
             'key' => [
@@ -28,28 +25,22 @@ class DetailQuery extends BaseDetailQuery
         ]);
     }
 
-    public function resolve($root, $args, SelectFields $fields)
+    protected function find(array $args, SelectFields $fields)
     {
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
-
-        $args = $this->beforeResolve($root, $args, $select, $with);
-
-        $column = 'id';
-        $value = $args['id'] ?? null;
-
-        if(isset($args['key'])) {
+        if (isset($args['id'])) {
+            $column = 'id';
+            $value = $args['id'];
+        } elseif (isset($args['key'])) {
             $column = 'key';
             $value = $args['key'];
+        } else {
+            throw new \Exception('Id o Key must be defined for find help record');
         }
 
-        $object = $this->modelClassOfType()::with($with)
-            ->select($select)
+        $this->model = $this->newQuery()->with($fields->getRelations())
+            ->select($fields->getSelect())
             ->where($column, '=', $value)
-            ->first();
-
-        $this->afterResolve($root, $args, $select, $with, $object);
-
-        return $object;
+            ->where('id', '=', $args['id'])
+            ->firstOrFail();
     }
 }

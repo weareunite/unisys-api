@@ -11,7 +11,7 @@
  *
  * or
  *
- *     'default' => [
+ *     'admin' => [
  *         'query' => [
  *              'users' => 'App\GraphQL\Query\UsersQuery'
  *          ],
@@ -22,9 +22,10 @@
  */
 
 return [
-    'default' => [
+    'admin' => [
         'query' => [
             \Unite\UnisysApi\Modules\Users\GraphQL\Queries\ListQuery::class,
+            \Unite\UnisysApi\Modules\Users\GraphQL\Queries\DetailQuery::class,
             \Unite\UnisysApi\Modules\Users\GraphQL\Queries\ProfileQuery::class,
         ],
         'mutation' => [

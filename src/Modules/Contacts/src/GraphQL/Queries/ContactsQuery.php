@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\Modules\Contacts\GraphQL\ContactType;
+use Unite\UnisysApi\Modules\Contacts\Models\Contact;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
 
-class ContactsQuery extends Query
+class ContactsQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'contacts',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return ContactType::class;
+        return Contact::class;
     }
 }

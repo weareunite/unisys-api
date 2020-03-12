@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\Partner;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
-use Unite\UnisysApi\Modules\Contacts\PartnerRepository;
+use Unite\UnisysApi\Modules\Contacts\Models\Partner;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
 
 class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deletePartner',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return PartnerRepository::class;
+        return Partner::class;
     }
 }

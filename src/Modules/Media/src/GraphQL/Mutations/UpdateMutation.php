@@ -2,37 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Mutations;
 
-use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Modules\Media\MediaRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\Media\GraphQL\Inputs\MediaInput;
+use Unite\UnisysApi\Modules\Media\Models\Media;
 
 class UpdateMutation extends BaseUpdateMutation
 {
-    protected $attributes = [
-        'name' => 'updateMedia',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return MediaRepository::class;
+        return Media::class;
     }
 
-    public function args()
+    protected function inputClass()
+    : string
     {
-        return array_merge(parent::args(), [
-            'name' => [
-                'type'        => Type::string(),
-                'rules' => [
-                    'string',
-                ],
-            ],
-            'custom_properties' => [
-                'type'        => Type::string(),
-                'rules' => [
-                    'string',
-                ],
-            ],
-        ]);
+        return MediaInput::class;
     }
 }

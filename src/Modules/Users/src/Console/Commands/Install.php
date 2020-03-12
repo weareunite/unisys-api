@@ -20,7 +20,7 @@ class Install extends InstallModuleCommand
             "Unite\\UnisysApi\\Modules\\Users\\User::class");
 
         // Remove User from App/User
-        $this->filesystem->delete(app_path('User.php'));
+        $this->fileSystem->delete(app_path('User.php'));
 
         $this->call('notifications:table');
 

@@ -15,6 +15,7 @@ class HelpType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'   => [

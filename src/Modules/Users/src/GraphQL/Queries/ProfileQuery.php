@@ -2,28 +2,31 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Queries;
 
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
-use Unite\UnisysApi\GraphQL\DetailQuery;
-use Unite\UnisysApi\Modules\Users\GraphQL\UserType;
+use Unite\UnisysApi\Modules\Users\User;
 
 class ProfileQuery extends DetailQuery
 {
-    protected $attributes = [
-        'name' => 'profile',
-    ];
+    public $name = 'profile';
 
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return UserType::class;
+        return User::class;
     }
 
-    protected function beforeResolve($root, $args, $select, $with)
+    public function args()
+    : array
     {
-        if(!isset($args['id'])) {
-            $args['id'] = Auth::id();
-        }
+        return [];
+    }
 
-        return $args;
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        $this->find(['id' => Auth::id()], $getSelectFields());
+
+        return $this->model;
     }
 }

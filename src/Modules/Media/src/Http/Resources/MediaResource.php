@@ -2,10 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\Media\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Unite\UnisysApi\Modules\Media\Models\Media;
 
-class MediaResource extends Resource
+class MediaResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,7 @@ class MediaResource extends Resource
         /** @var Media $this ->resource */
         return [
             'id'                => $this->id,
+            'uuid'              => $this->uuid,
             'name'              => $this->name,
             'file_name'         => $this->file_name,
             'mime_type'         => $this->mime_type,

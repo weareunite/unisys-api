@@ -14,5 +14,5 @@
  */
 return [
     \Unite\UnisysApi\Modules\Properties\GraphQL\PropertyType::class,
-    \Unite\UnisysApi\Modules\Properties\GraphQL\PropertyInput::class,
+    \Unite\UnisysApi\Modules\Properties\GraphQL\Inputs\PropertyInput::class,
 ];

@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
 use Unite\UnisysApi\Modules\Permissions\PermissionRepository;
 
 class UpdateMutation extends BaseUpdateMutation

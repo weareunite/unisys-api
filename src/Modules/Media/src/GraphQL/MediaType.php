@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\GraphQL\Media;
+namespace Unite\UnisysApi\Modules\Media\GraphQL;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -15,6 +15,7 @@ class MediaType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'                => [

@@ -22,6 +22,7 @@ class NotificationType extends GraphQLType
     // protected $inputObject = true;
 
     public function fields()
+    : array
     {
         return [
             'id'         => [

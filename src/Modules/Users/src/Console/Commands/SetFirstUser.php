@@ -3,10 +3,10 @@
 namespace Unite\UnisysApi\Modules\Users\Console\Commands;
 
 use Illuminate\Console\Command;
+use Unite\UnisysApi\Modules\Company\CompanyService;
 use Unite\UnisysApi\Modules\Contacts\CountryRepository;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
 use Unite\UnisysApi\Modules\Permissions\Role;
-use Unite\UnisysApi\Modules\Settings\Services\SettingService;
 use Unite\UnisysApi\Modules\Users\User;
 
 class SetFirstUser extends Command
@@ -34,17 +34,17 @@ class SetFirstUser extends Command
     /** @var  CountryRepository */
     protected $countryRepository;
 
-    /** @var  SettingService */
-    protected $settingService;
+    /** @var  CompanyService */
+    protected $companyService;
 
     /** @var  string */
     protected $plainPassword;
 
 
-    public function handle(CountryRepository $countryRepository, SettingService $settingService)
+    public function handle(CountryRepository $countryRepository, CompanyService $companyService)
     {
         $this->countryRepository = $countryRepository;
-        $this->settingService = $settingService;
+        $this->companyService = $companyService;
 
         if (User::count() > 0) {
             $this->info('Table of users is not empty ...');
@@ -171,7 +171,7 @@ class SetFirstUser extends Command
             return $this->ask('Phone number');
         }, 'nullable|string|max:20');
 
-        $this->settingService->saveCompanyProfile($contactData);
+        $this->companyService->create(['name' => $contactData['name'], 'contact_profile' => $contactData]);
 
         $this->getOutput()->success('Company profile is set');
     }

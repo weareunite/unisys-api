@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\ActivityLogs;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\ActivityLogs\Console\Commands\Install;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class ActivityLogsServiceProvider extends ServiceProvider
 {
@@ -15,18 +15,13 @@ class ActivityLogsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+        }
 
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
     }
 }

@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\ActivityLogs\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\Modules\ActivityLogs\GraphQL\ActivityLogType;
+use Unite\UnisysApi\Modules\ActivityLogs\ActivityLog;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
 
-class ListQuery extends Query
+class ListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'activityLogs',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return ActivityLogType::class;
+        return ActivityLog::class;
     }
 }

@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'namespace' => '\Unite\UnisysApi\Modules\Tags\Http\Controllers',
     'middleware' => ['api', 'auth:api', 'authorize'],
@@ -19,6 +21,10 @@ Route::group([
 {
     Route::group(['as' => 'tag.', 'prefix' => 'tag'], function ()
     {
+        Route::apiResource('tag', 'TagController')
+            ->only([
+                'index', 'show', 'create', 'update', 'delete'
+            ]);
         Route::get('/',                             ['as' => 'list',                    'uses' => 'TagController@list']);
         Route::get('{model}',                       ['as' => 'show',                    'uses' => 'TagController@show']);
         Route::post('/',                            ['as' => 'create',                  'uses' => 'TagController@create']);

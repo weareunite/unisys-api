@@ -12,13 +12,13 @@ class ErrorReportsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
-
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+
             $timestamp = date('Y_m_d_His', time());
 
             if (!class_exists('CreateErrorReportsTable')) {
@@ -27,12 +27,5 @@ class ErrorReportsServiceProvider extends ServiceProvider
                 ], 'migrations');
             }
         }
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
     }
 }

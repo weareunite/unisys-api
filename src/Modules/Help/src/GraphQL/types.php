@@ -14,4 +14,5 @@
  */
 return [
     \Unite\UnisysApi\Modules\Help\GraphQL\HelpType::class,
+    \Unite\UnisysApi\Modules\Help\GraphQL\Inputs\HelpInput::class,
 ];

@@ -16,4 +16,20 @@ class Partner extends Contact
             $builder->where('type', '=', self::TYPE_PARTNER);
         });
     }
+
+    public function create(array $attributes = [])
+    {
+        if(!$companyProfile = companyProfile()) {
+            throw new \Exception('Company Profile is not exists. Create company profile first');
+        }
+
+        $contact = static::query()->create($attributes);
+
+        $contact->subject_type = get_class($companyProfile);
+        $contact->subject_id = $companyProfile->id;
+        $contact->type = Partner::TYPE_PARTNER;
+        $contact->save();
+
+        return $contact;
+    }
 }

@@ -2,42 +2,53 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Mutations;
 
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Media\MediaType;
-use Unite\UnisysApi\GraphQL\Mutations\Mutation;
-use Rebing\GraphQL\Support\UploadType;
-use Unite\UnisysApi\Modules\Media\Services\UploadService;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Spatie\MediaLibrary\HasMedia;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
+use Unite\UnisysApi\Modules\Media\Models\Media;
+use Rebing\GraphQL\Support\Mutation;
 
 abstract class UploadMutation extends Mutation
 {
-    public function type()
+    use AutomaticField;
+
+    protected function modelClass()
+    : string
     {
-        return MediaType::class;
+        return Media::class;
     }
 
     public function args()
+    : array
     {
         return [
-            'id' => [
-                'name' => 'id',
-                'type' => Type::id(),
+            'id'   => [
+                'name'  => 'id',
+                'type'  => Type::id(),
                 'rules' => [
                     'required',
                     'numeric',
-                    'exists:'.$this->repository->getTable().',id',
-                ]
+                ],
             ],
             'file' => [
-                'type' => UploadType::getInstance(),
-                'rules' => 'required|mimes:pdf,jpeg,jpg,png,xsl,xslx,doc,docx'
+                'type'  => GraphQL::type('Upload'),
+                'rules' => 'required|mimes:pdf,jpeg,jpg,png,xsl,xslx,doc,docx',
             ],
         ];
     }
 
-    public function resolve($root, $args, UploadService $uploadService)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        $object = $this->repository->find($args['id']);
+        /** @var HasMedia $object */
+        $object = $this->newQuery()->findOrFail($args['id']);
 
-        return $uploadService->upload($object, $args['file']);
+        $media = $object->addMedia($args['file'])
+            ->withCustomProperties([])
+            ->toMediaCollection('default');
+
+        return $media;
     }
 }

@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\GraphQL\Media\MediaType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\Media\Models\Media;
 
-class ListQuery extends Query
+class ListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'media',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return MediaType::class;
+        return Media::class;
     }
 }

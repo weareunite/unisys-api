@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\DetailQuery as BaseDetailQuery;
-use Unite\UnisysApi\Modules\Permissions\GraphQL\RoleType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
+use Unite\UnisysApi\Modules\Permissions\Role;
 
 class RoleDetailQuery extends BaseDetailQuery
 {
-    protected $attributes = [
-        'name' => 'role',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return RoleType::class;
+        return Role::class;
     }
 }

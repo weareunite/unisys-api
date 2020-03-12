@@ -3,37 +3,44 @@
 namespace Unite\UnisysApi\Modules\Tags\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\Mutation;
+use Rebing\GraphQL\Support\Mutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
 use Unite\UnisysApi\Modules\Tags\Contracts\HasTags;
 
 abstract class DetachTagMutation extends Mutation
 {
-    protected $attributes = [
-        'name' => 'detachTag',
-    ];
+    use AutomaticField;
+
+    public function attributes()
+    : array
+    {
+        return [
+            'name' => 'detach' . $this->name,
+        ];
+    }
 
     public function type()
+    : Type
     {
         return Type::boolean();
     }
 
     public function args()
+    : array
     {
         return [
-            'id'   => [
+            'id'          => [
                 'type'  => Type::string(),
                 'rules' => [
                     'required',
                     'integer',
-                    'exists:'.$this->repository->getTable().',id',
                 ],
             ],
-            'ids.*'   => [
+            'ids.*'       => [
                 'type'  => Type::string(),
                 'rules' => [
                     'required',
                     'integer',
-                    'exists:'.$this->repository->getTable().',id',
                 ],
             ],
             'tag_names.*' => [
@@ -48,15 +55,16 @@ abstract class DetachTagMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        if(isset($args['ids'])) {
-            foreach ($args['ids'] as $model_id) {
-                /** @var HasTags $object */
-                $object = $this->repository->find($model_id);
-                $object->detachTags($args['tag_names']);
+
+        if (isset($args['ids'])) {
+            /** @var HasTags[] $models */
+            $models = $this->newQuery()->whereIn('id', $args['ids']);
+            foreach ($models as $model) {
+                $model->detachTags($args['tag_names']);
             }
         } else {
             /** @var HasTags $object */
-            $object = $this->repository->find($args['id']);
+            $object = $this->newQuery()->findOrFail($args['id']);
             $object->detachTags($args['tag_names']);
         }
 

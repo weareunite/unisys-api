@@ -32,6 +32,6 @@ class RoleController extends UnisysController
             Permission::findOrCreate($name, 'frontend');
         });
 
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 }

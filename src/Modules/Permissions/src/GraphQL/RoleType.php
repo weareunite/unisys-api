@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Permissions\Role;
@@ -16,6 +16,7 @@ class RoleType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'                   => [

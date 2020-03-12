@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\DetailQuery as BaseDetailQuery;
-use Unite\UnisysApi\Modules\Permissions\GraphQL\PermissionType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
+use Unite\UnisysApi\Modules\Permissions\Permission;
 
 class DetailQuery extends BaseDetailQuery
 {
-    protected $attributes = [
-        'name' => 'permission',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return PermissionType::class;
+        return Permission::class;
     }
 }

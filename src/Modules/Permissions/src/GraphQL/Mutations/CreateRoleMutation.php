@@ -4,10 +4,10 @@ namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Spatie\Permission\Contracts\Role;
-use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\Permissions\RoleRepository;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class CreateRoleMutation extends BaseCreateMutation
 {

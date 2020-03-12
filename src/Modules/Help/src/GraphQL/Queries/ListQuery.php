@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Queries;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
-use Unite\UnisysApi\Modules\Help\GraphQL\HelpType;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\Help\Help;
 
-class ListQuery extends Query
+class ListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'helps',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return HelpType::class;
+        return Help::class;
     }
 }

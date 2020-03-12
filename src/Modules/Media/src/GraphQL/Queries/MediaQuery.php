@@ -2,7 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Media\GraphQL\Queries;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Unite\UnisysApi\Modules\Contacts\GraphQL\CountryType;

@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Properties;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Properties\Console\Commands\Install;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class PropertiesServiceProvider extends ServiceProvider
 {
@@ -15,19 +15,21 @@ class PropertiesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+
+            if (! class_exists('CreatePropertiesTables')) {
+                $timestamp = date('Y_m_d_His', time());
+
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_properties_tables.php.stub' => database_path("migrations/{$timestamp}_create_properties_tables.php"),
+                ], 'migrations');
+            }
+        }
 
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
-
-        if (! class_exists('CreatePropertiesTables')) {
-            $timestamp = date('Y_m_d_His', time());
-
-            $this->publishes([
-                __DIR__ . '/../database/migrations/create_properties_tables.php.stub' => database_path("migrations/{$timestamp}_create_properties_tables.php"),
-            ], 'migrations');
-        }
     }
 }

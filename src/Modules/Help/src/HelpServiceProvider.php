@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Help;
 
 use Illuminate\Support\ServiceProvider;
 use Unite\UnisysApi\Modules\Help\Console\Commands\Install;
-use Unite\UnisysApi\Providers\LoadGraphQL;
+use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
 class HelpServiceProvider extends ServiceProvider
 {
@@ -15,11 +15,11 @@ class HelpServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->commands([
-            Install::class,
-        ]);
-
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+
             $timestamp = date('Y_m_d_His', time());
 
             if (!class_exists('CreateHelpTable')) {
@@ -31,12 +31,5 @@ class HelpServiceProvider extends ServiceProvider
 
         $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
         $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
     }
 }

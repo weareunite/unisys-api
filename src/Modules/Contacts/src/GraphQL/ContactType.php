@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL;
 
 use GraphQL\Type\Definition\Type;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;
 
@@ -16,6 +16,7 @@ class ContactType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'                => [
@@ -58,7 +59,6 @@ class ContactType extends GraphQLType
                 'type'        => Type::string(),
                 'description' => 'The is abroad of contact',
                 'selectable'  => false,
-                'virtual'     => true,
             ],
             'reg_no'            => [
                 'type'        => Type::string(),
@@ -87,10 +87,6 @@ class ContactType extends GraphQLType
             'description'       => [
                 'type'        => Type::string(),
                 'description' => 'The description of contact',
-            ],
-            'custom_properties' => [
-                'type'        => Type::string(),
-                'description' => 'The custom_properties of contact',
             ],
         ];
     }

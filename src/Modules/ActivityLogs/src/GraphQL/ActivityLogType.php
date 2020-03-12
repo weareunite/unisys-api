@@ -15,6 +15,7 @@ class ActivityLogType extends GraphQLType
     ];
 
     public function fields()
+    : array
     {
         return [
             'id'           => [

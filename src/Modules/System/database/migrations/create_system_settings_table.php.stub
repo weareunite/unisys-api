@@ -1,0 +1,12 @@
+<?php
+
+use Unite\UnisysApi\Modules\Settings\CreateSettingsMigration;
+
+class CreateSystemSettingsTable extends CreateSettingsMigration
+{
+    protected function getTable()
+    : string
+    {
+        return 'system_settings';
+    }
+}

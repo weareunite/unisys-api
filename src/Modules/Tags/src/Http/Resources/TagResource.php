@@ -2,10 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\Tags\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Unite\UnisysApi\Modules\Tags\Tag;
 
-class TagResource extends Resource
+class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,6 @@ class TagResource extends Resource
             'id'                => $this->id,
             'name'              => $this->name,
             'type'              => $this->type,
-            'custom_properties' => $this->custom_properties,
             'created_at'        => (string)$this->created_at,
         ];
     }

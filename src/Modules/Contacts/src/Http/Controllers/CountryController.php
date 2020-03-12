@@ -9,7 +9,7 @@ use Unite\UnisysApi\Modules\Contacts\Http\Resources\CountryResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\QueryBuilder\QueryBuilder;
-use Unite\UnisysApi\QueryBuilder\QueryBuilderRequest;
+use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 /**
  * @resource Country
@@ -34,10 +34,10 @@ class CountryController extends UnisysController
     /**
      * List
      *
-     * @param QueryBuilderRequest $request
+     * @param QueryFilterRequest $request
      * @return AnonymousResourceCollection|Resource[]
      */
-    public function list(QueryBuilderRequest $request)
+    public function list(QueryFilterRequest $request)
     {
         $object = QueryBuilder::for($this->resource, $request)->paginate();
 

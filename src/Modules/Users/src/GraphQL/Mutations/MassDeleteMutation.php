@@ -2,24 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
-use Illuminate\Database\Eloquent\Model;
-use Unite\UnisysApi\GraphQL\Mutations\MassDeleteMutation as BaseMassDeleteMutation;
-use Unite\UnisysApi\Modules\Users\UserRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\MassDeleteMutation as BaseMassDeleteMutation;
+use Unite\UnisysApi\Modules\Users\User;
 
 class MassDeleteMutation extends BaseMassDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'massDeleteUser',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return UserRepository::class;
-    }
-
-    protected function beforeDelete(Model $model, $root, $args)
-    {
-        // todo: before delete User
+        return User::class;
     }
 }

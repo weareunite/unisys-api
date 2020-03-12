@@ -3,12 +3,18 @@
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Permissions\RoleRepository;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class CreateMutation extends BaseCreateMutation
 {
+    protected function inputClass()
+    : string
+    {
+        // TODO: Implement inputClass() method.
+    }
+
     protected $attributes = [
         'name' => 'createPermission',
     ];

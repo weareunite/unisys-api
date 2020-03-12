@@ -2,39 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Tags\GraphQL\Mutations;
 
-use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Modules\Tags\TagRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\Tags\GraphQL\Inputs\TagInput;
+use Unite\UnisysApi\Modules\Tags\Tag;
 
 class UpdateMutation extends BaseUpdateMutation
 {
-    protected $attributes = [
-        'name' => 'updateTag',
-    ];
-
-    public function repositoryClass(): string
+    protected function inputClass()
+    : string
     {
-        return TagRepository::class;
+        return TagInput::class;
     }
 
-    public function args()
+    protected function modelClass()
+    : string
     {
-        return array_merge(
-            parent::args(),
-            [
-                'name'     => [
-                    'type' => Type::string(),
-                    'rules'=> 'required|string',
-                ],
-                'type'  => [
-                    'type' => Type::string(),
-                    'rules'=> 'nullable|array',
-
-                ],
-                'custom_properties' => [
-                    'type' => Type::listOf(Type::int()),
-                    'rules'=> 'nullable|array',
-                ],
-            ]);
+        return Tag::class;
     }
 }

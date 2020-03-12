@@ -5,7 +5,7 @@ namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 use GraphQL\Type\Definition\Type;
 use Spatie\Permission\Contracts\Role;
 use Illuminate\Database\Eloquent\Model;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
 use Unite\UnisysApi\Modules\Permissions\RoleRepository;
 
 class UpdateRoleMutation extends BaseUpdateMutation

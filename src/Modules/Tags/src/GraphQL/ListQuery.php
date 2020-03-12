@@ -2,17 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Tags\GraphQL;
 
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\Tags\Tag;
 
-class ListQuery extends Query
+class ListQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'tags',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return TagType::class;
+        return Tag::class;
     }
 }

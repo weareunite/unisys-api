@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Tags\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as Mutation;
-use Unite\UnisysApi\Modules\Tags\TagRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\Tags\Tag;
 
-class DeleteMutation extends Mutation
+class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deleteTag',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return TagRepository::class;
+        return Tag::class;
     }
 }

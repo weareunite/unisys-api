@@ -11,7 +11,7 @@
  *
  * or
  *
- *     'default' => [
+ *     'admin' => [
  *         'query' => [
  *              'users' => 'App\GraphQL\Query\UsersQuery'
  *          ],
@@ -21,7 +21,7 @@
  *     ]
  */
 return [
-    'default' => [
+    'admin' => [
         'query'    => [
             \Unite\UnisysApi\Modules\Permissions\GraphQL\Queries\DetailQuery::class,
             \Unite\UnisysApi\Modules\Permissions\GraphQL\Queries\ListQuery::class,

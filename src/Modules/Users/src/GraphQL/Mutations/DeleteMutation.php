@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
-use Unite\UnisysApi\Modules\Users\UserRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\Users\User;
 
 class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deleteUser',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return UserRepository::class;
+        return User::class;
     }
 }

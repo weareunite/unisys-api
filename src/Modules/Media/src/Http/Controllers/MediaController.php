@@ -39,14 +39,6 @@ class MediaController extends UnisysController
      */
     public function download(Media $model)
     {
-        return response()->streamDownload(function () use ($model) {
-            $stream = $model->stream();
-
-            fpassthru($stream);
-
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-        }, $model->name);
+        return response()->download($model->getPath(), $model->file_name);
     }
 }

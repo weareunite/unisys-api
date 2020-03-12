@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Queries;
 
-use Unite\UnisysApi\Modules\Contacts\GraphQL\CountryType;
-use Unite\UnisysApi\GraphQL\BuilderQuery as Query;
+use Unite\UnisysApi\Modules\Contacts\Models\Country;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
 
-class CountriesQuery extends Query
+class CountriesQuery extends BaseListQuery
 {
-    protected $attributes = [
-        'name' => 'countries',
-    ];
-
-    protected function typeClass()
+    protected function modelClass()
     : string
     {
-        return CountryType::class;
+        return Country::class;
     }
 }

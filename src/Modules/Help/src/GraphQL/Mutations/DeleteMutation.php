@@ -2,18 +2,14 @@
 
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Mutations;
 
-use Unite\UnisysApi\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
-use Unite\UnisysApi\Modules\Help\HelpRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\DeleteMutation as BaseDeleteMutation;
+use Unite\UnisysApi\Modules\Help\Help;
 
 class DeleteMutation extends BaseDeleteMutation
 {
-    protected $attributes = [
-        'name' => 'deleteHelp',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return HelpRepository::class;
+        return Help::class;
     }
 }

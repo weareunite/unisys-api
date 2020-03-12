@@ -2,150 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Mutations\Partner;
 
-use GraphQL;
-use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
-use Unite\UnisysApi\Modules\Contacts\PartnerRepository;
+use Unite\UnisysApi\Modules\Contacts\GraphQL\Inputs\PartnerInput;
+use Unite\UnisysApi\Modules\Contacts\Models\Partner;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 
 class CreateMutation extends BaseCreateMutation
 {
-    protected $attributes = [
-        'name' => 'createPartner',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return PartnerRepository::class;
+        return Partner::class;
     }
 
-    public function type()
+    protected function inputClass()
+    : string
     {
-        return GraphQL::type('Contact');
-    }
-
-    public function args()
-    {
-        return [
-            'name'              => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'surname'           => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'company'           => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'required',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'street'            => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-
-            ],
-            'zip'               => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'city'              => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'country_id'        => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'integer',
-                    'exists:countries,id',
-                ],
-            ],
-            'reg_no'            => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'tax_no'            => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'vat_no'            => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'web'               => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'email'             => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'email',
-                ],
-            ],
-            'telephone'         => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:150',
-                ],
-            ],
-            'description'       => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'string',
-                    'max:250',
-                ],
-            ],
-            'custom_properties' => [
-                'type'  => Type::string(),
-                'rules' => [
-                    'nullable',
-                    'array',
-                ],
-            ],
-        ];
+        return PartnerInput::class;
     }
 }

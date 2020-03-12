@@ -26,7 +26,6 @@ class StoreRequest extends FormRequest
         return [
             'name'              => 'required|string|max:20',
             'type'              => 'nullable|array',
-            'custom_properties' => 'nullable|array',
         ];
     }
 }

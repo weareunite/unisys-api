@@ -2,46 +2,21 @@
 
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Mutations;
 
-use GraphQL\Type\Definition\Type;
-use Unite\UnisysApi\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Unite\UnisysApi\Modules\Help\HelpRepository;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
+use Unite\UnisysApi\Modules\Help\GraphQL\Inputs\HelpInput;
+use Unite\UnisysApi\Modules\Help\Help;
 
 class UpdateMutation extends BaseUpdateMutation
 {
-    protected $attributes = [
-        'name' => 'updateHelp',
-    ];
-
-    public function repositoryClass()
+    protected function modelClass()
     : string
     {
-        return HelpRepository::class;
+        return Help::class;
     }
 
-    public function args()
+    protected function inputClass()
+    : string
     {
-        return array_merge(parent::args(), [
-            'key'  => [
-                'type' => Type::string(),
-            ],
-            'name' => [
-                'type'  => Type::string(),
-                'rules' => 'nullable|string|max:250',
-            ],
-            'body' => [
-                'type'  => Type::string(),
-                'rules' => 'required|string',
-            ],
-        ]);
-    }
-
-    public function rules(array $args = [])
-    {
-        return [
-            'key' => [
-                'string',
-                'unique:help,key,' . $args['id'],
-            ],
-        ];
+        return HelpInput::class;
     }
 }

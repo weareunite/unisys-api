@@ -2,10 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
 
-class CountryForSelectResource extends Resource
+class CountryForSelectResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

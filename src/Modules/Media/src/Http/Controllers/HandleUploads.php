@@ -2,38 +2,44 @@
 
 namespace Unite\UnisysApi\Modules\Media\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 use Unite\UnisysApi\Modules\Media\Http\Requests\UploadRequest;
 use Unite\UnisysApi\Modules\Media\Http\Resources\MediaResource;
-use Unite\UnisysApi\Modules\Media\Services\UploadService;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 
-/**
- * @property-read \Unite\UnisysApi\Repositories\Repository $repository
- */
 trait HandleUploads
 {
+    use HasModel;
+
     /**
-     * Upload file
-     *
+     * @param int $id
+     * @return HasMedia|Model
+     */
+    protected function getModel(int $id)
+    : HasMedia
+    {
+        return $this->newQuery()->findOrFail($id);
+    }
+
+    /**
      * @param int $id
      * @param UploadRequest $request
-     * @param UploadService $uploadService
      * @return MediaResource
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    public function uploadFile(int $id, UploadRequest $request, UploadService $uploadService)
+    public function uploadFile(int $id, UploadRequest $request)
     {
-        if (!$object = $this->repository->find($id)) {
-            abort(404);
-        }
+        /** @var InteractsWithMedia $object */
+        $object = $this->getModel($id);
 
-        $file = $request->file('file');
-
-        $media = $uploadService->upload($object, $file);
-
-        \Cache::tags('response')->flush();
+        $media = $object->addMediaFromRequest('file')
+            ->withCustomProperties([])
+            ->toMediaCollection('default');
 
         return new MediaResource($media);
     }
@@ -42,64 +48,23 @@ trait HandleUploads
      * Upload raw file
      *
      * @param int $id
-     * @param UploadRequest $request
-     * @param UploadService $uploadService
+     * @param Request $request
      * @return MediaResource
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data
      */
-    public function uploadRawFile(int $id, Request $request, UploadService $uploadService)
+    public function uploadRawFile(int $id, Request $request)
     {
-        if (!$object = $this->repository->find($id)) {
-            abort(404);
-        }
+        /** @var InteractsWithMedia $object */
+        $object = $this->getModel($id);
 
         $base64data = $request->input('file');
 
-        // strip out data uri scheme information (see RFC 2397)
-        if (strpos($base64data, ';base64') !== false) {
-            list(, $base64data) = explode(';', $base64data);
-            list(, $base64data) = explode(',', $base64data);
-        }
-
-        // strict mode filters for non-base64 alphabet characters
-        if (base64_decode($base64data, true) === false) {
-            return false;
-        }
-
-        // decoding and then reeconding should not change the data
-        if (base64_encode(base64_decode($base64data)) !== $base64data) {
-            return false;
-        }
-
-        $binaryData = base64_decode($base64data);
-
-        // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
-        $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
-        file_put_contents($tmpFile, $binaryData);
-
-        // Check the MimeTypes
-        $validation = \Illuminate\Support\Facades\Validator::make(
-            ['file' => new \Illuminate\Http\File($tmpFile)],
-            ['file' => 'mimes:' . implode(',', $this->repository->getModelClass()::getAllowedMimes())]
-        );
-
-        if($validation->fails()) {
-            return false;
-        }
-
-        $mimeType = finfo_buffer(finfo_open(), $binaryData, FILEINFO_MIME_TYPE);
-        $extension = ExtensionGuesser::getInstance()->guess($mimeType);
-
-        $file = app(UploadedFile::class, [
-            'path' => $tmpFile,
-            'originalName' => uniqid('decoded_').'.'.$extension,
-            'mimeType' => $mimeType,
-            'error' => null,
-            'test' => true
-        ]);
-
-        $media = $uploadService->upload($object, $file);
-
-        \Cache::tags('response')->flush();
+        $media = $object->addMediaFromBase64($base64data)
+            ->withCustomProperties([])
+            ->toMediaCollection('default');
 
         return new MediaResource($media);
     }
@@ -112,11 +77,7 @@ trait HandleUploads
      */
     public function getFiles(int $id)
     {
-        if (!$object = $this->repository->find($id)) {
-            abort(404);
-        }
-
-        $media = $object->getMedia();
+        $media = $this->getModel($id)->getMedia();
 
         return MediaResource::collection($media);
     }
@@ -129,11 +90,7 @@ trait HandleUploads
      */
     public function getLatestFile(int $id)
     {
-        if (!$object = $this->repository->find($id)) {
-            abort(404);
-        }
-
-        $mediaItem = $object->getMedia()->last();
+        $mediaItem = $this->getModel($id)->getMedia()->last();
 
         return MediaResource::collection($mediaItem);
     }
@@ -143,18 +100,15 @@ trait HandleUploads
      *
      * @param int $id
      * @param int $media_id
-     * @return bool
      */
     public function removeFile(int $id, int $media_id)
     {
-        if (!$object = $this->repository->find($id)) {
-            abort(404);
-        }
+        $object = $this->getModel($id);
 
         if ($media = $object->getMedia()->firstWhere('id', $media_id)) {
-            $media->delete();
+            $media->deleteMedia();
         }
 
-        return $this->successJsonResponse();
+        return successJsonResponse();
     }
 }
