@@ -136,6 +136,7 @@ class QueryFilter implements QueryFilterInterface
     }
 
     public function filter(array $filter)
+    : Builder
     {
         $this->resolveOrder($filter['order'] ?? null);
 
@@ -158,10 +159,10 @@ class QueryFilter implements QueryFilterInterface
         $list = [];
 
         foreach (get_class_methods(get_called_class()) as $method) {
-            if (Str::startsWith($method, 'filter') && $method !=='filter') {
+            if (Str::startsWith($method, 'filter') && $method !== 'filter') {
                 $field = substr($method, 6);
 
-                if($field !== '') {
+                if ($field !== '') {
                     $list[] = self::getFieldName(substr($method, 6));
                 }
             }

@@ -2,6 +2,11 @@
 
 namespace Unite\UnisysApi\QueryFilter;
 
+use Illuminate\Database\Eloquent\Builder;
+
+/**
+ * @method Builder filter($filter)
+ */
 trait HasQueryFilter
 {
     public function scopeFilter($query, $filter)

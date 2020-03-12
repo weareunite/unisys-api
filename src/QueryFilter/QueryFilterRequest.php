@@ -1,10 +1,10 @@
 <?php
 
-namespace Unite\UnisysApi\QueryBuilder;
+namespace Unite\UnisysApi\QueryFilter;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QueryBuilderRequest extends FormRequest
+class QueryFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
