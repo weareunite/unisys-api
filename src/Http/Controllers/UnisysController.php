@@ -10,18 +10,4 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class UnisysController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    protected function successJsonResponse()
-    {
-        return response()->json([
-            'data' => ['success' => true]
-        ]);
-    }
-
-    protected function jsonResponse($data, $status = 200)
-    {
-        return response()->json([
-            'data' => $data
-        ], $status);
-    }
 }
