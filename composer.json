@@ -39,7 +39,7 @@
     "spatie/laravel-backup": "^6.8",
     "spatie/laravel-medialibrary": "^8.0.0",
     "spatie/laravel-model-status": "^1.10",
-    "spatie/laravel-permission": "^3.11.0",
+    "spatie/laravel-permission": "3.11.*",
     "webpatser/laravel-countries": "^1.5.4"
   },
   "require-dev": {
