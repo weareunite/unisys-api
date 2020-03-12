@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'namespace' => '\Unite\UnisysApi\Http\Controllers',
     'middleware' => ['api', 'auth:api', 'authorize'],
