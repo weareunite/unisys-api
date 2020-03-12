@@ -139,12 +139,13 @@ class UnisysApiInitializeEnv extends Command
         }
 
         $files->append(base_path('.env'), '
-AWS_KEY=null
-AWS_SECRET=null
-AWS_REGION=null
-AWS_BUCKET=null
-AWS_DOMAIN=null
-SENTRY_DSN=null
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=eu-central-1
+AWS_BUCKET=
+AWS_URL=
+
+SENTRY_DSN=
 
 WKHTMLTOPDF_BIN_PATH=/usr/local/bin/wkhtmltopdf
 WKHTMLTOIMAGE_BIN_PATH=/usr/local/bin/wkhtmltoimage');

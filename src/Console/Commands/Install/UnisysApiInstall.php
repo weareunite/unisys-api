@@ -46,21 +46,25 @@ class UnisysApiInstall extends Command
 
         $this->call('migrate');
 
-        $this->call('unisys-api:install:users');
-        $this->call('unisys-api:install:contacts');
-        $this->call('unisys-api:install:media');
-        $this->call('unisys-api:install:permissions');
-        $this->call('unisys-api:install:settings');
-        $this->call('unisys-api:install:tags');
-        $this->call('unisys-api:install:help');
-        $this->call('unisys-api:install:errorReports');
         $this->call('unisys-api:install:activityLogs');
         $this->call('unisys-api:install:categories');
+        $this->call('unisys-api:install:company');
+        $this->call('unisys-api:install:contacts');
+        $this->call('unisys-api:install:errorReports');
+        $this->call('unisys-api:install:graphql');
+        $this->call('unisys-api:install:help');
+        $this->call('unisys-api:install:invoice');
+        $this->call('unisys-api:install:media');
+        $this->call('unisys-api:install:permissions');
         $this->call('unisys-api:install:properties');
+        $this->call('unisys-api:install:settings');
+        $this->call('unisys-api:install:system');
+        $this->call('unisys-api:install:tags');
+        $this->call('unisys-api:install:users');
 
         $this->call('unisys:set-first-user');
 
-        $this->call('passport:install', ['--force']);
+        $this->call('passport:install', [ '--force' ]);
 
         $this->call('deploy:init');
 
@@ -72,53 +76,58 @@ class UnisysApiInstall extends Command
     private function strReplaceInFile($fileName, $find, $replaceWith)
     {
         $content = File::get($fileName);
+
         return File::put($fileName, str_replace($find, $replaceWith, $content));
     }
 
     private function publishAllVendors()
     {
-        // art vendor:publish --provider="Spatie\\Backup\\BackupServiceProvider" && art vendor:publish --provider="Spatie\\Activitylog\\ActivitylogServiceProvider" --tag="migrations" && art vendor:publish --provider="Spatie\\Activitylog\\ActivitylogServiceProvider" --tag="config" && art vendor:publish --provider="Spatie\\ModelStatus\\ModelStatusServiceProvider" --tag="migrations" && art vendor:publish --provider="Spatie\\ModelStatus\\ModelStatusServiceProvider" --tag="config" && art vendor:publish --provider="Barryvdh\\Cors\\ServiceProvider" && art vendor:publish --provider="Barryvdh\\Snappy\\ServiceProvider" && art vendor:publish --provider="Rebing\\GraphQL\\GraphQLServiceProvider" && art vendor:publish --provider="Unite\UnisysApi\UnisysApiServiceProvider"
+        $this->installSpatieBackup();
+        $this->installSpatieModelStatus();
+        $this->installBarryvdhLaravelSnappy();
+        $this->installMaatwebsiteExcel();
+        $this->installUnisysApi();
+    }
 
+    protected function installSpatieBackup()
+    {
         //Spatie Backup
         $this->call('vendor:publish', [
             '--provider' => "Spatie\\Backup\\BackupServiceProvider",
         ]);
+    }
 
+    protected function installSpatieModelStatus()
+    {
         //Spatie model-status
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\\ModelStatus\\ModelStatusServiceProvider',
-            '--tag' => 'migrations'
+            '--tag'      => 'migrations',
         ]);
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\\ModelStatus\\ModelStatusServiceProvider',
-            '--tag' => 'config'
+            '--tag'      => 'config',
         ]);
+    }
 
-        //Barryvdh cors
-        $this->call('vendor:publish', [
-            '--provider' => 'Barryvdh\\Cors\\ServiceProvider'
-        ]);
-
+    protected function installBarryvdhLaravelSnappy()
+    {
         //Barryvdh laravel-snappy
         $this->call('vendor:publish', [
-            '--provider' => 'Barryvdh\\Snappy\\ServiceProvider'
+            '--provider' => 'Barryvdh\\Snappy\\ServiceProvider',
         ]);
+    }
 
-        //Rebing graphql-laravel
-        $this->call('vendor:publish', [
-            '--provider' => "Rebing\\GraphQL\\GraphQLServiceProvider",
-        ]);
-
-        //Mll-lab laravel-graphql-playground
-        $this->call('vendor:publish', [
-            '--provider' => "MLL\\GraphQLPlayground\\GraphQLPlaygroundServiceProvider",
-        ]);
-
+    protected function installMaatwebsiteExcel()
+    {
         //maatwebsite excel
         $this->call('vendor:publish', [
             '--provider' => "Maatwebsite\\Excel\\ExcelServiceProvider",
         ]);
+    }
 
+    protected function installUnisysApi()
+    {
         //Unite unisys-api
         $this->call('vendor:publish', [
             '--provider' => "Unite\\UnisysApi\\UnisysApiServiceProvider",
@@ -138,40 +147,6 @@ class UnisysApiInstall extends Command
         $this->strReplaceInFile(config_path('auth.php'),
             "'driver' => 'token'",
             "'driver' => 'passport'");
-
-        // Remove User from App/User
-        $files->delete(app_path('User.php'));
-
-        // Clean controllers directory from Http/Controllers
-        $files->cleanDirectory(app_path('Http/Controllers'));
-
-        // Clean app Exceptions
-        $files->cleanDirectory(app_path('Exceptions'));
-
-        // Remove public assets
-        $files->deleteDirectory(public_path('css'));
-        $files->deleteDirectory(public_path('js'));
-
-        // Clean Assets
-        $files->deleteDirectory(resource_path('assets'));
-
-        // Clean views
-        $files->cleanDirectory(resource_path('views'));
-
-        // Clean database factories
-        $files->cleanDirectory(database_path('factories'));
-
-        // Clean database migrations
-        $files->cleanDirectory(database_path('migrations'));
-
-        // Clear all base laravel routes
-        $files->put(base_path('routes/api.php'), "<?php \n");
-        $files->put(base_path('routes/channels.php'), "<?php \n");
-        $files->put(base_path('routes/console.php'), "<?php \n");
-        $files->put(base_path('routes/web.php'), "<?php \n");
-
-        $files->delete(base_path('webpack.mix.js'));
-        $files->delete(base_path('package.json'));
 
         $files->copy(base_path('vendor/weareunite/unisys-api/bitbucket-pipelines.yml'), base_path('bitbucket-pipelines.yml'));
         $files->copy(base_path('vendor/weareunite/unisys-api/.env.testing'), base_path('.env.testing'));
