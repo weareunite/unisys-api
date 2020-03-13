@@ -13,10 +13,12 @@ abstract class DetailQuery extends Query
 {
     use AutomaticField;
 
-    public function attributes(): array
+    public function attributes()
+    : array
     {
         return [
-            'name' => $this->name,
+            'name'        => lcfirst($this->name),
+            'description' => $this->name . ' details',
         ];
     }
 

@@ -16,10 +16,12 @@ abstract class ListQuery extends Query
 
     protected $pluralizedName = true;
 
-    public function attributes(): array
+    public function attributes()
+    : array
     {
         return [
-            'name' => $this->name,
+            'name'        => lcfirst($this->name),
+            'description' => 'Paginated list of ' . $this->name,
         ];
     }
 
