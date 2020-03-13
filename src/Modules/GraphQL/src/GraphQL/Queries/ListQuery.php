@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\Modules\GraphQL\GraphQL;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\PaginateQuery;
 
 abstract class ListQuery extends PaginateQuery
 {

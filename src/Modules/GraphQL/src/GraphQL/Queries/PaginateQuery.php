@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\GraphQL\GraphQL;
+namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries;
 
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
