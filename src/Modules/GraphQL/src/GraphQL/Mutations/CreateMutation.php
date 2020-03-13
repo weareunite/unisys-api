@@ -14,16 +14,24 @@ abstract class CreateMutation extends Mutation
     abstract protected function inputClass()
     : string;
 
-    public function attributes(): array
+    public function attributes()
+    : array
     {
         return [
             'name' => 'create' . $this->name,
         ];
     }
 
-    public function type(): Type
+    public function type()
+    : Type
     {
         return GraphQL::type($this->name);
+    }
+
+    public function args()
+    : array
+    {
+        return new ($this->inputClass())->fields();
     }
 
     protected function create(array $data)
