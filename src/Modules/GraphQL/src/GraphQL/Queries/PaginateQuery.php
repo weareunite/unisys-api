@@ -35,7 +35,7 @@ abstract class PaginateQuery extends Query
         ];
     }
 
-    protected function buildQuery()
+    protected function buildQuery(array $args)
     : Builder
     {
         return $this->newQuery();
@@ -51,7 +51,7 @@ abstract class PaginateQuery extends Query
         $limit = PaginationInput::handleLimit($args['paging']['limit'] ?? null);
         $page = PaginationInput::handlePage($args['paging']['page'] ?? null);
 
-        $query = $this->buildQuery()
+        $query = $this->buildQuery($args)
             ->with($with)
             ->select($select);
 
