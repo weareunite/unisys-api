@@ -3,7 +3,6 @@
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Mutation;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
@@ -38,7 +37,6 @@ abstract class UpdateMutation extends Mutation
                 'rules' => [
                     'required',
                     'numeric',
-                    'exists:' . $this->repository->getTable() . ',id',
                 ],
             ],
         ], (new ($this->inputClass()))->fields());
