@@ -5,11 +5,11 @@ namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Mutation;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 
 abstract class UpdateMutation extends Mutation
 {
-    use AutomaticField;
+    use HasModel;
 
     abstract protected function inputClass()
     : string;

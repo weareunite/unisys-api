@@ -4,12 +4,12 @@ namespace Unite\UnisysApi\Modules\Tags\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 use Unite\UnisysApi\Modules\Tags\Contracts\HasTags;
 
 abstract class DetachTagMutation extends Mutation
 {
-    use AutomaticField;
+    use HasModel;
 
     public function attributes()
     : array

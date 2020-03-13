@@ -7,13 +7,13 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Spatie\MediaLibrary\HasMedia;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 use Unite\UnisysApi\Modules\Media\Models\Media;
 use Rebing\GraphQL\Support\Mutation;
 
 abstract class UploadMutation extends Mutation
 {
-    use AutomaticField;
+    use HasModel;
 
     protected function modelClass()
     : string

@@ -3,9 +3,27 @@
 namespace Unite\UnisysApi\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 trait HasModel
 {
+    /** @var Model */
+    protected $model;
+
+    /** @var string */
+    protected $name;
+
+    /** @var bool */
+    protected $pluralizedName = false;
+
+    public function __construct()
+    {
+        if (!$this->name) {
+            $this->name = $this->generateName();
+        }
+    }
+
     abstract protected function modelClass()
     : string;
 
@@ -13,5 +31,19 @@ trait HasModel
     : Builder
     {
         return app($this->modelClass())->newModelQuery();
+    }
+
+    private function generateName()
+    : string
+    {
+        $basename = class_basename($this->modelClass());
+
+        if ($this->pluralizedName) {
+            $name = Str::pluralStudly($basename);
+        } else {
+            $name = Str::camel($basename);
+        }
+
+        return ucfirst($name);
     }
 }

@@ -5,12 +5,12 @@ namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 use Rebing\GraphQL\Support\Mutation;
 
 abstract class CreateMutation extends Mutation
 {
-    use AutomaticField;
+    use HasModel;
 
     abstract protected function inputClass()
     : string;

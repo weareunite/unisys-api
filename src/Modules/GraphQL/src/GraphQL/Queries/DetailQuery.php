@@ -8,10 +8,11 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\SelectFields;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 
 abstract class DetailQuery extends Query
 {
-    use AutomaticField;
+    use HasModel;
 
     public function attributes()
     : array
