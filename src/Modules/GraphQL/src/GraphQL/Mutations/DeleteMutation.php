@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations;
 
+use Exception;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
@@ -40,11 +41,26 @@ abstract class DeleteMutation extends Mutation
         ];
     }
 
+    /**
+     * @param array $args
+     * @throws Exception
+     */
+    protected function delete(array $args)
+    {
+        $this->model->delete();
+    }
+
+    /**
+     * @param $root
+     * @param $args
+     * @return bool
+     * @throws Exception
+     */
     public function resolve($root, $args)
     {
-        $object = $this->newQuery()->findOrFail($args['id']);
+        $this->model = $this->newQuery()->findOrFail($args['id']);
 
-        $object->delete();
+        $this->delete($args);
 
         return true;
     }

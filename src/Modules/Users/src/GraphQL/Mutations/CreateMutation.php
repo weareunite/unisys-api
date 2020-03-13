@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
+use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput;
 use Unite\UnisysApi\Modules\Users\User;
@@ -21,11 +22,15 @@ class CreateMutation extends BaseCreateMutation
     }
 
     protected function create(array $data)
+    : Model
     {
-        parent::create($data);
+        /** @var User $model */
+        $model = parent::create($data);
 
         if (isset($args['roles_ids'])) {
-            $this->model->roles()->sync($data['roles_ids'] ?: []);
+            $model->roles()->sync($data['roles_ids'] ?: []);
         }
+
+        return $model;
     }
 }

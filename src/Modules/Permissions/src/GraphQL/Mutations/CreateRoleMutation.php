@@ -2,13 +2,11 @@
 
 namespace Unite\UnisysApi\Modules\Permissions\GraphQL\Mutations;
 
+use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
 use Unite\UnisysApi\Modules\Permissions\GraphQL\Inputs\RoleInput;
 use Unite\UnisysApi\Modules\Permissions\Role;
 
-/**
- * @property Role $model
- */
 class CreateRoleMutation extends BaseCreateMutation
 {
     protected function modelClass()
@@ -24,9 +22,13 @@ class CreateRoleMutation extends BaseCreateMutation
     }
 
     protected function create(array $args)
+    : Model
     {
-        parent::create($args);
+        /** @var Role $model */
+        $model = parent::create($args);
 
-        $this->model->permissions()->sync($args['permissions_ids'] ?? []);
+        $model->permissions()->sync($args['permissions_ids'] ?? []);
+
+        return $model;
     }
 }

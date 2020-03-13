@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\AutomaticField;
 use Rebing\GraphQL\Support\Mutation;
@@ -35,13 +36,21 @@ abstract class CreateMutation extends Mutation
     }
 
     protected function create(array $data)
+    : Model
     {
-        $this->model = $this->newQuery()->create($data);
+        return $this->newQuery()->create($data);
+    }
+
+    private function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 
     public function resolve($root, $args)
     {
-        $this->create($args);
+        $this->setModel($this->create($args));
 
         return $this->model;
     }
