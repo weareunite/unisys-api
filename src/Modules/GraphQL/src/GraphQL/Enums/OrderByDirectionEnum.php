@@ -2,12 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Enums;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\EnumType;
 
-class OrderByDirectionEnum extends GraphQLType
+class OrderByDirectionEnum extends EnumType
 {
-    protected $enumObject = true;
-
     protected $attributes = [
         'name'        => 'OrderByDirectionEnum',
         'description' => 'A OrderBy for sort',

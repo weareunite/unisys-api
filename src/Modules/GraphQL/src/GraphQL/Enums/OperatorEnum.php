@@ -2,12 +2,10 @@
 
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Enums;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\EnumType;
 
-class OperatorEnum extends GraphQLType
+class OperatorEnum extends EnumType
 {
-    protected $enumObject = true;
-
     protected $attributes = [
         'name'        => 'OperatorEnum',
         'description' => 'A operator for condition',
