@@ -2,8 +2,6 @@
 
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\PaginateQuery;
 
 abstract class ListQuery extends PaginateQuery
@@ -15,11 +13,5 @@ abstract class ListQuery extends PaginateQuery
             'name'        => lcfirst($this->name),
             'description' => 'Paginated list of ' . $this->name,
         ];
-    }
-
-    public function type()
-    : Type
-    {
-        return GraphQL::paginate($this->name);
     }
 }

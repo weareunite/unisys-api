@@ -31,6 +31,7 @@ abstract class UpdateMutation extends Mutation
     public function args()
     : array
     {
+        $class = $this->inputClass();
         return array_merge([
             'id' => [
                 'type'  => Type::nonNull(Type::int()),
@@ -39,7 +40,7 @@ abstract class UpdateMutation extends Mutation
                     'numeric',
                 ],
             ],
-        ], (new ($this->inputClass()))->fields());
+        ], (new $class)->fields());
     }
 
     protected function update(array $args)

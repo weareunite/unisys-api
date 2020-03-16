@@ -35,8 +35,11 @@ abstract class PaginateQuery extends Query
         ];
     }
 
+    /**
+     * @param array $args
+     * @return Builder
+     */
     protected function buildQuery(array $args)
-    : Builder
     {
         return $this->newQuery();
     }

@@ -32,7 +32,8 @@ abstract class CreateMutation extends Mutation
     public function args()
     : array
     {
-        return new ($this->inputClass())->fields();
+        $class = $this->inputClass();
+        return (new $class)->fields();
     }
 
     protected function create(array $data)

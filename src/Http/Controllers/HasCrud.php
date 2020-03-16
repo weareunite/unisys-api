@@ -38,7 +38,8 @@ trait HasCrud
     {
         $object = $this->newQuery()->findOrFail($id);
 
-        return new ($this->resourceClass())($object);
+        $class = $this->resourceClass();
+        return (new $class)($object);
     }
 
     /*
@@ -48,7 +49,8 @@ trait HasCrud
     {
         $object = $this->newQuery()->create($request->all());
 
-        return new ($this->resourceClass())($object);
+        $class = $this->resourceClass();
+        return (new $class)($object);
     }
 
     /*

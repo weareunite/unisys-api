@@ -27,8 +27,10 @@ trait HasModel
     abstract protected function modelClass()
     : string;
 
+    /**
+     * @return Builder
+     */
     protected function newQuery()
-    : Builder
     {
         return app($this->modelClass())->newModelQuery();
     }

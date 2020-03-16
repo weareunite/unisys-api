@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\Categories\GraphQL;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Unite\UnisysApi\Modules\Categories\Category;
 use Unite\UnisysApi\Modules\Properties\GraphQL\PropertyType;
@@ -20,16 +21,19 @@ class CategoryType extends GraphQLType
     {
         return array_merge(
             [
-                'id'   => [
+                'id'         => [
                     'type'        => Type::nonNull(Type::int()),
                     'description' => 'The id of the category',
                 ],
-                'name' => [
+                'name'       => [
                     'type'        => Type::string(),
                     'description' => 'The name of category',
                 ],
-            ],
-            PropertyType::propertiesField()
+                'properties' => [
+                    'type'        => Type::listOf(GraphQL::type('Property')),
+                    'description' => 'properties',
+                ],
+            ]
         );
     }
 }
