@@ -7,6 +7,8 @@ use Unite\UnisysApi\Modules\System\SystemSetting;
 
 class ListQuery extends BaseListQuery
 {
+    protected $type = 'Setting';
+
     protected function modelClass()
     : string
     {
