@@ -19,14 +19,14 @@ abstract class DetailQuery extends Query
     {
         return [
             'name'        => lcfirst($this->name),
-            'description' => $this->name . ' details',
+            'description' => $this->type ?: $this->name . ' details',
         ];
     }
 
     public function type()
     : Type
     {
-        return GraphQL::type($this->name);
+        return GraphQL::type($this->type ?: $this->name);
     }
 
     public function args()

@@ -14,6 +14,9 @@ trait HasModel
     /** @var string */
     protected $name;
 
+    /** @var string */
+    protected $type;
+
     /** @var bool */
     protected $pluralizedName = false;
 

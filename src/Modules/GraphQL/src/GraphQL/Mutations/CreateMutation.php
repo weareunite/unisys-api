@@ -26,7 +26,7 @@ abstract class CreateMutation extends Mutation
     public function type()
     : Type
     {
-        return GraphQL::type($this->name);
+        return GraphQL::type($this->type ?: $this->name);
     }
 
     public function args()

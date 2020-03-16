@@ -11,7 +11,7 @@ abstract class ListQuery extends PaginateQuery
     {
         return [
             'name'        => lcfirst($this->name),
-            'description' => 'Paginated list of ' . $this->name,
+            'description' => 'Paginated list of ' . $this->type ?: $this->name,
         ];
     }
 }

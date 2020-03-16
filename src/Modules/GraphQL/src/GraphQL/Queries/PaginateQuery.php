@@ -19,7 +19,7 @@ abstract class PaginateQuery extends Query
     public function type()
     : Type
     {
-        return GraphQL::paginate($this->name);
+        return GraphQL::paginate($this->type ?: $this->name);
     }
 
     public function args()
