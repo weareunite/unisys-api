@@ -27,7 +27,6 @@ abstract class MediaQuery extends Query
                 'rules' => [
                     'required',
                     'numeric',
-                    'exists:'.$this->repository->getTable().',id',
                 ]
             ],
             'file' => [

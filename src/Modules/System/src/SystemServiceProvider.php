@@ -3,8 +3,8 @@
 namespace Unite\UnisysApi\Modules\System;
 
 use Illuminate\Support\ServiceProvider;
-use Unite\UnisysApi\Modules\Settings\Console\Commands\Install;
 use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
+use Unite\UnisysApi\Modules\System\Console\Commands\Install;
 
 class SystemServiceProvider extends ServiceProvider
 {
@@ -16,6 +16,10 @@ class SystemServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                Install::class,
+            ]);
+
             $timestamp = date('Y_m_d_His', time());
 
             if (!class_exists('CreateSystemSettingsTable')) {
@@ -43,10 +47,5 @@ class SystemServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Install::class,
-            ]);
-        }
     }
 }

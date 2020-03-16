@@ -35,7 +35,6 @@ abstract class DeleteMutation extends Mutation
                 'rules' => [
                     'required',
                     'numeric',
-                    'exists:' . $this->repository->getTable() . ',id',
                 ],
             ],
         ];

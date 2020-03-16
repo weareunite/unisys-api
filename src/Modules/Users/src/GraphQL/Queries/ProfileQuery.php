@@ -11,6 +11,8 @@ class ProfileQuery extends DetailQuery
 {
     public $name = 'profile';
 
+    protected $type = 'Profile';
+
     protected function modelClass()
     : string
     {
