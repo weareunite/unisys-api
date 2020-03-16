@@ -25,6 +25,10 @@ trait HasModel
         if (!$this->name) {
             $this->name = $this->generateName();
         }
+
+        if (!$this->type) {
+            $this->type = $this->generateType();
+        }
     }
 
     abstract protected function modelClass()
@@ -50,5 +54,13 @@ trait HasModel
         }
 
         return ucfirst($name);
+    }
+
+    private function generateType()
+    : string
+    {
+        $basename = class_basename($this->modelClass());
+
+        return Str::studly($basename);
     }
 }

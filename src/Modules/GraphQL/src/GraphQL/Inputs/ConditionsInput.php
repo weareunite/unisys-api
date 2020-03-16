@@ -36,7 +36,7 @@ class ConditionsInput extends Input
                         Type::nonNull(Type::string())
                     )
                 ),
-                'rules'       => [ 'string' ],
+                'rules'       => [ 'array' ],
             ],
         ];
     }

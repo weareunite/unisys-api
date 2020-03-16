@@ -6,6 +6,13 @@ use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\PaginateQuery;
 
 abstract class ListQuery extends PaginateQuery
 {
+    public function __construct()
+    {
+        $this->pluralizedName = true;
+
+        parent::__construct();
+    }
+
     public function attributes()
     : array
     {
