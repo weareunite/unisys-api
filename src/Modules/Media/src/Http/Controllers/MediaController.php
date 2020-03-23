@@ -1,24 +1,24 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\Media\Http\Controllers;
+namespace Unite\UnisysApi\Modules\MediaModel\Http\Controllers;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaModel;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
 
 /**
- * @resource Media
+ * @resource MediaModel
  *
- * Media handler
+ * MediaModel handler
  */
-class MediaController extends UnisysController
+class MediaModelController extends UnisysController
 {
     /**
      * Stream
      *
-     * @param Media $model
+     * @param MediaModel $model
      * @return mixed
      */
-    public function stream(Media $model)
+    public function stream(MediaModel $model)
     {
         return response()->stream(function() use ($model) {
             $stream = $model->stream();
@@ -34,10 +34,10 @@ class MediaController extends UnisysController
     /**
      * Download
      *
-     * @param Media $model
+     * @param MediaModel $model
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(Media $model)
+    public function download(MediaModel $model)
     {
         return response()->download($model->getPath(), $model->file_name);
     }

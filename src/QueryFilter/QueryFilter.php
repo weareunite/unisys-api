@@ -135,20 +135,25 @@ class QueryFilter implements QueryFilterInterface
         $this->query->orderBy($column, $direction);
     }
 
+    protected function resolveLimit($value = null)
+    {
+        $this->query->limit(self::handleLimit($value));
+    }
+
     public function filter(array $filter)
     : Builder
     {
+        $this->resolveLimit($filter['limit'] ?? null);
+
         $this->resolveOrder($filter['order'] ?? null);
 
-        if (isset($filter['conditions'])) {
-            foreach ($filter['conditions'] as $condition) {
-                $this->prepareCondition($condition);
-            }
+        $conditions = $filter['filter']['conditions'] ?? $filter['conditions'] ?? [];
+
+        foreach ($conditions as $condition) {
+            $this->prepareCondition($condition);
         }
 
-        if (isset($filter['search'])) {
-            $this->prepareSearch($filter['search']);
-        }
+        $this->prepareSearch($filter['search'] ?? []);
 
         return $this->query;
     }
@@ -169,5 +174,21 @@ class QueryFilter implements QueryFilterInterface
         }
 
         return $list;
+    }
+
+    public static function handleLimit($value = null)
+    {
+        $limit = $value ?: config('query-filter.default_limit');
+
+        if ($limit > config('query-filter.max_limit')) {
+            $limit = config('query-filter.max_limit');
+        }
+
+        return $limit;
+    }
+
+    public static function handlePage($value = null)
+    {
+        return $value ?: 1;
     }
 }

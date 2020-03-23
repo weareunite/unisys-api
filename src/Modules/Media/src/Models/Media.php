@@ -2,9 +2,9 @@
 
 namespace Unite\UnisysApi\Modules\Media\Models;
 
-use Spatie\MediaLibrary\Models\Media as Model;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaModel;
 
-class Media extends Model
+class Media extends MediaModel
 {
     public function getLink()
     {

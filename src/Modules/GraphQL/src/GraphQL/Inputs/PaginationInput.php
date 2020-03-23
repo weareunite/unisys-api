@@ -26,20 +26,4 @@ class PaginationInput extends Input
             ],
         ];
     }
-
-    public static function handleLimit($value = null)
-    {
-        $limit = $value ?: config('query-filter.default_limit');
-
-        if ($limit > config('query-filter.max_limit')) {
-            $limit = config('query-filter.max_limit');
-        }
-
-        return $limit;
-    }
-
-    public static function handlePage($value = null)
-    {
-        return $value ?: 1;
-    }
 }

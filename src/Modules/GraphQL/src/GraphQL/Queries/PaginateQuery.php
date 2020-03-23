@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Http\Controllers\HasModel;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\Inputs\PaginationInput;
+use Unite\UnisysApi\QueryFilter\QueryFilter;
 
 abstract class PaginateQuery extends Query
 {
@@ -51,8 +51,8 @@ abstract class PaginateQuery extends Query
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
-        $limit = PaginationInput::handleLimit($args['paging']['limit'] ?? null);
-        $page = PaginationInput::handlePage($args['paging']['page'] ?? null);
+        $limit = QueryFilter::handleLimit($args['paging']['limit'] ?? null);
+        $page = QueryFilter::handlePage($args['paging']['page'] ?? null);
 
         $query = $this->buildQuery($args)
             ->with($with)

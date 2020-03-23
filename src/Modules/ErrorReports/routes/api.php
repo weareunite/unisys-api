@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'namespace' => '\Unite\UnisysApi\Modules\ErrorReports\Http\Controllers',
     'middleware' => ['api', 'auth:api', 'authorize'],

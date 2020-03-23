@@ -69,10 +69,22 @@ if (!function_exists('successJsonResponse')) {
 }
 
 if (!function_exists('jsonResponse')) {
-    function jsonResponse(array $data, $status = 200)
+    function jsonResponse($data, $status = 200)
     {
         return response()->json([
             'data' => $data,
         ], $status);
     }
 }
+
+if (!function_exists('captureExceptionBySentry')) {
+    function captureExceptionBySentry(Throwable $exception)
+    {
+        $app = app();
+
+        if ($app->bound('sentry') && ($app->environment() == 'production' || env('FORCE_SENTRY', false) == 'true')) {
+            $app->make('sentry', [])->captureException($exception);
+        }
+    }
+}
+

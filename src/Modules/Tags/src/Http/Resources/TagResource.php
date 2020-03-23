@@ -17,10 +17,11 @@ class TagResource extends JsonResource
     {
         /** @var Tag $this */
         return [
-            'id'                => $this->id,
-            'name'              => $this->name,
-            'type'              => $this->type,
-            'created_at'        => (string)$this->created_at,
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'type'       => $this->type,
+            'properties' => $this->properties,
+            'created_at' => (string)$this->created_at,
         ];
     }
 }

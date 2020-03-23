@@ -4,39 +4,37 @@ namespace Unite\UnisysApi\Modules\ErrorReports\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Unite\UnisysApi\GraphQL\PaginationInput;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\ErrorReports\ErrorReport;
-use Unite\UnisysApi\Modules\ErrorReports\ErrorReportRepository;
 use Unite\UnisysApi\Modules\Media\Http\Controllers\HandleUploads;
+use Unite\UnisysApi\QueryFilter\QueryFilter;
 use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 class ErrorReportController extends UnisysController
 {
     use HandleUploads;
 
-    protected $repository;
-
-    public function __construct(ErrorReportRepository $repository)
+    protected function modelClass()
+    : string
     {
-        $this->repository = $repository;
+        return ErrorReport::class;
     }
 
     public function list(QueryFilterRequest $request)
     {
         $args = $request->all();
 
-        $limit = PaginationInput::handleLimit($args);
-        $page = PaginationInput::handlePage($args);
+        $limit = QueryFilter::handleLimit($args);
+        $page = QueryFilter::handlePage($args);
 
-        $query = ErrorReport::query()->orderBy('created_at', 'desc');
+        $query = $this->newQuery()->orderBy('created_at', 'desc');
 
-        return new ResourceCollection($query->paginate($limit, ['*'], config('query-filter.page_name'), $page));
+        return new ResourceCollection($query->paginate($limit, [ '*' ], config('query-filter.page_name'), $page));
     }
 
     public function show(int $id)
     {
-        return ErrorReport::findOrFail($id);
+        return $this->newQuery()->findOrFail($id);
     }
 
     public function create(Request $request)
@@ -45,8 +43,8 @@ class ErrorReportController extends UnisysController
             'content' => 'required',
         ]);
 
-        return ErrorReport::create([
-            'content' => $request->get('content')
+        return $this->newQuery()->create([
+            'content' => $request->get('content'),
         ]);
     }
 }
