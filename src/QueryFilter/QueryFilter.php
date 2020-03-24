@@ -191,4 +191,18 @@ class QueryFilter implements QueryFilterInterface
     {
         return $value ?: 1;
     }
+
+    public static function paginate(QueryFilterRequest $request, Builder $query)
+    {
+        $args = $request->only(['page', 'limit', 'order', 'search', 'filter']);
+
+        $limit = QueryFilter::handleLimit($args['limit']);
+        $page = QueryFilter::handlePage($args['page']);
+
+        if(method_exists($query, 'filter')) {
+            $query = $query->filter($args);
+        }
+
+        return $query->paginate($limit, [], config('query-filter.page_name'), $page);
+    }
 }
