@@ -33,5 +33,5 @@ interface HasProperties
     public function existProperties()
     : bool;
 
-    public function handleProperties($properties = null, bool $forceAdd = false);
+    public function handleProperties(array $properties = null, bool $forceAdd = false);
 }
