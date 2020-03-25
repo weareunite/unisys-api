@@ -24,8 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'string|max:20',
-            'type'              => 'nullable|array',
+            'name'       => 'string|max:20',
+            'type'       => 'nullable|array',
+            'properties' => 'array',
         ];
     }
 }

@@ -80,7 +80,7 @@ trait HasProperties
         return $this->properties()->exists();
     }
 
-    public function handleProperties($properties = null, bool $forceAdd = false)
+    public function handleProperties(array $properties = null, bool $forceAdd = false)
     {
         if ($properties) {
             if ($forceAdd) {

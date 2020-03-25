@@ -11,6 +11,7 @@ class Permission extends BasePermission implements HasQueryFilterInterface
     use HasQueryFilter;
 
     const USER_READ_ALL             = 'global.user.readAll';
+    const USER_CREATE_ALL           = 'global.user.create';
     const USER_UPDATE_ALL           = 'global.user.updateAll';
     const NOTIFICATION_READ_ALL     = 'global.notification.readAll';
     const NOTIFICATION_UPDATE_ALL   = 'global.notification.updateAll';

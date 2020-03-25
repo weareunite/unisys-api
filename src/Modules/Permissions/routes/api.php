@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'namespace' => '\Unite\UnisysApi\Modules\Permissions\Http\Controllers',
     'as' => 'api.'
@@ -19,5 +21,10 @@ Route::group([
     Route::group([ 'as' => 'role.', 'prefix' => 'role' ], function ()
     {
         Route::post('synchronizeFrontendPermissions',   ['as' => 'synchronizeFrontendPermissions',  'uses' => 'RoleController@synchronizeFrontendPermissions']);
+    });
+
+    Route::group(['as' => 'role.', 'prefix' => 'role'], function ()
+    {
+        Route::get('/',                             ['as' => 'list',                    'uses' => 'RoleController@list']);
     });
 });

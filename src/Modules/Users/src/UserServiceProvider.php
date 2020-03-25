@@ -33,6 +33,8 @@ class UserServiceProvider extends ServiceProvider
 
         $this->setPassportRouteMiddleware($router);
 
+        $this->loadRoutesFrom(__DIR__ . '../routes/api.php');
+
         if ($this->app->runningInConsole()) {
             $this->setCommands();
 
@@ -93,7 +95,7 @@ class UserServiceProvider extends ServiceProvider
         Gate::policy(DatabaseNotification::class, NotificationPolicy::class);
 
         Gate::define('hasPermission', function (User $user, string $permissionName) {
-            if($user->isAdmin()) {
+            if ($user->isAdmin()) {
                 return true;
             }
 

@@ -3,6 +3,7 @@
 namespace Unite\UnisysApi\Modules\Users\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 use Unite\UnisysApi\Modules\Permissions\Permission;
 use Unite\UnisysApi\Modules\Users\User;
 
@@ -30,7 +31,20 @@ class UserPolicy
             return true;
         }
 
-        return $user->id === $givenUser->id;
+        return $user->id === $givenUser->id
+            ? Response::allow()
+            : Response::deny('You do not own this resource.');
+    }
+
+    /**
+     * Determine if the given user can create posts.
+     *
+     * @param  \Unite\UnisysApi\Modules\Users\User  $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return $user->hasPermissionTo(Permission::USER_CREATE_ALL);
     }
 
     /**

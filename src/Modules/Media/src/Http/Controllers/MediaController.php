@@ -2,23 +2,18 @@
 
 namespace Unite\UnisysApi\Modules\MediaModel\Http\Controllers;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaModel;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
 
-/**
- * @resource MediaModel
- *
- * MediaModel handler
- */
-class MediaModelController extends UnisysController
+class MediaController extends UnisysController
 {
     /**
      * Stream
      *
-     * @param MediaModel $model
+     * @param Media $model
      * @return mixed
      */
-    public function stream(MediaModel $model)
+    public function stream(Media $model)
     {
         return response()->stream(function() use ($model) {
             $stream = $model->stream();
@@ -34,10 +29,10 @@ class MediaModelController extends UnisysController
     /**
      * Download
      *
-     * @param MediaModel $model
+     * @param Media $model
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(MediaModel $model)
+    public function download(Media $model)
     {
         return response()->download($model->getPath(), $model->file_name);
     }
