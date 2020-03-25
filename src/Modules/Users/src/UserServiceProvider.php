@@ -33,7 +33,7 @@ class UserServiceProvider extends ServiceProvider
 
         $this->setPassportRouteMiddleware($router);
 
-        $this->loadRoutesFrom(__DIR__ . '../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         if ($this->app->runningInConsole()) {
             $this->setCommands();
