@@ -4,6 +4,7 @@ namespace Unite\UnisysApi\Modules\Settings;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Unite\UnisysApi\Modules\Settings\Contracts\Settings as SettingsContract;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -14,9 +15,16 @@ class Settings implements SettingsContract
     /** @var string */
     protected $table;
 
-    public function __construct(string $table)
+    public function __construct(string $table = null)
     {
-        $this->table = $table;
+        $this->table = $table ?: self::generateTableName();
+    }
+
+    protected static function generateTableName()
+    {
+        $basename = class_basename(get_called_class());
+
+        return Str::snake($basename);
     }
 
     public static function load(Application $application, string $table)

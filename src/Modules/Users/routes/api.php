@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'namespace' => '\Unite\UnisysApi\Modules\Users\Http\Controllers',
+    'namespace' => '\Unite\UnisysApi\Modules\Users\Http',
     'as'        => 'api.user.',
     'prefix'    => 'user',
 ], function () {
@@ -67,16 +67,4 @@ Route::group([
         'as'   => 'update',
         'uses' => 'UserController@update',
     ]);
-
-    Route::group([ 'as' => 'notification.', 'prefix' => 'notification' ], function () {
-        Route::put('{uid}/markAsRead', [
-            'as'   => 'markAsRead',
-            'uses' => 'NotificationController@markAsRead',
-        ]);
-
-        Route::put('{uid}/markAsUnread', [
-            'as'   => 'markAsUnread',
-            'uses' => 'NotificationController@markAsUnread',
-        ]);
-    });
 });
