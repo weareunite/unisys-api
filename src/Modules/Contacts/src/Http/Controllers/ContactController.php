@@ -2,13 +2,13 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Controllers;
 
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Exception;
+use Unite\UnisysApi\Http\Controllers\HasModel;
 use Unite\UnisysApi\Modules\Contacts\Http\Resources\ContactResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
 use Unite\UnisysApi\Modules\Contacts\Http\Requests\UpdateRequest;
-use Unite\UnisysApi\Modules\Contacts\ContactRepository;
-use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryFilter\QueryFilter;
 use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 /**
@@ -18,32 +18,21 @@ use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
  */
 class ContactController extends UnisysController
 {
-    protected $repository;
+    use HasModel;
 
-    public function __construct(ContactRepository $repository)
+    protected function modelClass()
+    : string
     {
-        $this->repository = $repository;
-
-        $this->setResourceClass(ContactResource::class);
-
-        $this->setResponse();
-
-        $this->middleware('cache')->only(['list']);
+        return Contact::class;
     }
 
-    /**
-     * List
-     *
-     * @param QueryFilterRequest $request
-     *
-     * @return AnonymousResourceCollection|ContactResource[]
-     */
     public function list(QueryFilterRequest $request)
     {
-        $object = QueryBuilder::for($this->resource, $request)
-            ->paginate();
+        $query = $this->newQuery();
 
-        return $this->response->collection($object);
+        $list = QueryFilter::paginate($request, $query);
+
+        return ContactResource::collection($list);
     }
 
     /**
@@ -56,29 +45,19 @@ class ContactController extends UnisysController
      */
     public function update(Contact $model, UpdateRequest $request)
     {
-        $model->update( $request->all() );
-
-        \Cache::tags('response')->flush();
+        $model->update($request->all());
 
         return successJsonResponse();
     }
 
     /**
-     * Delete
-     *
      * @param Contact $model
-     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws Exception
      */
     public function delete(Contact $model)
     {
-        try {
-            $model->delete();
-        } catch(\Exception $e) {
-            abort(409, 'Cannot delete record');
-        }
-
-        \Cache::tags('response')->flush();
+        $model->delete();
 
         return successJsonResponse();
     }

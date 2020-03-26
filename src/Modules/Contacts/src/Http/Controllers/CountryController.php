@@ -2,13 +2,12 @@
 
 namespace Unite\UnisysApi\Modules\Contacts\Http\Controllers;
 
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Unite\UnisysApi\Modules\Contacts\CountryRepository;
+use Unite\UnisysApi\Http\Controllers\HasModel;
+use Unite\UnisysApi\Modules\Contacts\Http\Resources\ContactResource;
 use Unite\UnisysApi\Modules\Contacts\Http\Resources\CountryForSelectResource;
-use Unite\UnisysApi\Modules\Contacts\Http\Resources\CountryResource;
 use Unite\UnisysApi\Modules\Contacts\Models\Country;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
-use Unite\UnisysApi\QueryBuilder\QueryBuilder;
+use Unite\UnisysApi\QueryFilter\QueryFilter;
 use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
 
 /**
@@ -18,54 +17,34 @@ use Unite\UnisysApi\QueryFilter\QueryFilterRequest;
  */
 class CountryController extends UnisysController
 {
-    protected $repository;
+    use HasModel;
 
-    public function __construct(CountryRepository $repository)
+    protected function modelClass()
+    : string
     {
-        $this->repository = $repository;
-
-        $this->setResourceClass(CountryResource::class);
-
-        $this->setResponse();
-
-        $this->middleware('cache')->only(['list', 'show', 'listForSelect']);
+        return Country::class;
     }
 
-    /**
-     * List
-     *
-     * @param QueryFilterRequest $request
-     * @return AnonymousResourceCollection|Resource[]
-     */
     public function list(QueryFilterRequest $request)
     {
-        $object = QueryBuilder::for($this->resource, $request)->paginate();
+        $query = $this->newQuery();
 
-        return $this->response->collection($object);
+        $list = QueryFilter::paginate($request, $query);
+
+        return ContactResource::collection($list);
     }
 
-    /**
-     * Show
-     *
-     * @param Country $model
-     *
-     * @return Resource
-     */
     public function show(Country $model)
     {
-        return $this->response->resource($model);
+        return new ContactResource($model);
     }
 
-    /**
-     * List for select
-     *
-     * @return AnonymousResourceCollection|CountryForSelectResource[]
-     */
     public function listForSelect()
     {
-        $object = Country::orderBy('name', 'asc')
-            ->get(['id', 'name']);
+        $object = Country::query()
+            ->orderBy('name', 'asc')
+            ->get([ 'id', 'name' ]);
 
-        return $this->response->collection($object, CountryForSelectResource::class);
+        return CountryForSelectResource::collection($object);
     }
 }
