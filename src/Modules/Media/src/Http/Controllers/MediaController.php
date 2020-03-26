@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\MediaModel\Http\Controllers;
+namespace Unite\UnisysApi\Modules\Media\Http\Controllers;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Unite\UnisysApi\Http\Controllers\UnisysController;
