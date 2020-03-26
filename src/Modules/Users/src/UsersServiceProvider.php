@@ -18,7 +18,7 @@ use Unite\UnisysApi\Modules\Users\Policies\NotificationPolicy;
 use Unite\UnisysApi\Modules\Users\Policies\UserPolicy;
 use Unite\UnisysApi\Modules\GraphQL\LoadGraphQL;
 
-class UserServiceProvider extends ServiceProvider
+class UsersServiceProvider extends ServiceProvider
 {
     use LoadGraphQL;
 

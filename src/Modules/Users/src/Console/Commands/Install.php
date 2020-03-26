@@ -11,7 +11,7 @@ class Install extends InstallModuleCommand
     protected function install()
     {
         $this->call('vendor:publish', [
-            '--provider' => 'Unite\\UnisysApi\\Modules\\Users\\UserServiceProvider'
+            '--provider' => 'Unite\\UnisysApi\\Modules\\Users\\UsersServiceProvider'
         ]);
 
         //change config/auth.php to use App/User::class
