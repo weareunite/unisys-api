@@ -27,7 +27,7 @@ class Settings implements SettingsContract
         return Str::snake($basename);
     }
 
-    public static function load(Application $application, string $table)
+    public static function load(Application $application, string $table = null)
     {
         $instance = new self($table);
 

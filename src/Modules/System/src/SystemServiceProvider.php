@@ -39,7 +39,7 @@ class SystemServiceProvider extends ServiceProvider
 
     protected function loadSystemSettings()
     {
-        SystemSettings::load($this->app, 'system_settings');
+        SystemSettings::load($this->app);
     }
 
     /**
