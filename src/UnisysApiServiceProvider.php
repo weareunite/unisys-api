@@ -38,6 +38,8 @@ class UnisysApiServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/query-filter.php' => config_path('query-filter.php'),
             ], 'config');
+
+            $this->mergeConfigFrom(__DIR__ . '/../config/query-filter.php', 'query-filter');
         }
     }
 
