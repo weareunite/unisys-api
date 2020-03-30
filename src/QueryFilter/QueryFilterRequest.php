@@ -25,7 +25,7 @@ class QueryFilterRequest extends FormRequest
     {
         return [
             'page'      => 'integer|min:1',
-            'limit'     => 'integer|min:1|max:'.config('query-filter.max_limit'),
+            'limit'     => 'integer|min:1|max:'.config('unisys.query-filter.max_limit'),
             'order'     => 'string',
             'search'    => 'string',
             'filter'    => 'string',

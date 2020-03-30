@@ -36,10 +36,10 @@ class UnisysApiServiceProvider extends ServiceProvider
             $this->loadSchedules();
 
             $this->publishes([
-                __DIR__ . '/../config/query-filter.php' => config_path('query-filter.php'),
+                __DIR__ . '/../config/unisys.php' => config_path('unisys.php'),
             ], 'config');
 
-            $this->mergeConfigFrom(__DIR__ . '/../config/query-filter.php', 'query-filter');
+            $this->mergeConfigFrom(__DIR__ . '/../config/unisys.php', 'unisys');
         }
     }
 

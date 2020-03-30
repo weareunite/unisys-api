@@ -218,7 +218,7 @@ class QueryBuilder
     {
         $this->buildQuery();
 
-        return $this->builder->paginate($this->limit, $this->baseSelect(), config('query-filter.page_name'), $this->page);
+        return $this->builder->paginate($this->limit, $this->baseSelect(), config('unisys.query-filter.page_name'), $this->page);
     }
 
     protected function baseSelect()

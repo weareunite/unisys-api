@@ -65,7 +65,7 @@ class Relation extends Type
             return $this;
         }
 
-        if(in_array($this->real, config('query-filter.many_morphed_tables'))) {
+        if(in_array($this->real, config('unisys.query-filter.many_morphed_tables'))) {
             $this->type = self::TYPE_MORPH_MANY;
             return $this;
         }

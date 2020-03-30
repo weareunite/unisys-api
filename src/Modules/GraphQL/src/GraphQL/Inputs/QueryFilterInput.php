@@ -25,7 +25,7 @@ class QueryFilterInput extends Input
                 'rules'       => [ 'numeric' ],
             ],
             'order'      => [
-                'description' => 'Column for order by. `default:-' . config('query-filter.default_order_column') . '`',
+                'description' => 'Column for order by. `default:-' . config('unisys.query-filter.default_order_column') . '`',
                 'type'        => Type::string(),
                 'rules'       => [ 'string' ],
             ],

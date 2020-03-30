@@ -6,10 +6,10 @@ class LimitParser extends Parser
 {
     protected function handle($value = null)
     {
-        $limit = $value ?: config('query-filter.default_limit');
+        $limit = $value ?: config('unisys.query-filter.default_limit');
 
-        if ($limit > config('query-filter.max_limit')) {
-            $limit = config('query-filter.max_limit');
+        if ($limit > config('unisys.query-filter.max_limit')) {
+            $limit = config('unisys.query-filter.max_limit');
         }
 
         return $limit;

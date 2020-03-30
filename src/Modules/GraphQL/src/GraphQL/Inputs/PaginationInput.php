@@ -15,9 +15,9 @@ class PaginationInput extends Input
     {
         return [
             'limit' => [
-                'description' => 'Number of results. `default: ' . config('query-filter.default_limit') . '`, `max:' . config('query-filter.max_limit') . '`',
+                'description' => 'Number of results. `default: ' . config('unisys.query-filter.default_limit') . '`, `max:' . config('unisys.query-filter.max_limit') . '`',
                 'type'        => Type::int(),
-                'rules'       => [ 'integer', 'min:1', 'max:' . config('query-filter.max_limit') ],
+                'rules'       => [ 'integer', 'min:1', 'max:' . config('unisys.query-filter.max_limit') ],
             ],
             'page'  => [
                 'description' => 'Number of page',

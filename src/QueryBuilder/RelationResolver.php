@@ -13,7 +13,7 @@ class RelationResolver
      */
     public static function getGlobalRelationsMap(): array
     {
-        return config('query-filter.global_relation_map');
+        return config('unisys.query-filter.global_relation_map');
     }
 
     /**

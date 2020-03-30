@@ -62,6 +62,6 @@ abstract class PaginateQuery extends Query
             $query = $query->filter($args['filter']);
         }
 
-        return $query->paginate($limit, $select, config('query-filter.page_name'), $page);
+        return $query->paginate($limit, $select, config('unisys.query-filter.page_name'), $page);
     }
 }

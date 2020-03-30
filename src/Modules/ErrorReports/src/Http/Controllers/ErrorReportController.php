@@ -29,7 +29,7 @@ class ErrorReportController extends UnisysController
 
         $query = $this->newQuery()->orderBy('created_at', 'desc');
 
-        return new ResourceCollection($query->paginate($limit, [ '*' ], config('query-filter.page_name'), $page));
+        return new ResourceCollection($query->paginate($limit, [ '*' ], config('unisys.query-filter.page_name'), $page));
     }
 
     public function show(int $id)

@@ -9,8 +9,8 @@ class OrderParser extends Parser
     protected function handle($value = null)
     {
         if (!$value) {
-            $column = config('query-filter.default_order_column');
-            $direction = config('query-filter.default_order_direction');
+            $column = config('unisys.query-filter.default_order_column');
+            $direction = config('unisys.query-filter.default_order_direction');
         } elseif (mb_substr($value, 0, 1, "utf-8") === '-') {
             $direction = 'desc';
             $column = substr($value, 1);

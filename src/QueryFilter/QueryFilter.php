@@ -122,8 +122,8 @@ class QueryFilter implements QueryFilterInterface
     protected function resolveOrder($value = null)
     {
         if ($value === null) {
-            $column = config('query-filter.default_order_column');
-            $direction = config('query-filter.default_order_direction');
+            $column = config('unisys.query-filter.default_order_column');
+            $direction = config('unisys.query-filter.default_order_direction');
         } elseif (mb_substr($value, 0, 1, "utf-8") === '-') {
             $direction = 'desc';
             $column = substr($value, 1);
@@ -178,10 +178,10 @@ class QueryFilter implements QueryFilterInterface
 
     public static function handleLimit($value = null)
     {
-        $limit = $value ?: config('query-filter.default_limit');
+        $limit = $value ?: config('unisys.query-filter.default_limit');
 
-        if ($limit > config('query-filter.max_limit')) {
-            $limit = config('query-filter.max_limit');
+        if ($limit > config('unisys.query-filter.max_limit')) {
+            $limit = config('unisys.query-filter.max_limit');
         }
 
         return $limit;
@@ -203,6 +203,6 @@ class QueryFilter implements QueryFilterInterface
             $query = $query->filter($args);
         }
 
-        return $query->paginate($limit, [], config('query-filter.page_name'), $page);
+        return $query->paginate($limit, [], config('unisys.query-filter.page_name'), $page);
     }
 }
