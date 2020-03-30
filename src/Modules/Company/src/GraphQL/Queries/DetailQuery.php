@@ -22,7 +22,7 @@ class DetailQuery extends BaseDetailQuery
 
     protected function find(array $args, SelectFields $fields)
     {
-        $this->model = $this->newQuery()->with($fields->getRelations())
+        $this->model = $this->newQuery()->with('contact_profile', 'contact_profile.country')
             ->select($fields->getSelect())
             ->firstOrFail();
     }
