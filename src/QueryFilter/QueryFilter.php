@@ -99,9 +99,9 @@ class QueryFilter implements QueryFilterInterface
         return $this->query;
     }
 
-    protected function prepareSearch(array $search)
+    protected function prepareSearch(?array $search)
     {
-        foreach ($search['fields'] as $field) {
+        foreach ($search['fields'] ?? [] as $field) {
             $method = self::getSearchMethodName($field);
 
             if (method_exists($this, $method)) {
@@ -153,7 +153,7 @@ class QueryFilter implements QueryFilterInterface
             $this->prepareCondition($condition);
         }
 
-        $this->prepareSearch($filter['search'] ?? []);
+        $this->prepareSearch($filter['search'] ?? null);
 
         return $this->query;
     }
