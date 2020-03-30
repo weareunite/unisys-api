@@ -15,4 +15,5 @@
 return [
     \Unite\UnisysApi\Modules\Users\GraphQL\UserType::class,
     \Unite\UnisysApi\Modules\Users\GraphQL\ProfileType::class,
+    \Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput::class,
 ];

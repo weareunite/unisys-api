@@ -23,7 +23,7 @@ class UserController extends UnisysController
     protected function modelClass()
     : string
     {
-        return User::class;
+        return config('unisys.user');
     }
 
     public function list(QueryFilterRequest $request)

@@ -9,11 +9,15 @@ use Unite\UnisysApi\Modules\Users\User;
 
 class UserType extends GraphQLType
 {
-    protected $attributes = [
-        'name'        => 'User',
-        'description' => 'A user',
-        'model'       => User::class,
-    ];
+    public function attributes()
+    : array
+    {
+        return [
+            'name'        => 'User',
+            'description' => 'A user',
+            'model'       => config('unisys.user'),
+        ];
+    }
 
     public function fields()
     : array

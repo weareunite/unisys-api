@@ -2,25 +2,20 @@
 
 namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
-use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\UpdateMutation as BaseUpdateMutation;
-use Illuminate\Database\Eloquent\Model;
-use Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput;
-use Unite\UnisysApi\Modules\Users\User;
-use Unite\UnisysApi\Modules\Users\UserRepository;
 
 class UpdateMutation extends BaseUpdateMutation
 {
     protected function inputClass()
     : string
     {
-        return UserInput::class;
+        return config('unisys.userInput');
     }
 
     protected function modelClass()
     : string
     {
-        return User::class;
+        return config('unisys.user');
     }
 
     protected function update(array $args)

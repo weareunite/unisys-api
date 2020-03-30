@@ -4,7 +4,6 @@ namespace Unite\UnisysApi\Modules\Users\GraphQL\Mutations;
 
 use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\GraphQL\GraphQL\Mutations\CreateMutation as BaseCreateMutation;
-use Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput;
 use Unite\UnisysApi\Modules\Users\User;
 
 class CreateMutation extends BaseCreateMutation
@@ -12,13 +11,13 @@ class CreateMutation extends BaseCreateMutation
     protected function inputClass()
     : string
     {
-        return UserInput::class;
+        return config('unisys.userInput');
     }
 
     protected function modelClass()
     : string
     {
-        return User::class;
+        return config('unisys.user');
     }
 
     protected function create(array $data)

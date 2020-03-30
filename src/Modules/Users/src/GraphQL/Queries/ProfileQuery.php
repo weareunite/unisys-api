@@ -5,7 +5,6 @@ namespace Unite\UnisysApi\Modules\Users\GraphQL\Queries;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
-use Unite\UnisysApi\Modules\Users\User;
 
 class ProfileQuery extends DetailQuery
 {
@@ -16,7 +15,7 @@ class ProfileQuery extends DetailQuery
     protected function modelClass()
     : string
     {
-        return User::class;
+        return config('unisys.user');
     }
 
     public function args()

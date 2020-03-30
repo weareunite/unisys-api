@@ -14,4 +14,8 @@ return [
     ],
 
     'user' => \Unite\UnisysApi\Modules\Users\User::class,
+
+    'userInput' => \Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput::class,
+
+    'userType' => \Unite\UnisysApi\Modules\Users\GraphQL\UserType::class,
 ];
