@@ -31,7 +31,7 @@
     "myclabs/php-enum": "^1.7",
     "lorisleiva/laravel-deployer": "^0.3",
     "predis/predis": "^1.1",
-    "rebing/graphql-laravel": "5.0.0-rc2",
+    "rebing/graphql-laravel": "^5.0",
     "sentry/sentry-laravel": "^1.7",
     "spatie/data-transfer-object": "^1.13",
     "spatie/eloquent-sortable": "^3.8",
