@@ -58,7 +58,7 @@ abstract class PaginateQuery extends Query
             ->with($with)
             ->select($select);
 
-        if (isset($args['filter']) ) {
+        if (isset($args['filter']) && method_exists($query, 'filter')) {
             $query = $query->filter($args['filter']);
         }
 

@@ -44,8 +44,10 @@ class QueryFilter implements QueryFilterInterface
         return lcfirst(Str::snake($field));
     }
 
-    protected function resolveCondition(string $field, string $operator, array $values)
+    protected function resolveCondition(string $field, ?string $operator, array $values)
     {
+        $operator = $operator ?: 'and';
+
         switch ($operator) {
             case 'and':
                 if (count($values) === 1) {
@@ -92,7 +94,7 @@ class QueryFilter implements QueryFilterInterface
             $field = self::getFieldName($condition['field']);
 
             if (in_array($field, $this->model->getFillable())) {
-                $this->resolveCondition($field, $condition['operator'], $condition['values']);
+                $this->resolveCondition($field, $condition['operator'] ?? null, $condition['values']);
             }
         }
 
