@@ -198,8 +198,8 @@ class QueryFilter implements QueryFilterInterface
     {
         $args = $request->only(['page', 'limit', 'order', 'search', 'filter']);
 
-        $limit = QueryFilter::handleLimit($args['limit']);
-        $page = QueryFilter::handlePage($args['page']);
+        $limit = QueryFilter::handleLimit($args['limit'] ?? null);
+        $page = QueryFilter::handlePage($args['page'] ?? null);
 
         if(method_exists($query, 'filter')) {
             $query = $query->filter($args);
