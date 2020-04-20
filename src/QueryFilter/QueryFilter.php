@@ -142,9 +142,20 @@ class QueryFilter implements QueryFilterInterface
         $this->query->limit(self::handleLimit($value));
     }
 
+    protected function resolvePrimaryKey($value)
+    {
+        $this->query->where($this->model->getKeyName(), '=', $value);
+    }
+
     public function filter(array $filter)
     : Builder
     {
+        if($filter['filter']['id']) {
+            $this->resolvePrimaryKey($filter['filter']['id']);
+
+            return $this->query;
+        }
+
         $this->resolveLimit($filter['limit'] ?? null);
 
         $this->resolveOrder($filter['order'] ?? null);
