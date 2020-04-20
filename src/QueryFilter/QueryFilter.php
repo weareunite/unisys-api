@@ -150,7 +150,7 @@ class QueryFilter implements QueryFilterInterface
     public function filter(array $filter)
     : Builder
     {
-        if(isset($filter['id'])) {
+        if (isset($filter['id'])) {
             $this->resolvePrimaryKey($filter['id']);
 
             return $this->query;
@@ -207,12 +207,12 @@ class QueryFilter implements QueryFilterInterface
 
     public static function paginate(QueryFilterRequest $request, Builder $query)
     {
-        $args = $request->only(['id', 'page', 'limit', 'order', 'search', 'filter', 'conditions']);
+        $args = $request->only([ 'id', 'page', 'limit', 'order', 'search', 'filter', 'conditions' ]);
 
         $limit = QueryFilter::handleLimit($args['limit'] ?? null);
         $page = QueryFilter::handlePage($args['page'] ?? null);
 
-        if(method_exists($query, 'filter')) {
+        if (method_exists($query, 'scopeFilter')) {
             $query = $query->filter($args);
         }
 
