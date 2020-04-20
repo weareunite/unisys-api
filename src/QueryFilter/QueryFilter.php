@@ -162,6 +162,10 @@ class QueryFilter implements QueryFilterInterface
 
         $conditions = $filter['filter']['conditions'] ?? $filter['conditions'] ?? [];
 
+        if(is_string($conditions)) {
+            $conditions = json_decode($conditions, true);
+        }
+
         foreach ($conditions as $condition) {
             $this->prepareCondition($condition);
         }
@@ -212,7 +216,7 @@ class QueryFilter implements QueryFilterInterface
         $limit = QueryFilter::handleLimit($args['limit'] ?? null);
         $page = QueryFilter::handlePage($args['page'] ?? null);
 
-        if (method_exists($query, 'scopeFilter')) {
+        if (method_exists($query->getModel(), 'scopeFilter')) {
             $query = $query->filter($args);
         }
 
