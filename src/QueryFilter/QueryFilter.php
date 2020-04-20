@@ -207,7 +207,7 @@ class QueryFilter implements QueryFilterInterface
 
     public static function paginate(QueryFilterRequest $request, Builder $query)
     {
-        $args = $request->only(['page', 'limit', 'order', 'search', 'filter']);
+        $args = $request->only(['id', 'page', 'limit', 'order', 'search', 'filter', 'conditions']);
 
         $limit = QueryFilter::handleLimit($args['limit'] ?? null);
         $page = QueryFilter::handlePage($args['page'] ?? null);
