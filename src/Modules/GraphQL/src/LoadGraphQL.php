@@ -27,4 +27,23 @@ trait LoadGraphQL
             GraphQL::addSchema($type, $schema);
         }
     }
+
+    public function loadTypesFrom(string $file)
+    {
+        $this->loadTypes(require $file);
+    }
+
+    public function loadSchemasFrom(string $file)
+    {
+        $this->loadSchemas(require $file);
+    }
+
+    public function loadGraphQLFrom(string $types, string $schemas)
+    {
+        if ($this->isGraphqlRequest()) {
+            $this->loadTypesFrom($types);
+
+            $this->loadSchemasFrom($schemas);
+        }
+    }
 }

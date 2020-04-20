@@ -15,10 +15,7 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->isGraphqlRequest()) {
-            $this->loadTypes(require __DIR__ . '/GraphQL/types.php');
-            $this->loadSchemas(require __DIR__ . '/GraphQL/schemas.php');
-        }
+        $this->loadGraphQLFrom(__DIR__ . '/GraphQL/types.php', __DIR__ . '/GraphQL/schemas.php');
     }
 
     /**
