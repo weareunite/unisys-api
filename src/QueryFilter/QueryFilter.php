@@ -80,7 +80,7 @@ class QueryFilter implements QueryFilterInterface
             $fulltext = true;
         }
 
-        $this->query->where($field, 'like', $search . $fulltext ? '%' : '');
+        $this->query->where($field, 'like', $search . ($fulltext ? '%' : ''));
     }
 
     protected function prepareCondition(array $condition)
