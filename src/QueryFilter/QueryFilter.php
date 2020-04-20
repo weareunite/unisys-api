@@ -150,8 +150,8 @@ class QueryFilter implements QueryFilterInterface
     public function filter(array $filter)
     : Builder
     {
-        if($filter['filter']['id']) {
-            $this->resolvePrimaryKey($filter['filter']['id']);
+        if(isset($filter['id'])) {
+            $this->resolvePrimaryKey($filter['id']);
 
             return $this->query;
         }
