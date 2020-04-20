@@ -170,7 +170,13 @@ class QueryFilter implements QueryFilterInterface
             $this->prepareCondition($condition);
         }
 
-        $this->prepareSearch($filter['search'] ?? null);
+        $search = $filter['search'] ?? null;
+
+        if(is_string($search)) {
+            $search = json_decode($search, true);
+        }
+
+        $this->prepareSearch($search ?: null);
 
         return $this->query;
     }
