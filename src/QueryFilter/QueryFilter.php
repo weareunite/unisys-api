@@ -38,6 +38,12 @@ class QueryFilter implements QueryFilterInterface
         return 'search' . ucfirst(Str::camel($field));
     }
 
+    protected static function getOrderMethodName(string $field)
+    : string
+    {
+        return 'order' . ucfirst(Str::camel($field));
+    }
+
     protected static function getFieldName(string $field)
     : string
     {
@@ -134,7 +140,15 @@ class QueryFilter implements QueryFilterInterface
             $column = $value;
         }
 
-        $this->query->orderBy($column, $direction);
+        $method = self::getOrderMethodName($column);
+
+        if (method_exists($this, $method)) {
+            call_user_func_array([ $this, $method ], $direction);
+        } else {
+            $this->query->orderBy($column, $direction);
+        }
+
+        return $this->query;
     }
 
     protected function resolveLimit($value = null)
