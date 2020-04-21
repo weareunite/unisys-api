@@ -27,12 +27,6 @@ class TagController extends UnisysController
         return Tag::class;
     }
 
-    protected $resourceClass = TagResource::class;
-
-    protected $storeRequestClass = StoreRequest::class;
-
-    protected $updateRequestClass = UpdateRequest::class;
-
     /*
      * List
      */
@@ -40,7 +34,7 @@ class TagController extends UnisysController
     {
         $list = QueryFilter::paginate($request, $this->newQuery());
 
-        return forward_static_call_array([ $this->resourceClass, 'collection' ], [ $list ]);
+        return TagResource::collection($list);
     }
 
     /*
@@ -50,18 +44,14 @@ class TagController extends UnisysController
     {
         $object = $this->newQuery()->findOrFail($id);
 
-        $class = $this->resourceClass;
-
-        return (new $class)($object);
+        return new TagResource($object);
     }
 
     /*
      * Create
      */
-    public function create()
+    public function create(StoreRequest $request)
     {
-        $request = app($this->storeRequestClass);
-
         /** @var Tag $object */
         $object = $this->newQuery()->create($request->all());
 
@@ -69,18 +59,14 @@ class TagController extends UnisysController
             $object->addProperty($property['key'], $property['value']);
         }
 
-        $class = $this->resourceClass;
-
-        return (new $class)($object);
+        return new TagResource($object);
     }
 
     /*
      * Update
      */
-    public function update(int $id)
+    public function update(int $id, UpdateRequest $request)
     {
-        $request = app($this->updateRequestClass);
-
         /** @var Tag $object */
         $object = $this->newQuery()->findOrFail($id);
         $object->update($request->all());

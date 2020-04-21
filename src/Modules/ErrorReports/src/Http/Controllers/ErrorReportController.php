@@ -22,14 +22,11 @@ class ErrorReportController extends UnisysController
 
     public function list(QueryFilterRequest $request)
     {
-        $args = $request->all();
-
-        $limit = QueryFilter::handleLimit($args);
-        $page = QueryFilter::handlePage($args);
-
         $query = $this->newQuery()->orderBy('created_at', 'desc');
 
-        return new ResourceCollection($query->paginate($limit, [ '*' ], config('unisys.query-filter.page_name'), $page));
+        $list = QueryFilter::paginate($request, $query);
+
+        return new ResourceCollection($list);
     }
 
     public function show(int $id)
