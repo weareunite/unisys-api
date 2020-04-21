@@ -240,6 +240,8 @@ class QueryFilter implements QueryFilterInterface
             $query = $query->filter($args);
         }
 
+        $query->addSelect([ $query->getModel()->getTable() . '.*' ]);
+
         return $query->paginate($limit, [], config('unisys.query-filter.page_name'), $page);
     }
 }
