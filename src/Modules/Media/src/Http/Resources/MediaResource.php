@@ -25,8 +25,8 @@ class MediaResource extends JsonResource
             'size'              => $this->size,
             'custom_properties' => $this->custom_properties,
             'created_at'        => (string)$this->created_at,
-            'link'              => route('api.media.stream', [ 'id' => $this->id ]),
-            'downloadLink'      => route('api.media.download', [ 'id' => $this->id ]),
+            'link'              => route('api.media.stream', [ 'model' => $this->id ]),
+            'downloadLink'      => route('api.media.download', [ 'model' => $this->id ]),
         ];
     }
 }

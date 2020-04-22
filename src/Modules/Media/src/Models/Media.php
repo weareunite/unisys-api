@@ -8,12 +8,12 @@ class Media extends MediaModel
 {
     public function getLink()
     {
-        return route('api.media.stream', ['id' => $this->id]);
+        return route('api.media.stream', ['model' => $this->id]);
     }
 
     public function getDownloadLink()
     {
-        return route('api.media.download', ['id' => $this->id]);
+        return route('api.media.download', ['model' => $this->id]);
     }
 
     public function getLinkAttribute()
