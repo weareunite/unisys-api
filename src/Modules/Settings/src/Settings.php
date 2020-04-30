@@ -29,11 +29,16 @@ class Settings implements SettingsContract
 
     public static function load(Application $application, string $table = null)
     {
-        $instance = new self($table);
+        $class = get_called_class();
 
-        $application->singleton(self::class, function () use ($instance) {
+        /** @var self $instance */
+        $instance = new $class($table);
+
+        $application->singleton($class, function () use ($instance) {
             return $instance;
         });
+
+        $table = $instance->getTable();
 
         if (Schema::hasTable($table)) {
             config([
