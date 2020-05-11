@@ -54,7 +54,22 @@
   "autoload": {
     "classmap": [],
     "psr-4": {
-      "Unite\\UnisysApi\\": "src/"
+      "Unite\\UnisysApi\\": "src/",
+      "Unite\\UnisysApi\\Modules\\ActivityLogs\\": "Modules/ActivityLogs/src/",
+      "Unite\\UnisysApi\\Modules\\Categories\\": "Modules/Categories/src/",
+      "Unite\\UnisysApi\\Modules\\Company\\": "Modules/Company/src/",
+      "Unite\\UnisysApi\\Modules\\Contacts\\": "Modules/Contacts/src/",
+      "Unite\\UnisysApi\\Modules\\Export\\": "Modules/Export/",
+      "Unite\\UnisysApi\\Modules\\GraphQL\\": "Modules/GraphQL/src/",
+      "Unite\\UnisysApi\\Modules\\Help\\": "Modules/Help/src/",
+      "Unite\\UnisysApi\\Modules\\Invoice\\": "Modules/Invoice/src/",
+      "Unite\\UnisysApi\\Modules\\Media\\": "Modules/Media/src/",
+      "Unite\\UnisysApi\\Modules\\Permissions\\": "Modules/Permissions/src/",
+      "Unite\\UnisysApi\\Modules\\Properties\\": "Modules/Properties/src/",
+      "Unite\\UnisysApi\\Modules\\Settings\\": "Modules/Settings/src/",
+      "Unite\\UnisysApi\\Modules\\System\\": "Modules/System/src/",
+      "Unite\\UnisysApi\\Modules\\Tags\\": "Modules/Tags/src/",
+      "Unite\\UnisysApi\\Modules\\Users\\": "Modules/Users/src/"
     },
     "files": [
       "src/helpers.php"
