@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Contacts\GraphQL\Queries;
 
 use Unite\UnisysApi\Modules\Contacts\Models\Contact;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\ListQuery as BaseListQuery;
 
 class ContactsQuery extends BaseListQuery
 {

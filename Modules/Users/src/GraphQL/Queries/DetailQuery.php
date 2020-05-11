@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Users\GraphQL\Queries;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\Auth;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\DetailQuery as BaseDetailQuery;
 
 class DetailQuery extends BaseDetailQuery
 {

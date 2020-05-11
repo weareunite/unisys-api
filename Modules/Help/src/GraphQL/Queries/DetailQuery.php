@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\Help\GraphQL\Queries;
 
 use Rebing\GraphQL\Support\SelectFields;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\DetailQuery as BaseDetailQuery;
 use GraphQL\Type\Definition\Type;
 use Unite\UnisysApi\Modules\Help\Help;
 

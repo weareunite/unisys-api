@@ -4,7 +4,7 @@ namespace Unite\UnisysApi\Modules\Company\GraphQL\Queries;
 
 use Rebing\GraphQL\Support\SelectFields;
 use Unite\UnisysApi\Modules\Company\Company;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\DetailQuery as BaseDetailQuery;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\DetailQuery as BaseDetailQuery;
 
 class DetailQuery extends BaseDetailQuery
 {

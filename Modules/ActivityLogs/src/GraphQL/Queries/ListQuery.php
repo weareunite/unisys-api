@@ -3,7 +3,7 @@
 namespace Unite\UnisysApi\Modules\ActivityLogs\GraphQL\Queries;
 
 use Unite\UnisysApi\Modules\ActivityLogs\ActivityLog;
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\ListQuery as BaseListQuery;
+use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\ListQuery as BaseListQuery;
 
 class ListQuery extends BaseListQuery
 {

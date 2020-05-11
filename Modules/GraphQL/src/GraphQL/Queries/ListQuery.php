@@ -1,8 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\GraphQL\GraphQL;
-
-use Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries\PaginateQuery;
+namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Queries;
 
 abstract class ListQuery extends PaginateQuery
 {

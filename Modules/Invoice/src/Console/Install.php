@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Modules\Invoice\Console\Commands;
+namespace Unite\UnisysApi\Modules\Invoice\Console;
 
 use Unite\UnisysApi\Console\InstallModuleCommand;
 
