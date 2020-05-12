@@ -63,12 +63,12 @@ class UnisysApiServiceProvider extends ServiceProvider
     {
         Config::set("filesystems.disks.unisys-api-modules", [
             'driver'     => 'local',
-            'root'       => base_path('vendor/weareunite/unisys-api/src/Modules'),
+            'root'       => base_path('vendor/weareunite/unisys-api/Modules'),
             'visibility' => 'private',
         ]);
 //        $this->app['config']->set("filesystems.disks.unisys-api-modules", [
 //            'driver'     => 'local',
-//            'root'       => base_path('vendor/weareunite/unisys-api/src/Modules'),
+//            'root'       => base_path('vendor/weareunite/unisys-api/Modules'),
 //            'visibility' => 'private',
 //        ]);
     }
