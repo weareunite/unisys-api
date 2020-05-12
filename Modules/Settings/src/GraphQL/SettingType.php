@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\GraphQL\Settings;
+namespace Unite\UnisysApi\Modules\Settings\GraphQL;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;

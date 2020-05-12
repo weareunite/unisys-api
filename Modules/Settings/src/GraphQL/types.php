@@ -14,5 +14,5 @@
  */
 
 return [
-    \Unite\UnisysApi\GraphQL\Settings\SettingType::class,
+    Unite\UnisysApi\Modules\Settings\GraphQL\SettingType::class,
 ];
