@@ -40,7 +40,14 @@ class Settings implements SettingsContract
 
         $table = $instance->getTable();
 
-        if (Schema::hasTable($table)) {
+        $loadConfig = true;
+        try {
+            DB::connection()->getPdo();
+        } catch (\Doctrine\DBAL\Driver\PDOException  $exception) {
+            $loadConfig = false;
+        }
+
+        if ($loadConfig && Schema::hasTable($table)) {
             config([
                 $table => $instance->getKeyValueFormat(),
             ]);
