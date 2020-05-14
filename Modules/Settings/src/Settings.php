@@ -56,9 +56,20 @@ class Settings implements SettingsContract
 
     protected function addToConfig(string $key, $value = null)
     {
-        config([ $this->table . '.' . $key => $value ]);
+        config([ $this->getConfigKey($key) => $value ]);
 
         return $this;
+    }
+
+    protected function getConfigKey(string $key)
+    : string
+    {
+        return $this->table . '.' . $key;
+    }
+
+    public function get(string $key)
+    {
+        return config($this->getConfigKey($key));
     }
 
     public function getConfig()
