@@ -38,7 +38,7 @@ class DetailQuery extends BaseDetailQuery
         }
 
         $this->model = $this->newQuery()->with($fields->getRelations())
-            ->select($fields->getSelect())
+            ->addSelect($fields->getSelect())
             ->where($column, '=', $value)
             ->where('id', '=', $args['id'])
             ->firstOrFail();

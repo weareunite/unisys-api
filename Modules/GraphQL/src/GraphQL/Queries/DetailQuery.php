@@ -42,7 +42,7 @@ abstract class DetailQuery extends Query
     protected function find(array $args, SelectFields $fields)
     {
         $this->model = $this->newQuery()->with($fields->getRelations())
-            ->select($fields->getSelect())
+            ->addSelect($fields->getSelect())
             ->where('id', '=', $args['id'])
             ->firstOrFail();
     }

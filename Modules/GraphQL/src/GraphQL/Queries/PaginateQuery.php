@@ -56,7 +56,7 @@ abstract class PaginateQuery extends Query
 
         $query = $this->buildQuery($args)
             ->with($with)
-            ->select($select);
+            ->addSelect($select);
 
         if (isset($args['filter']) && method_exists($this->modelClass(), 'scopeFilter')) {
             $query = $query->filter($args['filter']);
