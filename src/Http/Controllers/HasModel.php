@@ -39,7 +39,7 @@ trait HasModel
      */
     protected function newQuery()
     {
-        return app($this->modelClass())->newModelQuery();
+        return app($this->modelClass())->newQuery();
     }
 
     private function generateName()
