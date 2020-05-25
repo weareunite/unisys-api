@@ -17,9 +17,11 @@ trait HasExport
         $filter = $request->get('filter');
         $keys = $request->get('keys');
 
-        $relations = self::getRelations(Arr::pluck($keys, 'key'));
+        $query = $this->newQuery();
 
-        $query = $this->newQuery()->with($relations);
+        $relations = self::getRelations(Arr::pluck($keys, 'key'), array_keys($query->getModel()->getCasts()));
+
+        $query = $query->with($relations);
 
         if ($filter && method_exists($query, 'filter')) {
             $query = $query->filter($filter);
@@ -50,9 +52,12 @@ trait HasExport
         return implode('.', $parts);
     }
 
-    private static function getRelations(array $keys)
+    private static function getRelations(array $keys, array $casted)
     {
         $relations = [];
+
+        $keys = array_diff_key($keys, $casted);
+
         foreach ($keys as $key) {
             $relations[] = self::relations($key);
         }
