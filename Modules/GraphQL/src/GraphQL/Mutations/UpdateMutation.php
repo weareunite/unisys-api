@@ -55,6 +55,8 @@ abstract class UpdateMutation extends Mutation
         try {
             $this->model = $this->newQuery()->findOrFail($args['id']);
 
+            unset($args['id']);
+
             $this->update($args);
 
             DB::commit();
