@@ -40,7 +40,7 @@ abstract class UpdateMutation extends Mutation
                     'numeric',
                 ],
             ],
-        ], (new $class)->fields());
+        ], (new $class)->update()->fields());
     }
 
     protected function update(array $args)
