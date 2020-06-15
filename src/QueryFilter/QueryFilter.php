@@ -99,7 +99,13 @@ class QueryFilter implements QueryFilterInterface
         } else {
             $field = self::getFieldName($condition['field']);
 
-            if (in_array($field, $this->model->getFillable())) {
+            $forceResolve = false;
+
+            if($field === $this->model->getKeyName()) {
+                $forceResolve = true;
+            }
+
+            if (in_array($field, $this->model->getFillable()) || $forceResolve) {
                 $this->resolveCondition($field, $condition['operator'] ?? null, $condition['values']);
             }
         }
