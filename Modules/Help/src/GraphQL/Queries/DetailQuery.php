@@ -40,6 +40,6 @@ class DetailQuery extends BaseDetailQuery
         $this->model = $this->newQuery()->with($fields->getRelations())
             ->addSelect($fields->getSelect())
             ->where($column, '=', $value)
-            ->firstOrFail();
+            ->first();
     }
 }
