@@ -13,7 +13,11 @@ class HelpInput extends Input
         return [
             'key'  => [
                 'type'  => Type::string(),
-                'rules' => $this->isUpdate ? 'string|max:250' : 'required|string|max:250|unique:help,key',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required|unique:help,key',
+                    'string',
+                    'max:250',
+                ],
             ],
             'name' => [
                 'type'  => Type::string(),
@@ -21,7 +25,10 @@ class HelpInput extends Input
             ],
             'body' => [
                 'type'  => Type::string(),
-                'rules' => $this->isUpdate ? 'string' : 'required|string',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'string',
+                ],
             ],
         ];
     }
