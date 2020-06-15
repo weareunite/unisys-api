@@ -34,13 +34,12 @@ class DetailQuery extends BaseDetailQuery
             $column = 'key';
             $value = $args['key'];
         } else {
-            throw new \Exception('Id o Key must be defined for find help record');
+            throw new \Exception('Id or Key must be defined for find help record');
         }
 
         $this->model = $this->newQuery()->with($fields->getRelations())
             ->addSelect($fields->getSelect())
             ->where($column, '=', $value)
-            ->where('id', '=', $args['id'])
             ->firstOrFail();
     }
 }
