@@ -131,7 +131,7 @@ class QueryFilter implements QueryFilterInterface
             $method = self::getSearchMethodName($field);
 
             if (method_exists($this, $method)) {
-                call_user_func_array([ $this, $method ], $search['query']);
+                call_user_func_array([ $this, $method ], [ $search['query'] ]);
             } else {
                 $field = self::getFieldName($field);
 
@@ -161,7 +161,7 @@ class QueryFilter implements QueryFilterInterface
         $method = self::getOrderMethodName($column);
 
         if (method_exists($this, $method)) {
-            call_user_func_array([ $this, $method ], $direction);
+            call_user_func_array([ $this, $method ], [ $direction ]);
         } else {
             $this->query->orderBy($column, $direction);
         }
