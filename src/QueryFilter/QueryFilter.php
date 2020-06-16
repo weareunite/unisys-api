@@ -26,22 +26,34 @@ class QueryFilter implements QueryFilterInterface
         return $this;
     }
 
+    private static function replaceDotByUnderscore(string $field)
+    : string
+    {
+        return str_replace('.', '_', $field);
+    }
+
+    private static function sanitizeFieldName(string $field)
+    : string
+    {
+        return ucfirst(Str::camel(self::replaceDotByUnderscore($field)));
+    }
+
     protected static function getFilterMethodName(string $field)
     : string
     {
-        return 'filter' . ucfirst(Str::camel($field));
+        return 'filter' . self::sanitizeFieldName($field);
     }
 
     protected static function getSearchMethodName(string $field)
     : string
     {
-        return 'search' . ucfirst(Str::camel($field));
+        return 'search' . self::sanitizeFieldName($field);
     }
 
     protected static function getOrderMethodName(string $field)
     : string
     {
-        return 'order' . ucfirst(Str::camel($field));
+        return 'order' . self::sanitizeFieldName($field);
     }
 
     protected static function getFieldName(string $field)
