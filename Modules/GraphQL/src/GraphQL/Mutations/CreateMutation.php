@@ -53,6 +53,6 @@ abstract class CreateMutation extends Mutation
     {
         $this->setModel($this->create($args));
 
-        return $this->model;
+        return $this->model->refresh();
     }
 }
