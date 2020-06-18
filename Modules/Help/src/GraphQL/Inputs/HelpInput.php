@@ -14,7 +14,8 @@ class HelpInput extends Input
             'key'  => [
                 'type'  => Type::string(),
                 'rules' => [
-                    $this->isUpdate ? '' : 'required|unique:help,key',
+                    $this->isUpdate ? '' : 'required',
+                    $this->isUpdate ? '' : 'unique:help,key',
                     'string',
                     'max:250',
                 ],
