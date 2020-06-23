@@ -24,8 +24,9 @@ class ModifySettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'key'   => 'required|alpha_dash|max:100',
-            'value' => 'nullable',
+            'key'     => 'required|alpha_dash|max:100',
+            'value'   => 'nullable',
+            'encrypt' => 'boolean',
         ];
     }
 }

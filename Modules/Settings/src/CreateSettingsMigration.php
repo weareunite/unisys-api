@@ -21,6 +21,7 @@ abstract class CreateSettingsMigration extends Migration
         Schema::create($this->getTable(), function (Blueprint $table) {
             $table->string('key')->unique();
             $table->text('value')->nullable();
+            $table->boolean('encrypted')->default(false);
 
             $table->primary('key');
         });

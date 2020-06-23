@@ -26,14 +26,14 @@ abstract class SettingController extends UnisysController
 
     public function create(ModifySettingRequest $request)
     {
-        $this->settings->createNew($request->get('key'), $request->get('value'));
+        $this->settings->createNew($request->get('key'), $request->get('value'), $request->get('encrypt'));
 
         successJsonResponse();
     }
 
     public function update(ModifySettingRequest $request)
     {
-        $this->settings->updateByKey($request->get('key'), $request->get('value'));
+        $this->settings->updateByKey($request->get('key'), $request->get('value'), $request->get('encrypt'));
 
         return successJsonResponse();
     }

@@ -11,14 +11,20 @@ class SettingInput extends Input
     : array
     {
         return [
-            'key'   => [
+            'key'     => [
                 'type'  => Type::string(),
                 'rules' => 'required|string|max:100',
             ],
-            'value' => [
+            'value'   => [
                 'type'  => Type::string(),
                 'rules' => [
                     'nullable|string',
+                ],
+            ],
+            'encrypt' => [
+                'type'  => Type::boolean(),
+                'rules' => [
+                    'boolean',
                 ],
             ],
         ];

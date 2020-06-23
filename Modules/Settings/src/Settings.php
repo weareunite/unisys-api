@@ -2,6 +2,7 @@
 
 namespace Unite\UnisysApi\Modules\Settings;
 
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -49,7 +50,7 @@ class Settings implements SettingsContract
 
         if ($loadConfig && Schema::hasTable($table)) {
             config([
-                $table => $instance->getKeyValueFormat(),
+                $table => $instance->getKeyValueFormat(true),
             ]);
         }
     }
@@ -83,34 +84,55 @@ class Settings implements SettingsContract
         return $this->table;
     }
 
-    public function getKeyValueFormat()
+    public function getKeyValueFormat(bool $decrypt = false)
     : array
     {
         return DB::table($this->table)
-            ->select([ 'key', 'value' ])
+            ->select([ 'key', 'value', 'encrypted' ])
             ->get()
             ->keyBy('key')
-            ->transform(function ($setting) {
+            ->transform(function ($setting) use($decrypt) {
+                if($setting->encrypted && $decrypt) {
+                    return Crypt::decryptString($setting->value);
+                }
+
                 return $setting->value;
             })
             ->toArray();
     }
 
-    public function updateByKey(string $key, $value = null)
+    private function sanitizeValue(?string $value, bool $encrypt = false)
+    : string
+    {
+        return $encrypt ? Crypt::encryptString($value) : $value;
+    }
+
+    public function updateByKey(string $key, $value = null, bool $encrypt = false)
     {
         DB::table($this->table)
             ->where('key', '=', $key)
-            ->update([ 'value' => $value ]);
+            ->update(
+                [
+                    'value'     => $this->sanitizeValue($value, $encrypt),
+                    'encrypted' => $encrypt,
+                ]
+            );
 
         $this->addToConfig($key, $value);
 
         return $this;
     }
 
-    public function createNew(string $key, $value = null)
+    public function createNew(string $key, $value = null, bool $encrypt = false)
     {
         DB::table($this->table)
-            ->insert([ 'key' => $key, 'value' => $value ]);
+            ->insert(
+                [
+                    'key'       => $key,
+                    'value'     => $this->sanitizeValue($value, $encrypt),
+                    'encrypted' => $encrypt,
+                ]
+            );
 
         $this->addToConfig($key, $value);
 

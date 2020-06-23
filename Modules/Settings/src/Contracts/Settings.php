@@ -13,12 +13,12 @@ interface Settings
     public function getTable()
     : string;
 
-    public function getKeyValueFormat()
+    public function getKeyValueFormat(bool $decrypt = false)
     : array;
 
-    public function updateByKey(string $key, $value = null);
+    public function updateByKey(string $key, $value = null, bool $encrypt = false);
 
-    public function createNew(string $key, $value = null);
+    public function createNew(string $key, $value = null, bool $encrypt = false);
 
     public function deleteByKey(string $key);
 }

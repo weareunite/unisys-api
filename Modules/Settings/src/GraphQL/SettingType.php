@@ -16,13 +16,17 @@ class SettingType extends GraphQLType
     : array
     {
         return [
-            'key'   => [
+            'key'       => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'The key of the setting',
             ],
-            'value' => [
+            'value'     => [
                 'type'        => Type::string(),
                 'description' => 'The value of the setting',
+            ],
+            'encrypted' => [
+                'type'        => Type::boolean(),
+                'description' => 'If value is encrypted',
             ],
         ];
     }
