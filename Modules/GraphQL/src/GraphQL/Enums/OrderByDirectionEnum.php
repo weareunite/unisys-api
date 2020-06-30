@@ -3,15 +3,17 @@
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Enums;
 
 use Rebing\GraphQL\Support\EnumType;
+use Unite\UnisysApi\Modules\GraphQL\Enums\OrderByDirection;
 
 class OrderByDirectionEnum extends EnumType
 {
-    protected $attributes = [
-        'name'        => 'OrderByDirectionEnum',
-        'description' => 'A OrderBy for sort',
-        'values' => [
-            'desc',
-            'asc',
-        ],
-    ];
+    public function attributes()
+    : array
+    {
+        return [
+            'name'        => 'OrderByDirectionEnum',
+            'description' => 'A OrderBy for sort',
+            'values'      => array_values(OrderByDirection::toArray()),
+        ];
+    }
 }

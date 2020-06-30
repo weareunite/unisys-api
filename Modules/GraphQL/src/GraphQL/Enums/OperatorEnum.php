@@ -13,7 +13,7 @@ class OperatorEnum extends EnumType
         return [
             'name'        => 'OperatorEnum',
             'description' => 'A operator for condition',
-            'values'      => Operator::toArray(),
+            'values'      => array_values(Operator::toArray()),
         ];
     }
 }

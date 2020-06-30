@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Unite\UnisysApi\Modules\GraphQL\Enums\Operator;
+use Unite\UnisysApi\Modules\GraphQL\Enums\OrderByDirection;
 
 class QueryFilter implements QueryFilterInterface
 {
@@ -171,10 +172,10 @@ class QueryFilter implements QueryFilterInterface
             $column = config('unisys.query-filter.default_order_column');
             $direction = config('unisys.query-filter.default_order_direction');
         } elseif (mb_substr($value, 0, 1, "utf-8") === '-') {
-            $direction = 'desc';
+            $direction = OrderByDirection::DESC()->getValue();
             $column = substr($value, 1);
         } else {
-            $direction = 'asc';
+            $direction = OrderByDirection::ASC()->getValue();
             $column = $value;
         }
 
