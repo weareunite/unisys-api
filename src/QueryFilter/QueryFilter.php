@@ -5,6 +5,7 @@ namespace Unite\UnisysApi\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Unite\UnisysApi\Modules\GraphQL\Enums\Operator;
 
 class QueryFilter implements QueryFilterInterface
 {
@@ -62,28 +63,47 @@ class QueryFilter implements QueryFilterInterface
         return lcfirst(Str::snake($field));
     }
 
-    protected function resolveCondition(string $field, ?string $operator, array $values)
+    protected function resolveCondition(string $field, ?Operator $operator, array $values)
     {
-        $operator = $operator ?: 'and';
+        $operator = $operator ?: Operator::AND();
 
         switch ($operator) {
-            case 'and':
+            case Operator::AND():
                 if (count($values) === 1) {
-                    $this->query->where($field, '=', $values[0]);
+                    if($values[0] == null) {
+                        $this->query->whereNull($field);
+                    } else {
+                        $this->query->where($field, '=', $values[0]);
+                    }
                 } else {
                     $this->query->whereIn($field, $values);
                 }
                 break;
-            case 'or':
+            case Operator::OR():
                 if (count($values) === 1) {
-                    $this->query->orWhere($field, '=', $values[0]);
+                    if($values[0] == null) {
+                        $this->query->orWhereNull($field);
+                    } else {
+                        $this->query->orWhere($field, '=', $values[0]);
+                    }
                 } else {
                     $this->query->whereIn($field, $values, 'or');
                 }
                 break;
-            case 'between';
+            case Operator::BETWEEN();
                 if (count($values) === 2) {
                     $this->query->whereBetween($field, [ $values[0], $values[1] ]);
+                }
+                break;
+            case Operator::NOT();
+                if (count($values) === 1) {
+                    if($values[0] == null) {
+                        $this->query->whereNotNull($field);
+                    } else {
+                        $this->query->where($field, '<>', $values[0]);
+                    }
+                } else {
+                    $this->query->whereNotIn($field, $values);
                 }
                 break;
         }
@@ -118,7 +138,7 @@ class QueryFilter implements QueryFilterInterface
             }
 
             if (in_array($field, $this->model->getFillable()) || $forceResolve) {
-                $this->resolveCondition($field, $condition['operator'] ?? null, $condition['values']);
+                $this->resolveCondition($field, isset($condition['operator']) ? new Operator($condition['operator']) : null, $condition['values']);
             }
         }
 

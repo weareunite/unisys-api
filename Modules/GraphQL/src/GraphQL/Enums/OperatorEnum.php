@@ -3,16 +3,17 @@
 namespace Unite\UnisysApi\Modules\GraphQL\GraphQL\Enums;
 
 use Rebing\GraphQL\Support\EnumType;
+use Unite\UnisysApi\Modules\GraphQL\Enums\Operator;
 
 class OperatorEnum extends EnumType
 {
-    protected $attributes = [
-        'name'        => 'OperatorEnum',
-        'description' => 'A operator for condition',
-        'values' => [
-            'and',
-            'or',
-            'between',
-        ],
-    ];
+    public function attributes()
+    : array
+    {
+        return [
+            'name'        => 'OperatorEnum',
+            'description' => 'A operator for condition',
+            'values'      => Operator::toArray(),
+        ];
+    }
 }

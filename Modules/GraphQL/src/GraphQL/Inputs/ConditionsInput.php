@@ -33,7 +33,7 @@ class ConditionsInput extends Input
                 'description' => 'Fields where search query will be searching',
                 'type'        => Type::nonNull(
                     Type::listOf(
-                        Type::nonNull(Type::string())
+                        Type::string()
                     )
                 ),
                 'rules'       => [ 'array' ],
