@@ -62,7 +62,6 @@
       "Unite\\UnisysApi\\Modules\\Export\\": "Modules/Export/",
       "Unite\\UnisysApi\\Modules\\GraphQL\\": "Modules/GraphQL/src/",
       "Unite\\UnisysApi\\Modules\\Help\\": "Modules/Help/src/",
-      "Unite\\UnisysApi\\Modules\\Invoice\\": "Modules/Invoice/src/",
       "Unite\\UnisysApi\\Modules\\Media\\": "Modules/Media/src/",
       "Unite\\UnisysApi\\Modules\\Permissions\\": "Modules/Permissions/src/",
       "Unite\\UnisysApi\\Modules\\Properties\\": "Modules/Properties/src/",

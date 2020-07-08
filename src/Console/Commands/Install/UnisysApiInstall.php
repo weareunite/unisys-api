@@ -53,7 +53,6 @@ class UnisysApiInstall extends Command
         $this->call('unisys-api:install:errorReports');
         $this->call('unisys-api:install:graphql');
         $this->call('unisys-api:install:help');
-        $this->call('unisys-api:install:invoice');
         $this->call('unisys-api:install:media');
         $this->call('unisys-api:install:permissions');
         $this->call('unisys-api:install:properties');
