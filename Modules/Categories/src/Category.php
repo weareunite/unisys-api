@@ -27,11 +27,11 @@ class Category extends Model implements CategoryContract, HasPropertiesContract,
             return $query;
         }
 
-        return $query->where(function ($q) use ($groups) {
-            foreach ($groups as $group) {
-                $q->orWhere('group', '=', $group);
-            }
-        });
+        if(is_array($groups[0])) {
+            $groups = $groups[0];
+        }
+
+        return $query->whereIn('group', $groups);
     }
 
     public static function getForGroups($columns = ['*'], ... $groups)
