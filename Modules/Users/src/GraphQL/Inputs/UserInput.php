@@ -13,7 +13,12 @@ class UserInput extends Input
         return [
             'name'                  => [
                 'type'  => Type::string(),
-                'rules' => 'required|string|min:3|max:100',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'string',
+                    'min:3',
+                    'max:100',
+                ],
             ],
             'surname'               => [
                 'type'  => Type::string(),
@@ -21,19 +26,40 @@ class UserInput extends Input
             ],
             'email'                 => [
                 'type'  => Type::string(),
-                'rules' => 'required|email|unique:users,email',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'email',
+                    'unique:users,email',
+                ],
             ],
             'username'              => [
                 'type'  => Type::string(),
-                'rules' => 'required|regex:/^\S*$/u|min:4|max:20|unique:users',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'regex:/^\S*$/u',
+                    'min:4',
+                    'max:20',
+                    'unique:users',
+                ],
             ],
             'password'              => [
                 'type'  => Type::string(),
-                'rules' => 'required|string|confirmed|min:6|max:30',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'string',
+                    'confirmed',
+                    'min:6',
+                    'max:30',
+                ],
             ],
             'password_confirmation' => [
                 'type'  => Type::string(),
-                'rules' => 'required|string|min:6|max:30',
+                'rules' => [
+                    $this->isUpdate ? '' : 'required',
+                    'string',
+                    'min:6',
+                    'max:30',
+                ],
             ],
             'active'                => [
                 'type'  => Type::boolean(),
