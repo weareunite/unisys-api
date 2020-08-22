@@ -289,4 +289,20 @@ class QueryFilter implements QueryFilterInterface
 
         return $query->paginate($limit, [], config('unisys.query-filter.page_name'), $page);
     }
+
+    protected function isJoined($table)
+    : bool
+    {
+        $joins = $this->query->getQuery()->joins;
+        if ($joins == null) {
+            return false;
+        }
+        foreach ($joins as $join) {
+            if ($join->table == $table) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
