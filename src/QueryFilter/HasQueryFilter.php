@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait HasQueryFilter
 {
+    protected $filterable = [];
+
     public function scopeFilter($query, $filter)
     {
         $queryFilter = $this->newQueryFilter($query);
@@ -21,5 +23,11 @@ trait HasQueryFilter
     : QueryFilterInterface
     {
         return new QueryFilter($query);
+    }
+
+    public function getFilterable()
+    : array
+    {
+        return $this->filterable;
     }
 }

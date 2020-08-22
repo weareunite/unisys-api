@@ -13,7 +13,7 @@ class QueryFilter implements QueryFilterInterface
     /** @var Builder */
     protected $query;
 
-    /** @var Model */
+    /** @var Model|HasQueryFilterInterface */
     protected $model;
 
     public function __construct(Builder $query)
@@ -138,12 +138,18 @@ class QueryFilter implements QueryFilterInterface
                 $forceResolve = true;
             }
 
-            if (in_array($field, $this->model->getFillable()) || $forceResolve) {
+            if (in_array($field, $this->getFilterableFields()) || $forceResolve) {
                 $this->resolveCondition($field, isset($condition['operator']) ? new Operator($condition['operator']) : null, $condition['values']);
             }
         }
 
         return $this->query;
+    }
+
+    private function getFilterableFields()
+    : array
+    {
+        return array_unique(array_merge($this->model->getFilterable(), $this->model->getFillable()));
     }
 
     protected function prepareSearch(?array $search)

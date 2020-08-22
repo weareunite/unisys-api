@@ -13,4 +13,8 @@ interface HasQueryFilterInterface
 
     public function newQueryFilter($query)
     : QueryFilterInterface;
+
+    public function getFilterable()
+    : array;
+
 }
