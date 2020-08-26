@@ -18,4 +18,6 @@ return [
     'userInput' => \Unite\UnisysApi\Modules\Users\GraphQL\Inputs\UserInput::class,
 
     'userType' => \Unite\UnisysApi\Modules\Users\GraphQL\UserType::class,
+
+    'force_sentry' => env('FORCE_SENTRY', false),
 ];

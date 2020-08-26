@@ -82,7 +82,7 @@ if (!function_exists('captureExceptionBySentry')) {
     {
         $app = app();
 
-        if ($app->bound('sentry') && ($app->environment() == 'production' || env('FORCE_SENTRY', false) == 'true')) {
+        if ($app->bound('sentry') && ($app->environment() == 'production' || config('unisys.force_sentry') == 'true')) {
             $app->make('sentry', [])->captureException($exception);
         }
     }
