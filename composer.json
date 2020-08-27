@@ -32,7 +32,7 @@
     "lorisleiva/laravel-deployer": "^0.3",
     "predis/predis": "^1.1",
     "rebing/graphql-laravel": "^5.0",
-    "sentry/sentry-laravel": "^1.7",
+    "sentry/sentry-laravel": "^1.8",
     "spatie/data-transfer-object": "^1.13",
     "spatie/eloquent-sortable": "^3.8",
     "spatie/laravel-activitylog": "^3.11",
