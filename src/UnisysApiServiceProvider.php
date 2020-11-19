@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInitializeEnv;
 use Unite\UnisysApi\Console\Commands\Install\UnisysApiInstall;
 use Illuminate\Support\ServiceProvider;
-use Unite\UnisysApi\Console\Commands\MakeModule;
+use Unite\UnisysApi\Console\Commands\MakeModule\MakeModule;
 use Unite\UnisysApi\Http\Middleware\HttpsProtocol;
 
 class UnisysApiServiceProvider extends ServiceProvider

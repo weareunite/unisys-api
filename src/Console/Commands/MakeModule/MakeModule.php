@@ -1,6 +1,6 @@
 <?php
 
-namespace Unite\UnisysApi\Console\Commands;
+namespace Unite\UnisysApi\Console\Commands\MakeModule;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
