@@ -26,6 +26,7 @@ trait HasCategories
                 'category_id'
             )
             ->withPivot('id as pivot_id')
+            ->using(CategoryPivot::class)
             ->orderBy('pivot_id');
     }
 
