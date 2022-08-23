@@ -102,7 +102,7 @@ class Settings implements SettingsContract
     }
 
     private function sanitizeValue(?string $value, bool $encrypt = false)
-    : string
+    : ?string
     {
         return $encrypt ? Crypt::encryptString($value) : $value;
     }
