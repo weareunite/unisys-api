@@ -13,7 +13,7 @@ trait LoadGraphQL
     {
         $routePrefix = Config::get('graphql.prefix');
 
-        return Request::instance()->is($routePrefix, $routePrefix . '/*');
+        return $this->app->runningUnitTests() || Request::instance()->is($routePrefix, $routePrefix . '/*');
     }
 
     public function loadTypes(array $types)
